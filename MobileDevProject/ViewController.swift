@@ -13,8 +13,9 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
     @IBOutlet weak var majorReading: UILabel!
     @IBOutlet weak var minorReading: UILabel!
     @IBOutlet weak var rssiReading: UILabel!
+    @IBOutlet weak var compassImg: UIImageView!
     
-    
+    var currentHeading : Double = 0
     
     var locationManager: CLLocationManager!
     
@@ -25,7 +26,8 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         locationManager.delegate = self
         locationManager.requestAlwaysAuthorization()
         
-        view.backgroundColor = UIColor.gray
+        // this really upsets things if its allowed to happen
+        //view.backgroundColor = UIColor.gray
     }
     
     override func didReceiveMemoryWarning() {
@@ -49,6 +51,10 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         
         locationManager.startMonitoring(for: beaconRegion)
         locationManager.startRangingBeacons(in: beaconRegion)
+        
+        // start tracking heading
+        locationManager.startUpdatingLocation()
+        locationManager.startUpdatingHeading()
     }
     
     
@@ -64,6 +70,22 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
             let beacon = beacons[0]
             update(beacon: beacon)
         } 
+    }
+    
+    func locationManager(_ manager: CLLocationManager, didUpdateHeading newHeading: CLHeading) {
+        // change in heading in degrees since last code run
+        let adjustmentToRotate = (newHeading.magneticHeading - currentHeading)
+        // make sure to save the heading for next code run
+        currentHeading = newHeading.magneticHeading
+        
+        // change in heading in radians for some reason who decided this was ideal
+        let rotation = (CGFloat(adjustmentToRotate) * CGFloat.pi) / 180
+        let transform = compassImg.transform
+        let rotated = transform.rotated(by: rotation)
+        // animate while rotating cause it looks smooooooooth
+        UIView.animate(withDuration: 0.5) {
+            self.compassImg.transform = rotated
+        }
     }
 }
 
