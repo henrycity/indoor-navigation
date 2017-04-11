@@ -13,6 +13,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
     @IBOutlet weak var majorReading: UILabel!
     @IBOutlet weak var minorReading: UILabel!
     @IBOutlet weak var rssiReading: UILabel!
+    @IBOutlet weak var accuracyReading: UILabel!
     @IBOutlet weak var compassImg: UIImageView!
     
     var currentHeading : Double = 0
@@ -62,6 +63,10 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         self.majorReading.text = beacon.major.description
         self.minorReading.text = beacon.minor.description
         self.rssiReading.text = beacon.rssi.description
+        
+        // this needs some better handling, if beacon signal is lost it reports -1
+        // also Apple themselves say we shouldn't do this but who listens to dev docs anyway
+        self.accuracyReading.text = String(format: "%.1fm", beacon.accuracy)
     }
     
     
