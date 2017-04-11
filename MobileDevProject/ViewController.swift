@@ -14,6 +14,8 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
     @IBOutlet weak var minorReading: UILabel!
     @IBOutlet weak var rssiReading: UILabel!
     @IBOutlet weak var accuracyReading: UILabel!
+    @IBOutlet weak var compassReading: UILabel!
+    
     @IBOutlet weak var compassImg: UIImageView!
     
     var currentHeading : Double = 0
@@ -82,6 +84,9 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         let adjustmentToRotate = (newHeading.magneticHeading - currentHeading)
         // make sure to save the heading for next code run
         currentHeading = newHeading.magneticHeading
+        
+        // display heading in text because why not
+        compassReading.text = String(format: "%.0f°", newHeading.magneticHeading)
         
         // change in heading in radians for some reason who decided this was ideal
         let rotation = (CGFloat(adjustmentToRotate) * CGFloat.pi) / 180
