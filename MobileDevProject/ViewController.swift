@@ -54,7 +54,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
     }
     
     func startScanning() {
-        let uuid = UUID(uuidString: "E20A39F4-73F5-4BC4-A12F-17D1AD07A961")!
+        let uuid = UUID(uuidString: "A4A4279F-091E-4DC7-BD3E-78DD4A0C763C")!
         let beaconRegion = CLBeaconRegion(proximityUUID: uuid, identifier: "MyBeacon")
         
         locationManager.startMonitoring(for: beaconRegion)
@@ -89,13 +89,16 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
     
     func locationManager(_ manager: CLLocationManager, didRangeBeacons beacons: [CLBeacon], in region: CLBeaconRegion) {
         
-        if beacons.count > 1 && beacons[1].major == 4626 {
+        if beacons.count > 0 {
             if beacons[1].accuracy > 0 && beacons[1].accuracy <= 2 {
-                let popOverVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "sbPopUpID") as! PopUpViewController
-                self.addChildViewController(popOverVC)
-                popOverVC.view.frame = self.view.frame
-                self.view.addSubview(popOverVC.view)
-                popOverVC.didMove(toParentViewController: self)
+//                let popOverVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "sbPopUpID") as! PopUpViewController
+//                self.addChildViewController(popOverVC)
+//                popOverVC.view.frame = self.view.frame
+//                self.view.addSubview(popOverVC.view)
+//                popOverVC.didMove(toParentViewController: self)
+                let alert = UIAlertController(title: "Arrived!", message: "You arrived at your destination", preferredStyle: .alert)
+                alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+                self.present(alert, animated: true, completion: nil)
             }else{
                update(beacons: beacons)
             }
