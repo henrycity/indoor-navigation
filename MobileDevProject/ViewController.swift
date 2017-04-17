@@ -16,6 +16,11 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
     @IBOutlet weak var accuracyReading: UILabel!
     @IBOutlet weak var compassReading: UILabel!
     
+    @IBOutlet weak var majorReading2: UILabel!
+    @IBOutlet weak var minorReading2: UILabel!
+    @IBOutlet weak var rssiReading2: UILabel!
+    @IBOutlet weak var accuracyReading2: UILabel!
+    
     @IBOutlet weak var compassImg: UIImageView!
     
     var currentHeading : Double = 0
@@ -49,7 +54,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
     }
     
     func startScanning() {
-        let uuid = UUID(uuidString: "A4A4279F-091E-4DC7-BD3E-78DD4A0C763C")!
+        let uuid = UUID(uuidString: "E20A39F4-73F5-4BC4-A12F-17D1AD07A961")!
         let beaconRegion = CLBeaconRegion(proximityUUID: uuid, identifier: "MyBeacon")
         
         locationManager.startMonitoring(for: beaconRegion)
@@ -61,22 +66,32 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
     }
     
     
-    func update(beacon: CLBeacon) {
-        self.majorReading.text = beacon.major.description
-        self.minorReading.text = beacon.minor.description
-        self.rssiReading.text = beacon.rssi.description
+    func update(beacons: [CLBeacon]) {
+        self.majorReading.text = beacons[0].major.description
+        self.minorReading.text = beacons[0].minor.description
+        self.rssiReading.text = beacons[0].rssi.description
         
         // this needs some better handling, if beacon signal is lost it reports -1
         // also Apple themselves say we shouldn't do this but who listens to dev docs anyway
-        self.accuracyReading.text = String(format: "%.1fm", beacon.accuracy)
+        self.accuracyReading.text = String(format: "%.1fm", beacons[0].accuracy)
+        
+        
+        self.majorReading2.text = beacons[1].major.description
+        self.minorReading2.text = beacons[1].minor.description
+        self.rssiReading2.text = beacons[1].rssi.description
+        
+        // this needs some better handling, if beacon signal is lost it reports -1
+        // also Apple themselves say we shouldn't do this but who listens to dev docs anyway
+        self.accuracyReading2.text = String(format: "%.1fm", beacons[1].accuracy)
+        
     }
     
     
     func locationManager(_ manager: CLLocationManager, didRangeBeacons beacons: [CLBeacon], in region: CLBeaconRegion) {
-        if beacons.count > 0 {
-            let beacon = beacons[0]
-            update(beacon: beacon)
-        } 
+        
+        if beacons.count > 1 && beacons[1].major == 4626 {
+            update(beacons: beacons)
+        }
     }
     
     func locationManager(_ manager: CLLocationManager, didUpdateHeading newHeading: CLHeading) {
