@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1105D6AB1EA4EFF7008F0362 /* PopUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1105D6AA1EA4EFF7008F0362 /* PopUpViewController.swift */; };
 		1119D7F51E9CFA980005AB7F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1119D7F41E9CFA980005AB7F /* AppDelegate.swift */; };
 		1119D7F71E9CFA980005AB7F /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1119D7F61E9CFA980005AB7F /* ViewController.swift */; };
 		1119D7FA1E9CFA980005AB7F /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1119D7F81E9CFA980005AB7F /* Main.storyboard */; };
@@ -26,6 +27,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		1105D6AA1EA4EFF7008F0362 /* PopUpViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PopUpViewController.swift; sourceTree = "<group>"; };
 		1119D7F11E9CFA980005AB7F /* MobileDevProject.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MobileDevProject.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1119D7F41E9CFA980005AB7F /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		1119D7F61E9CFA980005AB7F /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -80,6 +82,7 @@
 				1119D7F41E9CFA980005AB7F /* AppDelegate.swift */,
 				1119D7F61E9CFA980005AB7F /* ViewController.swift */,
 				1119D7F81E9CFA980005AB7F /* Main.storyboard */,
+				1105D6AA1EA4EFF7008F0362 /* PopUpViewController.swift */,
 				1119D7FB1E9CFA980005AB7F /* Assets.xcassets */,
 				1119D7FD1E9CFA980005AB7F /* LaunchScreen.storyboard */,
 				1119D8001E9CFA980005AB7F /* Info.plist */,
@@ -201,6 +204,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				1119D7F71E9CFA980005AB7F /* ViewController.swift in Sources */,
+				1105D6AB1EA4EFF7008F0362 /* PopUpViewController.swift in Sources */,
 				1119D7F51E9CFA980005AB7F /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
