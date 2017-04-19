@@ -89,15 +89,18 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
     
     func locationManager(_ manager: CLLocationManager, didRangeBeacons beacons: [CLBeacon], in region: CLBeaconRegion) {
         
-        if beacons.count > 1 && beacons[1].major == 4626 {
-            if beacons[1].accuracy > 0 && beacons[1].accuracy <= 2 {
-                let popOverVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "sbPopUpID") as! PopUpViewController
-                self.addChildViewController(popOverVC)
-                popOverVC.view.frame = self.view.frame
-                self.view.addSubview(popOverVC.view)
-                popOverVC.didMove(toParentViewController: self)
-            }else{
-               update(beacons: beacons)
+        if beacons.count > 1 {
+            update(beacons: beacons)
+            if beacons[0].minor == 748 && beacons[0].accuracy > 0 && beacons[0].accuracy <= 2 {
+                //                let popOverVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "sbPopUpID") as! PopUpViewController
+                //                self.addChildViewController(popOverVC)
+                //                popOverVC.view.frame = self.view.frame
+                //                self.view.addSubview(popOverVC.view)
+                //                popOverVC.didMove(toParentViewController: self)
+                print()
+                let alert = UIAlertController(title: "Arrived!", message: "You arrived at your destination", preferredStyle: .alert)
+                alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+                self.present(alert, animated: true, completion: nil)
             }
         }
     }
