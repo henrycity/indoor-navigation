@@ -208,6 +208,18 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
                     <tabBarItem key="tabBarItem" title="Info" id="7S9-hI-BP2"/>
+                    <connections>
+                        <outlet property="accuracyReading" destination="KhG-NN-Cp4" id="IiH-p9-iwA"/>
+                        <outlet property="accuracyReading2" destination="IBr-vJ-WBR" id="nYl-w1-BL0"/>
+                        <outlet property="compassImg" destination="219-Pu-ieH" id="tJS-ml-8RC"/>
+                        <outlet property="compassReading" destination="u8V-9G-sC1" id="PDx-cy-QKP"/>
+                        <outlet property="majorReading" destination="3Lx-w1-6ON" id="he8-vB-28W"/>
+                        <outlet property="majorReading2" destination="Tbp-lv-zEU" id="kbU-bg-1Hi"/>
+                        <outlet property="minorReading" destination="oek-QE-8dF" id="hkl-EZ-LeM"/>
+                        <outlet property="minorReading2" destination="p5Z-8P-kji" id="Uwh-Wz-vgK"/>
+                        <outlet property="rssiReading" destination="1ty-PS-YAx" id="3JN-Ej-5br"/>
+                        <outlet property="rssiReading2" destination="1Uk-ue-ZWz" id="77F-1e-F5e"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="0ih-Bp-LWL" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>

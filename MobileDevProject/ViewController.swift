@@ -14,12 +14,13 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
     @IBOutlet weak var minorReading: UILabel!
     @IBOutlet weak var rssiReading: UILabel!
     @IBOutlet weak var accuracyReading: UILabel!
-    @IBOutlet weak var compassReading: UILabel!
     
     @IBOutlet weak var majorReading2: UILabel!
     @IBOutlet weak var minorReading2: UILabel!
     @IBOutlet weak var rssiReading2: UILabel!
     @IBOutlet weak var accuracyReading2: UILabel!
+    
+    @IBOutlet weak var compassReading: UILabel!
     @IBOutlet weak var compassImg: UIImageView!
     
     @IBOutlet weak var viewView: UIView!
