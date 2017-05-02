@@ -34,6 +34,13 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
     var lastBeacon1: CLBeacon!
     var lastBeacon2: CLBeacon!
     
+    @IBAction func debugResetBtnPress(_ sender: Any) {
+        // set the last beacons to nil which is just null with a stupid name
+        // which should let the debug screen redraw with its current beacons if it gets confused thanks to all the ifs
+        // if theres only one beacon in range though then whoops this wont work
+        lastBeacon1 = nil
+        lastBeacon2 = nil
+    }
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -75,7 +82,11 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         // i hate big long chains of ifs like this but i don't know how best to do this in ios
         // or swift so it'll do for now probably
         
-        if(beacons.count < 2){
+        
+        if((lastBeacon1 == nil || lastBeacon2 == nil) && beacons.count < 2){
+            // this should stop it from getting confused if the reset button is pressed at a bad time
+            return
+        }else if(beacons.count < 2){
             /// we lost a beacon, work out which and mark somehow
             if(beacons[0].minor == lastBeacon1.minor){
                 printBeaconOne(beacon: beacons[0])
