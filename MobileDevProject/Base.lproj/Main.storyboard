@@ -19,7 +19,7 @@
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="0VM-pA-GtC">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="NmI-pr-uE2">
                                 <rect key="frame" x="40" y="76" width="240" height="136"/>
@@ -57,7 +57,7 @@
         <!--Info-->
         <scene sceneID="0Np-9t-njA">
             <objects>
-                <viewController id="WcI-B4-yTF" sceneMemberID="viewController">
+                <viewController id="WcI-B4-yTF" customClass="ViewController" customModule="MobileDevProject" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="36d-Cu-G0C"/>
                         <viewControllerLayoutGuide type="bottom" id="BRi-r0-P3g"/>
@@ -193,6 +193,9 @@
                                 <rect key="frame" x="137" y="469" width="46" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <state key="normal" title="Reset"/>
+                                <connections>
+                                    <action selector="debugResetBtnPress:" destination="WcI-B4-yTF" eventType="touchUpInside" id="F9j-Pf-EUm"/>
+                                </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Major" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="VuL-M8-o2Q">
                                 <rect key="frame" x="16" y="29" width="81" height="21"/>
@@ -213,7 +216,7 @@
         <!--Map-->
         <scene sceneID="G9n-eN-Y5e">
             <objects>
-                <viewController id="uVV-Fz-wv5" sceneMemberID="viewController">
+                <viewController id="uVV-Fz-wv5" customClass="ViewController" customModule="MobileDevProject" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="bps-oL-ch1"/>
                         <viewControllerLayoutGuide type="bottom" id="chF-mC-yfX"/>
@@ -222,25 +225,25 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="aHZ-tx-Kur">
-                                <rect key="frame" x="0.0" y="101" width="320" height="338"/>
+                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="3aH-oF-Ukm">
+                                <rect key="frame" x="0.0" y="89" width="320" height="338"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <subviews>
-                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="P4M Map" translatesAutoresizingMaskIntoConstraints="NO" id="sde-Fe-I5i">
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="P4M Map" translatesAutoresizingMaskIntoConstraints="NO" id="DmZ-W4-pfr">
                                         <rect key="frame" x="0.0" y="0.0" width="320" height="338"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     </imageView>
-                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" adjustsImageWhenDisabled="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="NLB-Y7-3bk">
+                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" adjustsImageWhenDisabled="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dWa-zs-9VK">
                                         <rect key="frame" x="138" y="226" width="13" height="19"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <color key="backgroundColor" red="0.78418474739999999" green="0.27699711890000001" blue="0.202978518" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                     </button>
-                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="5He-6l-3dE">
+                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="RlW-pI-ark">
                                         <rect key="frame" x="214" y="183" width="13" height="19"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <color key="backgroundColor" red="0.78418474739999999" green="0.27699711890000001" blue="0.202978518" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                     </button>
-                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="AlK-M3-NHb">
+                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="HOB-ra-DcX">
                                         <rect key="frame" x="91" y="143" width="13" height="21"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <color key="backgroundColor" red="0.78418474739999999" green="0.27699711890000001" blue="0.202978518" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -253,6 +256,12 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
                     <tabBarItem key="tabBarItem" title="Map" id="Fec-tK-H2d"/>
+                    <connections>
+                        <outlet property="beacon1" destination="HOB-ra-DcX" id="udM-uw-CiS"/>
+                        <outlet property="beacon2" destination="RlW-pI-ark" id="MCG-Ru-hUV"/>
+                        <outlet property="beacon3" destination="dWa-zs-9VK" id="j3o-S0-WSo"/>
+                        <outlet property="viewView" destination="3aH-oF-Ukm" id="xkv-oG-PCd"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="vxv-E9-i1u" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>

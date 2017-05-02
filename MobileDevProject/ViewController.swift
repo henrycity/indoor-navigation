@@ -20,15 +20,18 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
     @IBOutlet weak var minorReading2: UILabel!
     @IBOutlet weak var rssiReading2: UILabel!
     @IBOutlet weak var accuracyReading2: UILabel!
-    
     @IBOutlet weak var compassImg: UIImageView!
     
-    var currentHeading : Double = 0
+    @IBOutlet weak var viewView: UIView!
+    @IBOutlet weak var beacon1: UIButton!
+    @IBOutlet weak var beacon2: UIButton!
+    @IBOutlet weak var beacon3: UIButton!
     
     var locationManager: CLLocationManager!
     
-    var beacon1: CLBeacon!
-    var beacon2: CLBeacon!
+    var currentHeading : Double = 0
+    var lastBeacon1: CLBeacon!
+    var lastBeacon2: CLBeacon!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -40,7 +43,6 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
     }
     
     func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
@@ -54,7 +56,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
     }
     
     func startScanning() {
-        let uuid = UUID(uuidString: "E20A39F4-73F5-4BC4-A12F-17D1AD07A961")!
+        let uuid = UUID(uuidString: "A4A4279F-091E-4DC7-BD3E-78DD4A0C763C")!
         let beaconRegion = CLBeaconRegion(proximityUUID: uuid, identifier: "MyBeacon")
         
         locationManager.startMonitoring(for: beaconRegion)
@@ -74,10 +76,10 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         
         if(beacons.count < 2){
             /// we lost a beacon, work out which and mark somehow
-            if(beacons[0].minor == beacon1.minor){
+            if(beacons[0].minor == lastBeacon1.minor){
                 printBeaconOne(beacon: beacons[0])
                 self.accuracyReading2.text = "Signal Lost"
-            } else if(beacons[0].minor == beacon2.minor){
+            } else if(beacons[0].minor == lastBeacon2.minor){
                 printBeaconTwo(beacon: beacons[0])
                 self.accuracyReading.text = "Signal Lost"
             } else {
@@ -86,11 +88,11 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
                 self.accuracyReading2.text = "Signal Lost"
             }
             return
-        }else if(beacons[0].minor == beacon1.minor && beacons[1] == beacon2.minor){
+        }else if(beacons[0].minor == lastBeacon1.minor && beacons[1] == lastBeacon2.minor){
             /// if both beacons are the same and in the same order, print as usual
             printBeaconOne(beacon: beacons[0])
             printBeaconTwo(beacon: beacons[1])
-        } else if (beacons[0].minor == beacon2.minor && beacons[1] == beacon1.minor){
+        } else if (beacons[0].minor == lastBeacon2.minor && beacons[1] == lastBeacon1.minor){
             /// if both beacons are the same but in a different order, print "reversed" to keep sanity
             printBeaconOne(beacon: beacons[1])
             printBeaconTwo(beacon: beacons[0])
@@ -99,8 +101,8 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
             printBeaconTwo(beacon: beacons[1])
         }
         // save the beacons for next time
-        beacon1 = beacons[0]
-        beacon2 = beacons[1]
+        lastBeacon1 = beacons[0]
+        lastBeacon2 = beacons[1]
     }
     
     // I would much prefer UI objects but since I don't know how to make that a thing
@@ -120,17 +122,20 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
     
     func locationManager(_ manager: CLLocationManager, didRangeBeacons beacons: [CLBeacon], in region: CLBeaconRegion) {
         updateDebugUI(beacons: beacons)
-        
-        if beacons.count > 1 {
-            if beacons[0].minor == 748 && beacons[0].accuracy > 0 && beacons[0].accuracy <= 2 {
-                let alert = UIAlertController(title: "Arrived!", message: "You arrived at your destination", preferredStyle: .alert)
-                alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
-                self.present(alert, animated: true, completion: nil)
+        if beacons.count > 0 {
+            if beacons[0].minor == 832{
+                self.beacon1.backgroundColor = UIColor.blue
+                self.beacon2.backgroundColor = UIColor.red
+            }else if beacons[0].minor == 748{
+                self.beacon1.backgroundColor = UIColor.red
+                self.beacon2.backgroundColor = UIColor.blue
             }
         }
     }
     
     func locationManager(_ manager: CLLocationManager, didUpdateHeading newHeading: CLHeading) {
+        // TODO : Test compass cause it may or may not be backwards now
+        
         // change in heading in degrees since last code run
         let adjustmentToRotate = (newHeading.magneticHeading - currentHeading)
         // make sure to save the heading for next code run
@@ -141,11 +146,18 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         
         // change in heading in radians for some reason who decided this was ideal
         let rotation = (CGFloat(adjustmentToRotate) * CGFloat.pi) / 180
-        let transform = compassImg.transform
-        let rotated = transform.rotated(by: rotation)
-        // animate while rotating cause it looks smooooooooth
+        
+        
+        let transformCom = compassImg.transform
+        let rotatedCom = transformCom.rotated(by: rotation)
         UIView.animate(withDuration: 0.5) {
-            self.compassImg.transform = rotated
+            self.compassImg.transform = rotatedCom
+        }
+        
+        let transformMap = viewView.transform
+        let rotatedMap = transformMap.rotated(by: rotation)
+        UIView.animate(withDuration: 0.5) {
+            self.viewView.transform = rotatedMap
         }
     }
 }
