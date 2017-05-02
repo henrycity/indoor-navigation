@@ -27,15 +27,15 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
     
     var locationManager: CLLocationManager!
     
+    var beacon1: CLBeacon!
+    var beacon2: CLBeacon!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         locationManager = CLLocationManager()
         locationManager.delegate = self
         locationManager.requestAlwaysAuthorization()
-        
-        // this really upsets things if its allowed to happen
-        //view.backgroundColor = UIColor.gray
     }
     
     override func didReceiveMemoryWarning() {
@@ -66,38 +66,63 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
     }
     
     
-    func update(beacons: [CLBeacon]) {
-        self.majorReading.text = beacons[0].major.description
-        self.minorReading.text = beacons[0].minor.description
-        self.rssiReading.text = beacons[0].rssi.description
+    func updateDebugUI(beacons: [CLBeacon]) {
+        /// this falls apart once we remember that we read more than two beacons but i've
+        /// spent too long on all these ifs to give up
+        // i hate big long chains of ifs like this but i don't know how best to do this in ios
+        // or swift so it'll do for now probably
         
-        // this needs some better handling, if beacon signal is lost it reports -1
-        // also Apple themselves say we shouldn't do this but who listens to dev docs anyway
-        self.accuracyReading.text = String(format: "%.1fm", beacons[0].accuracy)
-        print(beacons[1].accuracy)
-        
-        self.majorReading2.text = beacons[1].major.description
-        self.minorReading2.text = beacons[1].minor.description
-        self.rssiReading2.text = beacons[1].rssi.description
-        
-        // this needs some better handling, if beacon signal is lost it reports -1
-        // also Apple themselves say we shouldn't do this but who listens to dev docs anyway
-        self.accuracyReading2.text = String(format: "%.1fm", beacons[1].accuracy)
-        
+        if(beacons.count < 2){
+            /// we lost a beacon, work out which and mark somehow
+            if(beacons[0].minor == beacon1.minor){
+                printBeaconOne(beacon: beacons[0])
+                self.accuracyReading2.text = "Signal Lost"
+            } else if(beacons[0].minor == beacon2.minor){
+                printBeaconTwo(beacon: beacons[0])
+                self.accuracyReading.text = "Signal Lost"
+            } else {
+                /// i think we lost both beacons
+                self.accuracyReading.text = "Signal Lost"
+                self.accuracyReading2.text = "Signal Lost"
+            }
+            return
+        }else if(beacons[0].minor == beacon1.minor && beacons[1] == beacon2.minor){
+            /// if both beacons are the same and in the same order, print as usual
+            printBeaconOne(beacon: beacons[0])
+            printBeaconTwo(beacon: beacons[1])
+        } else if (beacons[0].minor == beacon2.minor && beacons[1] == beacon1.minor){
+            /// if both beacons are the same but in a different order, print "reversed" to keep sanity
+            printBeaconOne(beacon: beacons[1])
+            printBeaconTwo(beacon: beacons[0])
+        } else {
+            printBeaconOne(beacon: beacons[0])
+            printBeaconTwo(beacon: beacons[1])
+        }
+        // save the beacons for next time
+        beacon1 = beacons[0]
+        beacon2 = beacons[1]
     }
     
+    // I would much prefer UI objects but since I don't know how to make that a thing
+    // in iOS we just need to deal with this, it shouldn't really be user-facing anyway
+    func printBeaconOne(beacon: CLBeacon){
+        self.majorReading.text = beacon.major.description
+        self.minorReading.text = beacon.minor.description
+        self.rssiReading.text = beacon.rssi.description
+        self.accuracyReading.text = String(format: "%.1fm", beacon.accuracy)
+    }
+    func printBeaconTwo(beacon: CLBeacon){
+        self.majorReading2.text = beacon.major.description
+        self.minorReading2.text = beacon.minor.description
+        self.rssiReading2.text = beacon.rssi.description
+        self.accuracyReading2.text = String(format: "%.1fm", beacon.accuracy)
+    }
     
     func locationManager(_ manager: CLLocationManager, didRangeBeacons beacons: [CLBeacon], in region: CLBeaconRegion) {
+        updateDebugUI(beacons: beacons)
         
         if beacons.count > 1 {
-            update(beacons: beacons)
             if beacons[0].minor == 748 && beacons[0].accuracy > 0 && beacons[0].accuracy <= 2 {
-                //                let popOverVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "sbPopUpID") as! PopUpViewController
-                //                self.addChildViewController(popOverVC)
-                //                popOverVC.view.frame = self.view.frame
-                //                self.view.addSubview(popOverVC.view)
-                //                popOverVC.didMove(toParentViewController: self)
-                print()
                 let alert = UIAlertController(title: "Arrived!", message: "You arrived at your destination", preferredStyle: .alert)
                 alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
                 self.present(alert, animated: true, completion: nil)
