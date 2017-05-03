@@ -164,31 +164,31 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
     }
     
     func locationManager(_ manager: CLLocationManager, didUpdateHeading newHeading: CLHeading) {
-        // TODO : Test compass cause it may or may not be backwards now
-        
         // change in heading in degrees since last code run
         let adjustmentToRotate = (newHeading.magneticHeading - currentHeading)
-        // make sure to save the heading for next code run
-        currentHeading = newHeading.magneticHeading
+        
         
         // display heading in text because why not
         compassReading?.text = String(format: "%.0f°", newHeading.magneticHeading)
         
         // change in heading in radians for some reason who decided this was ideal
-        let rotation = (CGFloat(adjustmentToRotate) * CGFloat.pi) / 180
+        let rotation = (CGFloat(adjustmentToRotate) * CGFloat.pi) / -180
         
-        
-        let transformCom = compassImg?.transform
-        let rotatedCom = transformCom?.rotated(by: rotation)
-        UIView.animate(withDuration: 0.5) {
-            self.compassImg?.transform = rotatedCom!
-        }
         
         let transformMap = viewView?.transform
         let rotatedMap = transformMap?.rotated(by: rotation)
         UIView.animate(withDuration: 0.5) {
             self.viewView?.transform = rotatedMap!
         }
+        
+        let transformCom = compassImg?.transform
+        let rotatedCom = transformCom?.rotated(by: -rotation)
+        UIView.animate(withDuration: 0.5) {
+            self.compassImg?.transform = rotatedCom!
+        }
+        
+        // make sure to save the heading for next code run
+        currentHeading = newHeading.magneticHeading
     }
 }
 
