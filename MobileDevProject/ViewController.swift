@@ -33,13 +33,12 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
     var currentHeading : Double = 0
     var lastBeacon1: CLBeacon!
     var lastBeacon2: CLBeacon!
+    var resetBeaconInfo: Bool!
     
     @IBAction func debugResetBtnPress(_ sender: Any) {
         // set the last beacons to nil which is just null with a stupid name
         // which should let the debug screen redraw with its current beacons if it gets confused thanks to all the ifs
-        // if theres only one beacon in range though then whoops this wont work
-        lastBeacon1 = nil
-        lastBeacon2 = nil
+        resetBeaconInfo = true
     }
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -82,39 +81,58 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         // i hate big long chains of ifs like this but i don't know how best to do this in ios
         // or swift so it'll do for now probably
         
-        
-        if((lastBeacon1 == nil || lastBeacon2 == nil) && beacons.count < 2){
-            // this should stop it from getting confused if the reset button is pressed at a bad time
+        if(((lastBeacon1 == nil || lastBeacon2 == nil) || resetBeaconInfo) && beacons.count > 1){
+            /// this is the first launch with enough beacons detected
+            printBeaconOne(beacon: beacons[0])
+            printBeaconTwo(beacon: beacons[1])
+            lastBeacon1 = beacons[0]
+            lastBeacon2 = beacons[1]
+            
+            // make sure to set the reset to false or else we'll be sadder than we already are
+            resetBeaconInfo = false
             return
-        }else if(beacons.count < 2){
+        }
+        
+        // I really hope the order in the array is based on either signal strength or proximity
+        // otherwise this is all a little wonky
+        if(beacons.count > 1){
+            if(beacons[0].minor == lastBeacon1.minor && beacons[1] == lastBeacon2.minor){
+                /// if both beacons are the same and in the same order, print as usual
+                printBeaconOne(beacon: beacons[0])
+                printBeaconTwo(beacon: beacons[1])
+                // save the two updated beacons
+                lastBeacon1 = beacons[0]
+                lastBeacon2 = beacons[1]
+            } else if (beacons[0].minor == lastBeacon2.minor && beacons[1] == lastBeacon1.minor){
+                /// if both beacons are the same but in a different order, print "reversed" to keep sanity
+                printBeaconOne(beacon: beacons[1])
+                printBeaconTwo(beacon: beacons[0])
+                // save the two updated beacons but backwards
+                lastBeacon1 = beacons[1]
+                lastBeacon2 = beacons[0]
+            } else {
+                /// neither beacon is the same
+                // print signal lost for both? I don't know what our logic should be here
+                self.accuracyReading.text = "Signal Lost"
+                self.accuracyReading2.text = "Signal Lost"
+            }
+            
+        } else {
             /// we lost a beacon, work out which and mark somehow
             if(beacons[0].minor == lastBeacon1.minor){
                 printBeaconOne(beacon: beacons[0])
                 self.accuracyReading2.text = "Signal Lost"
+                lastBeacon1 = beacons[0]
             } else if(beacons[0].minor == lastBeacon2.minor){
                 printBeaconTwo(beacon: beacons[0])
                 self.accuracyReading.text = "Signal Lost"
+                lastBeacon2 = beacons[1]
             } else {
                 /// i think we lost both beacons
                 self.accuracyReading.text = "Signal Lost"
                 self.accuracyReading2.text = "Signal Lost"
             }
-            return
-        }else if(beacons[0].minor == lastBeacon1.minor && beacons[1] == lastBeacon2.minor){
-            /// if both beacons are the same and in the same order, print as usual
-            printBeaconOne(beacon: beacons[0])
-            printBeaconTwo(beacon: beacons[1])
-        } else if (beacons[0].minor == lastBeacon2.minor && beacons[1] == lastBeacon1.minor){
-            /// if both beacons are the same but in a different order, print "reversed" to keep sanity
-            printBeaconOne(beacon: beacons[1])
-            printBeaconTwo(beacon: beacons[0])
-        } else {
-            printBeaconOne(beacon: beacons[0])
-            printBeaconTwo(beacon: beacons[1])
         }
-        // save the beacons for next time
-        lastBeacon1 = beacons[0]
-        lastBeacon2 = beacons[1]
     }
     
     // I would much prefer UI objects but since I don't know how to make that a thing
