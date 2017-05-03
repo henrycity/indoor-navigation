@@ -81,16 +81,22 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         // i hate big long chains of ifs like this but i don't know how best to do this in ios
         // or swift so it'll do for now probably
         
-        if(((lastBeacon1 == nil || lastBeacon2 == nil) || resetBeaconInfo) && beacons.count > 1){
-            /// this is the first launch with enough beacons detected
-            printBeaconOne(beacon: beacons[0])
-            printBeaconTwo(beacon: beacons[1])
-            lastBeacon1 = beacons[0]
-            lastBeacon2 = beacons[1]
-            
-            // make sure to set the reset to false or else we'll be sadder than we already are
-            resetBeaconInfo = false
-            return
+        if(((lastBeacon1 == nil || lastBeacon2 == nil) || resetBeaconInfo)){
+            if (beacons.count > 1){
+                /// this is the first launch (or a reset) with enough beacons detected
+                printBeaconOne(beacon: beacons[0])
+                printBeaconTwo(beacon: beacons[1])
+                lastBeacon1 = beacons[0]
+                lastBeacon2 = beacons[1]
+                
+                // make sure to set the reset to false or else we'll be sadder than we already are
+                resetBeaconInfo = false
+                return
+            } else {
+                /// we only detect one beacon and have either launched or reset
+                // TODO : Handle this, this only stops crashes but does nothing for users who can only detect one beacon
+                return
+            }
         }
         
         // I really hope the order in the array is based on either signal strength or proximity
