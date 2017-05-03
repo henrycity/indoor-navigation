@@ -36,8 +36,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
     var resetBeaconInfo: Bool!
     
     @IBAction func debugResetBtnPress(_ sender: Any) {
-        // set the last beacons to nil which is just null with a stupid name
-        // which should let the debug screen redraw with its current beacons if it gets confused thanks to all the ifs
+        // for if the beacons get stuck as lost and the info screen needs reset
         resetBeaconInfo = true
     }
     override func viewDidLoad() {
@@ -66,6 +65,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         let uuid = UUID(uuidString: "A4A4279F-091E-4DC7-BD3E-78DD4A0C763C")!
         let beaconRegion = CLBeaconRegion(proximityUUID: uuid, identifier: "MyBeacon")
         
+        // start tracking beacons
         locationManager.startMonitoring(for: beaconRegion)
         locationManager.startRangingBeacons(in: beaconRegion)
         
@@ -160,32 +160,40 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
                 self.beacon1?.backgroundColor = UIColor.red
                 self.beacon2?.backgroundColor = UIColor.blue
             }
+        } else if (lastBeacon1 == nil) {
+            /// no beacons in range BUT there also has not been one in range before
+            self.majorReading?.text = "No"
+            self.minorReading?.text = "Beacon"
+            self.rssiReading?.text = "In"
+            self.accuracyReading?.text = "Range"
+            
+            self.majorReading2?.text = "No"
+            self.minorReading2?.text = "Beacon"
+            self.rssiReading2?.text = "In"
+            self.accuracyReading2?.text = "Range"
         }
     }
     
     func locationManager(_ manager: CLLocationManager, didUpdateHeading newHeading: CLHeading) {
         // change in heading in degrees since last code run
         let adjustmentToRotate = (newHeading.magneticHeading - currentHeading)
-        
-        
-        // display heading in text because why not
-        compassReading?.text = String(format: "%.0f°", newHeading.magneticHeading)
-        
         // change in heading in radians for some reason who decided this was ideal
-        let rotation = (CGFloat(adjustmentToRotate) * CGFloat.pi) / -180
+        let rotation = (CGFloat(adjustmentToRotate) * CGFloat.pi) / 180
         
-        
+        // rotate map
         let transformMap = viewView?.transform
-        let rotatedMap = transformMap?.rotated(by: rotation)
-        UIView.animate(withDuration: 0.5) {
+        let rotatedMap = transformMap?.rotated(by: -rotation)   // this is negative because the map has
+        UIView.animate(withDuration: 0.5) {                     // to turn the other way
             self.viewView?.transform = rotatedMap!
         }
         
+        // rotate compass and print heading in degrees
         let transformCom = compassImg?.transform
-        let rotatedCom = transformCom?.rotated(by: -rotation)
+        let rotatedCom = transformCom?.rotated(by: rotation)
         UIView.animate(withDuration: 0.5) {
             self.compassImg?.transform = rotatedCom!
         }
+        compassReading?.text = String(format: "%.0f°", newHeading.magneticHeading)
         
         // make sure to save the heading for next code run
         currentHeading = newHeading.magneticHeading
