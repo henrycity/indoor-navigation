@@ -66,9 +66,15 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
             if beacons[0].minor == 832{
                 self.beacon1.backgroundColor = UIColor.blue
                 self.beacon2.backgroundColor = UIColor.red
+                self.beacon3.backgroundColor = UIColor.red
             }else if beacons[0].minor == 748{
                 self.beacon1.backgroundColor = UIColor.red
                 self.beacon2.backgroundColor = UIColor.blue
+                self.beacon3.backgroundColor = UIColor.red
+            }else if beacons[0].minor == 771{
+                self.beacon1.backgroundColor = UIColor.red
+                self.beacon2.backgroundColor = UIColor.red
+                self.beacon3.backgroundColor = UIColor.blue
             }
         }
     }
