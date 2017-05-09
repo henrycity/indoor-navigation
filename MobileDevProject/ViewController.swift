@@ -18,6 +18,8 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
     @IBOutlet weak var beacon1: UIButton!
     @IBOutlet weak var beacon2: UIButton!
     @IBOutlet weak var beacon3: UIButton!
+    
+    var beaconDict = [NSNumber: UIButton]()
 
     var currentHeading : Double = 0
 
@@ -27,7 +29,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
    
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        beaconDict = [832: self.beacon1, 748: self.beacon2, 771: self.beacon3]
         locationManager = CLLocationManager()
         locationManager.delegate = self
         locationManager.requestAlwaysAuthorization()
@@ -63,18 +65,12 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
     
     func locationManager(_ manager: CLLocationManager, didRangeBeacons beacons: [CLBeacon], in region: CLBeaconRegion) {
         if beacons.count > 0 {
-            if beacons[0].minor == 832{
-                self.beacon1.backgroundColor = UIColor.blue
-                self.beacon2.backgroundColor = UIColor.red
-                self.beacon3.backgroundColor = UIColor.red
-            }else if beacons[0].minor == 748{
-                self.beacon1.backgroundColor = UIColor.red
-                self.beacon2.backgroundColor = UIColor.blue
-                self.beacon3.backgroundColor = UIColor.red
-            }else if beacons[0].minor == 771{
-                self.beacon1.backgroundColor = UIColor.red
-                self.beacon2.backgroundColor = UIColor.red
-                self.beacon3.backgroundColor = UIColor.blue
+            for (minorValue, button) in beaconDict {
+                if (minorValue == beacons[0].minor) {
+                    button.backgroundColor = UIColor.blue
+                } else {
+                    button.backgroundColor = UIColor.red
+                }
             }
         }
     }
