@@ -18,6 +18,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
     @IBOutlet weak var beacon1: UIButton!
     @IBOutlet weak var beacon2: UIButton!
     @IBOutlet weak var beacon3: UIButton!
+    @IBOutlet weak var arrowView: DrawLine!
     
     var beaconDict = [NSNumber: UIButton]()
 
@@ -30,6 +31,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         beaconDict = [832: self.beacon1, 748: self.beacon2, 771: self.beacon3]
+        arrowView.backgroundColor = UIColor.clear
         locationManager = CLLocationManager()
         locationManager.delegate = self
         locationManager.requestAlwaysAuthorization()
