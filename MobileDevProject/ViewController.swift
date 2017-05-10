@@ -2,7 +2,7 @@
 //  ViewController.swift
 //  MobileDevProject
 //
-//  Created by Alexander van den Herik on 4/11/17.
+//  Created by Alexander van den Herik; Daniel Wilson; Leendert Eloff; Tri Tran
 //  Copyright © 2017 Alexander van den Herik. All rights reserved.
 //
 
@@ -11,11 +11,11 @@ import UIKit
 
 class ViewController: UIViewController, CLLocationManagerDelegate {
     
-    @IBOutlet weak var beacon1: UIButton!
-    @IBOutlet weak var beacon2: UIButton!
-    @IBOutlet weak var beacon3: UIButton!
+    @IBOutlet weak var beaconButton1: UIButton!
+    @IBOutlet weak var beaconButton2: UIButton!
+    @IBOutlet weak var beaconButton3: UIButton!
     @IBOutlet weak var arrowView: DrawLine!
-    @IBOutlet weak var viewView: UIView!
+    @IBOutlet weak var mapView: UIView!
     
     var beaconInfo: [BeaconInfo] = []
     var currentHeading : Double = 0
@@ -23,9 +23,11 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
    
     override func viewDidLoad() {
         super.viewDidLoad()
-        beaconInfo = [ BeaconInfo(value: 832, button: beacon1, coordinate: CGPoint(x: 91, y: 143)),
-                       BeaconInfo(value: 748, button: beacon2, coordinate: CGPoint(x: 214, y: 187)),
-                       BeaconInfo(value: 771, button: beacon3, coordinate: CGPoint(x: 138, y: 226))]
+        beaconInfo = [ BeaconInfo(value: 832, button: beaconButton1, coordinate: CGPoint(x: 91, y: 143)),
+                       BeaconInfo(value: 748, button: beaconButton2, coordinate: CGPoint(x: 214, y: 187)),
+                       BeaconInfo(value: 771, button: beaconButton3, coordinate: CGPoint(x: 138, y: 226))]
+        
+        
         arrowView.backgroundColor = UIColor.clear
         locationManager = CLLocationManager()
         locationManager.delegate = self
@@ -76,20 +78,28 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         // make sure to save the heading for next code run
         currentHeading = newHeading.magneticHeading
         
-        // display heading in text because why not
-        
         // change in heading in radians for some reason who decided this was ideal
         let rotation = (CGFloat(adjustmentToRotate) * CGFloat.pi) / -180
-        let transform = viewView.transform
+        let transform = mapView.transform
         let rotated = transform.rotated(by: rotation)
         // animate while rotating cause it looks smooooooooth
         UIView.animate(withDuration: 0.5) {
-            self.viewView.transform = rotated
+            self.mapView.transform = rotated
         }
     }
     
-    @IBAction func ButtonA(_ sender: UIButton) {
-        
+    @IBAction func buttonPress(sender: UIButton) {
+        switch sender {
+        case beaconButton1:
+            print("1")
+        case beaconButton2:
+            print("2")
+        case beaconButton3:
+            print("3")
+        default:
+            print("Unknown button")
+            return
+        }
     }
 }
 
