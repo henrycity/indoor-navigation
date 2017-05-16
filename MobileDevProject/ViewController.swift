@@ -14,8 +14,8 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
     @IBOutlet weak var beaconButton1: UIButton!
     @IBOutlet weak var beaconButton2: UIButton!
     @IBOutlet weak var beaconButton3: UIButton!
-    @IBOutlet weak var arrowView: DrawLine!
     @IBOutlet weak var mapView: UIView!
+    @IBOutlet weak var mapImage: UIView!
     
     var beaconInfo: [BeaconInfo] = []
     var currentHeading : Double = 0
@@ -27,8 +27,6 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
                        BeaconInfo(value: 748, button: beaconButton2, coordinate: CGPoint(x: 214, y: 187)),
                        BeaconInfo(value: 771, button: beaconButton3, coordinate: CGPoint(x: 138, y: 226))]
         
-        
-        arrowView.backgroundColor = UIColor.clear
         locationManager = CLLocationManager()
         locationManager.delegate = self
         locationManager.requestAlwaysAuthorization()
@@ -90,16 +88,30 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
     
     @IBAction func buttonPress(sender: UIButton) {
         switch sender {
+            // TODO: fix the fromPoints but right now I don't think we have anything for what beacon we're closest to
         case beaconButton1:
-            print("1")
+            addLine(fromPoint: beaconInfo[2].coordinate, toPoint: beaconInfo[1].coordinate)
         case beaconButton2:
-            print("2")
+            addLine(fromPoint: beaconInfo[0].coordinate, toPoint: beaconInfo[1].coordinate)
         case beaconButton3:
-            print("3")
+            addLine(fromPoint: beaconInfo[0].coordinate, toPoint: beaconInfo[2].coordinate)
         default:
             print("Unknown button")
             return
         }
+    }
+    
+    // this was lovingly "borrowed" from stack overflow
+    func addLine(fromPoint start: CGPoint, toPoint end:CGPoint) {
+        let line = CAShapeLayer()
+        let linePath = UIBezierPath()
+        linePath.move(to: start)
+        linePath.addLine(to: end)
+        line.path = linePath.cgPath
+        line.strokeColor = UIColor.red.cgColor
+        line.lineWidth = 1
+        line.lineJoin = kCALineJoinRound
+        self.mapImage.layer.addSublayer(line)
     }
 }
 
