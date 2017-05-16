@@ -57,6 +57,11 @@
                                 </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             </view>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="AbN-hc-cg8">
+                                <rect key="frame" x="152" y="541" width="70" height="70"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Button" image="Compass"/>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
@@ -65,16 +70,18 @@
                         <outlet property="beaconButton1" destination="puM-9r-Khw" id="xQi-nn-4hY"/>
                         <outlet property="beaconButton2" destination="hqm-qe-FBa" id="ExW-Ee-4Jj"/>
                         <outlet property="beaconButton3" destination="WpJ-aK-XBY" id="6RW-T5-5Uq"/>
+                        <outlet property="compassButton" destination="AbN-hc-cg8" id="gWC-e9-0Rp"/>
                         <outlet property="mapImage" destination="4Tb-CX-3Rt" id="KVh-4c-iWB"/>
                         <outlet property="mapView" destination="Qge-lU-WTP" id="mfK-R0-Ni6"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="686" y="-23"/>
+            <point key="canvasLocation" x="685.60000000000002" y="-23.838080959520241"/>
         </scene>
     </scenes>
     <resources>
+        <image name="Compass" width="16" height="16"/>
         <image name="Map" width="542" height="624"/>
     </resources>
 </document>
