@@ -83,16 +83,16 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         if (allowRotate){
             // change in heading in radians for some reason who decided this was ideal
             let rotation = (CGFloat(adjustmentToRotate) * CGFloat.pi) / -180
-            let transform = mapView.transform
+            let transform = mapImage.transform
             let rotated = transform.rotated(by: rotation)
             // animate while rotating cause it looks smooooooooth
             UIView.animate(withDuration: 0.5) {
-                self.mapView.transform = rotated
+                self.mapImage.transform = rotated
             }
         } else {
             // change in heading in radians for some reason who decided this was ideal
             let rotation = (CGFloat(adjustmentToRotate) * CGFloat.pi) / 180
-            let transform = mapView.transform
+            let transform = compassButton.transform
             let rotated = transform.rotated(by: rotation)
             // animate while rotating cause it looks smooooooooth
             UIView.animate(withDuration: 0.5) {
@@ -102,7 +102,21 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
     }
     
     @IBAction func buttonPress(sender: UIButton) {
-        if nearestBeaconCoordinate != nil {
+        if(sender == compassButton){
+            if(allowRotate){
+                // set boolean used by location manager to not rotate map
+                allowRotate = false
+                // reset map
+                self.mapView.transform.rotated(by: -(CGFloat(currentHeading) * CGFloat.pi) / -180)
+                // set to zero because the rotations assume change in heading
+                currentHeading = 0
+            } else {
+                allowRotate = false
+                // reset compass button
+                self.compassButton.transform.rotated(by: -(CGFloat(currentHeading) * CGFloat.pi) / 180)
+                currentHeading = 0
+            }
+        } else if nearestBeaconCoordinate != nil {
             switch sender {
             // TODO: fix the fromPoints but right now I don't think we have anything for what beacon we're closest to
             case beaconButton1:
@@ -111,20 +125,6 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
                 addLine(fromPoint: nearestBeaconCoordinate, toPoint: beaconInfo[1].coordinate)
             case beaconButton3:
                 addLine(fromPoint: nearestBeaconCoordinate, toPoint: beaconInfo[2].coordinate)
-            case compassButton:
-                if(allowRotate){
-                    // set boolean used by location manager to not rotate map
-                    allowRotate = false
-                    // reset map
-                    self.mapView.transform.rotated(by: -(CGFloat(currentHeading) * CGFloat.pi) / -180)
-                    // set to zero because the rotations assume change in heading
-                    currentHeading = 0
-                } else {
-                    allowRotate = false
-                    // reset compass button
-                    self.compassButton.transform.rotated(by: -(CGFloat(currentHeading) * CGFloat.pi) / 180)
-                    currentHeading = 0
-                }
             default:
                 print("Unknown button")
                 return

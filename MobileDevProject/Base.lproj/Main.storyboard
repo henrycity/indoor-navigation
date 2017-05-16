@@ -58,9 +58,12 @@
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             </view>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="AbN-hc-cg8">
-                                <rect key="frame" x="152" y="541" width="70" height="70"/>
+                                <rect key="frame" x="152" y="489" width="70" height="70"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <state key="normal" title="Button" image="Compass"/>
+                                <connections>
+                                    <action selector="buttonPressWithSender:" destination="BYZ-38-t0r" eventType="touchUpInside" id="fBH-L7-9c9"/>
+                                </connections>
                             </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
