@@ -101,16 +101,22 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         }
     }
     
-    // this was lovingly "borrowed" from stack overflow
     func addLine(fromPoint start: CGPoint, toPoint end:CGPoint) {
         let line = CAShapeLayer()
         let linePath = UIBezierPath()
+        
+        // if we want to draw multiple points just addLine to each new CGPoint
+        // we should want to but theres no easy way to work that out
         linePath.move(to: start)
         linePath.addLine(to: end)
         line.path = linePath.cgPath
+        
+        // line style
         line.strokeColor = UIColor.red.cgColor
         line.lineWidth = 1
+        // if we have multiple points to draw to in the future this sets the style of the corners
         line.lineJoin = kCALineJoinRound
+        
         self.mapImage.layer.addSublayer(line)
     }
 }
