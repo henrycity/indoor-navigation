@@ -91,15 +91,15 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
     @IBAction func buttonPress(sender: UIButton) {
         switch sender {
             // TODO: fix the fromPoints but right now I don't think we have anything for what beacon we're closest to
-        case beaconButton1:
-            addLine(fromPoint: nearestBeaconCoordinate, toPoint: beaconInfo[0].coordinate)
-        case beaconButton2:
-            addLine(fromPoint: nearestBeaconCoordinate, toPoint: beaconInfo[1].coordinate)
-        case beaconButton3:
-            addLine(fromPoint: nearestBeaconCoordinate, toPoint: beaconInfo[2].coordinate)
-        default:
-            print("Unknown button")
-            return
+            case beaconButton1:
+                addLine(fromPoint: nearestBeaconCoordinate, toPoint: beaconInfo[0].coordinate)
+            case beaconButton2:
+                addLine(fromPoint: nearestBeaconCoordinate, toPoint: beaconInfo[1].coordinate)
+            case beaconButton3:
+                addLine(fromPoint: nearestBeaconCoordinate, toPoint: beaconInfo[2].coordinate)
+            default:
+                print("Unknown button")
+                return
         }
     }
     
@@ -114,7 +114,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         line.path = linePath.cgPath
         
         // line style
-        line.strokeColor = UIColor.red.cgColor
+        line.strokeColor = UIColor.green
         line.lineWidth = 1
         // if we have multiple points to draw to in the future this sets the style of the corners
         line.lineJoin = kCALineJoinRound
@@ -122,4 +122,3 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         self.mapImage.layer.addSublayer(line)
     }
 }
-
