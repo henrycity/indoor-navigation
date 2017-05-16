@@ -15,30 +15,29 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
     @IBOutlet weak var beaconButton2: UIButton!
     @IBOutlet weak var beaconButton3: UIButton!
     @IBOutlet weak var mapView: UIView!
-    @IBOutlet weak var rotateBtn: UIButton!
+    @IBOutlet weak var rotateButton: UIButton!
     
     var beaconInfo: [BeaconInfo] = []
     var currentHeading : Double = 0
     var locationManager: CLLocationManager!
     var nearestBeaconCoordinate: CGPoint!
-    var rotate: Bool = true
+    var isRotating: Bool = false
     
     @IBAction func rotateMap(_ sender: Any) {
-        if  rotate {
-            rotate = false
-            rotateBtn.setTitle("Enable rotation", for: UIControlState.normal)
-        }else{
-            rotate = true
-            rotateBtn.setTitle("Disable rotation", for: UIControlState.normal)
+        isRotating = !isRotating
+        if isRotating {
+            rotateButton.setTitle("Disable rotation", for: UIControlState.normal)
+        } else {
+            rotateButton.setTitle("Enable rotation", for: UIControlState.normal)
         }
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        rotateButton.setTitle("Enable rotation", for: UIControlState.normal)
         beaconInfo = [ BeaconInfo(value: 832, button: beaconButton1, coordinate: CGPoint(x: 91, y: 143)),
                        BeaconInfo(value: 748, button: beaconButton2, coordinate: CGPoint(x: 214, y: 187)),
                        BeaconInfo(value: 771, button: beaconButton3, coordinate: CGPoint(x: 138, y: 226))]
-        
         locationManager = CLLocationManager()
         locationManager.delegate = self
         locationManager.requestAlwaysAuthorization()
@@ -84,7 +83,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
     }
     
     func locationManager(_ manager: CLLocationManager, didUpdateHeading newHeading: CLHeading) {
-        if rotate{
+        if isRotating {
             // change in heading in degrees since last code run
             let adjustmentToRotate = (newHeading.magneticHeading - currentHeading)
             // make sure to save the heading for next code run
@@ -96,11 +95,10 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
             let rotated = transform.rotated(by: rotation)
             // animate while rotating cause it looks smooooooooth
             UIView.animate(withDuration: 0.5) {
-            self.mapView.transform = rotated
+                self.mapView.transform = rotated
             }
-        }else{
+        } else {
             // set the rotation of mapView back to 0
-
             let rotation = (CGFloat(currentHeading) * CGFloat.pi) / 180
             let transform = mapView.transform
             let rotated = transform.rotated(by: rotation)
@@ -115,19 +113,17 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
     @IBAction func buttonPress(sender: UIButton) {
         if nearestBeaconCoordinate != nil {
             switch sender {
-            // TODO: fix the fromPoints but right now I don't think we have anything for what beacon we're closest to
-            case beaconButton1:
-                addLine(fromPoint: nearestBeaconCoordinate, toPoint: beaconInfo[0].coordinate)
-            case beaconButton2:
-                addLine(fromPoint: nearestBeaconCoordinate, toPoint: beaconInfo[1].coordinate)
-            case beaconButton3:
-                addLine(fromPoint: nearestBeaconCoordinate, toPoint: beaconInfo[2].coordinate)
-            default:
-                print("Unknown button")
-                return
+                case beaconButton1:
+                    addLine(fromPoint: nearestBeaconCoordinate, toPoint: beaconInfo[0].coordinate)
+                case beaconButton2:
+                    addLine(fromPoint: nearestBeaconCoordinate, toPoint: beaconInfo[1].coordinate)
+                case beaconButton3:
+                    addLine(fromPoint: nearestBeaconCoordinate, toPoint: beaconInfo[2].coordinate)
+                default:
+                    print("Unknown button")
+                    return
             }
         }
-    
     }
     
     func addLine(fromPoint start: CGPoint, toPoint end:CGPoint) {
