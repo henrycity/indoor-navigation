@@ -20,6 +20,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
     var beaconInfo: [BeaconInfo] = []
     var currentHeading : Double = 0
     var locationManager: CLLocationManager!
+    var nearestBeaconCoordinate: CGPoint!
    
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -63,6 +64,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
             for myBeacon in beaconInfo {
                 if (myBeacon.value == beacons[0].minor) {
                     myBeacon.button.backgroundColor = UIColor.blue
+                    nearestBeaconCoordinate = myBeacon.coordinate
                 } else {
                     myBeacon.button.backgroundColor = UIColor.red
                 }
@@ -90,11 +92,11 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         switch sender {
             // TODO: fix the fromPoints but right now I don't think we have anything for what beacon we're closest to
         case beaconButton1:
-            addLine(fromPoint: beaconInfo[2].coordinate, toPoint: beaconInfo[1].coordinate)
+            addLine(fromPoint: nearestBeaconCoordinate, toPoint: beaconInfo[0].coordinate)
         case beaconButton2:
-            addLine(fromPoint: beaconInfo[0].coordinate, toPoint: beaconInfo[1].coordinate)
+            addLine(fromPoint: nearestBeaconCoordinate, toPoint: beaconInfo[1].coordinate)
         case beaconButton3:
-            addLine(fromPoint: beaconInfo[0].coordinate, toPoint: beaconInfo[2].coordinate)
+            addLine(fromPoint: nearestBeaconCoordinate, toPoint: beaconInfo[2].coordinate)
         default:
             print("Unknown button")
             return
