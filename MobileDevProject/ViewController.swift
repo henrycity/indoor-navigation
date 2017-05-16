@@ -14,12 +14,13 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
     @IBOutlet weak var beaconButton1: UIButton!
     @IBOutlet weak var beaconButton2: UIButton!
     @IBOutlet weak var beaconButton3: UIButton!
-    @IBOutlet weak var arrowView: DrawLine!
     @IBOutlet weak var mapView: UIView!
+    @IBOutlet weak var mapImage: UIView!
     
     var beaconInfo: [BeaconInfo] = []
     var currentHeading : Double = 0
     var locationManager: CLLocationManager!
+    var nearestBeaconCoordinate: CGPoint!
    
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -27,8 +28,6 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
                        BeaconInfo(value: 748, button: beaconButton2, coordinate: CGPoint(x: 214, y: 187)),
                        BeaconInfo(value: 771, button: beaconButton3, coordinate: CGPoint(x: 138, y: 226))]
         
-        
-        arrowView.backgroundColor = UIColor.clear
         locationManager = CLLocationManager()
         locationManager.delegate = self
         locationManager.requestAlwaysAuthorization()
@@ -65,6 +64,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
             for myBeacon in beaconInfo {
                 if (myBeacon.value == beacons[0].minor) {
                     myBeacon.button.backgroundColor = UIColor.blue
+                    nearestBeaconCoordinate = myBeacon.coordinate
                 } else {
                     myBeacon.button.backgroundColor = UIColor.red
                 }
@@ -89,17 +89,39 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
     }
     
     @IBAction func buttonPress(sender: UIButton) {
-        switch sender {
-        case beaconButton1:
-            print("1")
-        case beaconButton2:
-            print("2")
-        case beaconButton3:
-            print("3")
-        default:
-            print("Unknown button")
-            return
+        if nearestBeaconCoordinate != nil {
+            switch sender {
+            // TODO: fix the fromPoints but right now I don't think we have anything for what beacon we're closest to
+            case beaconButton1:
+                addLine(fromPoint: nearestBeaconCoordinate, toPoint: beaconInfo[0].coordinate)
+            case beaconButton2:
+                addLine(fromPoint: nearestBeaconCoordinate, toPoint: beaconInfo[1].coordinate)
+            case beaconButton3:
+                addLine(fromPoint: nearestBeaconCoordinate, toPoint: beaconInfo[2].coordinate)
+            default:
+                print("Unknown button")
+                return
+            }
         }
+    
+    }
+    
+    func addLine(fromPoint start: CGPoint, toPoint end:CGPoint) {
+        let line = CAShapeLayer()
+        let linePath = UIBezierPath()
+        
+        // if we want to draw multiple points just addLine to each new CGPoint
+        // we should want to but theres no easy way to work that out
+        linePath.move(to: start)
+        linePath.addLine(to: end)
+        line.path = linePath.cgPath
+        
+        // line style
+        line.strokeColor = UIColor.green.cgColor
+        line.lineWidth = 1
+        // if we have multiple points to draw to in the future this sets the style of the corners
+        line.lineJoin = kCALineJoinRound
+        
+        self.mapImage.layer.addSublayer(line)
     }
 }
-
