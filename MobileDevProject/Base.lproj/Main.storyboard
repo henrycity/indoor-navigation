@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11762" systemVersion="16D32" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
-    <device id="retina4_7" orientation="portrait">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="12118" systemVersion="16E195" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+    <device id="retina4_0" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11757"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12086"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -18,11 +18,11 @@
                         <viewControllerLayoutGuide type="bottom" id="xHL-ds-eLt"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="Qge-lU-WTP">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="4Tb-CX-3Rt" userLabel="mapImageView">
-                                <rect key="frame" x="0.0" y="143" width="375" height="338"/>
+                                <rect key="frame" x="0.0" y="115" width="320" height="338"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <subviews>
                                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="Map" translatesAutoresizingMaskIntoConstraints="NO" id="Qps-UU-Kgz">
@@ -57,6 +57,14 @@
                                 </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             </view>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="35I-tq-obE">
+                                <rect key="frame" x="106" y="494" width="108" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Disable rotation"/>
+                                <connections>
+                                    <action selector="rotateMap:" destination="BYZ-38-t0r" eventType="touchUpInside" id="qRD-ao-3Lx"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
@@ -65,13 +73,13 @@
                         <outlet property="beaconButton1" destination="puM-9r-Khw" id="xQi-nn-4hY"/>
                         <outlet property="beaconButton2" destination="hqm-qe-FBa" id="ExW-Ee-4Jj"/>
                         <outlet property="beaconButton3" destination="WpJ-aK-XBY" id="6RW-T5-5Uq"/>
-                        <outlet property="mapImage" destination="4Tb-CX-3Rt" id="KVh-4c-iWB"/>
-                        <outlet property="mapView" destination="Qge-lU-WTP" id="mfK-R0-Ni6"/>
+                        <outlet property="mapView" destination="4Tb-CX-3Rt" id="F7i-Ss-ixd"/>
+                        <outlet property="rotateBtn" destination="35I-tq-obE" id="uh8-cy-9SF"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="686" y="-23"/>
+            <point key="canvasLocation" x="684.375" y="-23.239436619718312"/>
         </scene>
     </scenes>
     <resources>
