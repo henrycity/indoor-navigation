@@ -22,6 +22,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
     var locationManager: CLLocationManager!
     var nearestBeaconCoordinate: CGPoint!
     var isRotating: Bool = false
+    var lineShapeLayer: CAShapeLayer!
     
     @IBAction func rotateMap(_ sender: Any) {
         isRotating = !isRotating
@@ -59,7 +60,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
     
     func startScanning() {
         let uuid = UUID(uuidString: "A4A4279F-091E-4DC7-BD3E-78DD4A0C763C")!
-        let beaconRegion = CLBeaconRegion(proximityUUID: uuid, identifier: "MyBeacon")
+        let beaconRegion = CLBeaconRegion(proximityUUID: uuid, identifier: "LightCurb")
         
         locationManager.startMonitoring(for: beaconRegion)
         locationManager.startRangingBeacons(in: beaconRegion)
@@ -127,21 +128,26 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
     }
     
     func addLine(fromPoint start: CGPoint, toPoint end:CGPoint) {
-        let line = CAShapeLayer()
+        // If lineShapeLayer already exist, redraw the whole layer
+        if lineShapeLayer != nil {
+            lineShapeLayer.removeFromSuperlayer()
+        } else {
+            lineShapeLayer = CAShapeLayer()
+        }
         let linePath = UIBezierPath()
         
         // if we want to draw multiple points just addLine to each new CGPoint
         // we should want to but theres no easy way to work that out
         linePath.move(to: start)
         linePath.addLine(to: end)
-        line.path = linePath.cgPath
+        lineShapeLayer.path = linePath.cgPath
         
         // line style
-        line.strokeColor = UIColor.green.cgColor
-        line.lineWidth = 1
+        lineShapeLayer.strokeColor = UIColor.green.cgColor
+        lineShapeLayer.lineWidth = 1
         // if we have multiple points to draw to in the future this sets the style of the corners
-        line.lineJoin = kCALineJoinRound
+        lineShapeLayer.lineJoin = kCALineJoinRound
         
-        self.mapView.layer.addSublayer(line)
+        self.mapView.layer.addSublayer(lineShapeLayer)
     }
 }
