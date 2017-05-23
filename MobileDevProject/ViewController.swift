@@ -14,7 +14,8 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
     @IBOutlet weak var beaconButton1: UIButton!
     @IBOutlet weak var beaconButton2: UIButton!
     @IBOutlet weak var beaconButton3: UIButton!
-    @IBOutlet weak var rotateButton: UIButton!
+    
+    @IBOutlet weak var mapRotatingSwitch: UISwitch!
     
     @IBOutlet weak var mapView: UIView!
     @IBOutlet weak var compassImage: UIImageView!
@@ -30,9 +31,9 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        rotateButton.setTitle("Enable rotation", for: UIControlState.normal)
         compassImage.backgroundColor = UIColor.clear
         compassImage.isOpaque = true
+        mapRotatingSwitch.setOn(false, animated: true)
         beaconInfo = [ BeaconInfo(value: 832, button: beaconButton1, coordinate: CGPoint(x: 107, y: 128)),
                        BeaconInfo(value: 748, button: beaconButton2, coordinate: CGPoint(x: 250, y: 167)),
                        BeaconInfo(value: 771, button: beaconButton3, coordinate: CGPoint(x: 165, y: 212))]
@@ -61,22 +62,15 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         }
     }
     
-    @IBAction func rotateMap(_ sender: Any) {
+    @IBAction func mapRotatingSwitchPress(_ sender: UISwitch) {
         mapIsRotating = !mapIsRotating
-        if mapIsRotating {
-            rotateButton.setTitle("Disable rotation", for: UIControlState.normal)
-        } else {
-            rotateButton.setTitle("Enable rotation", for: UIControlState.normal)
-            /* Rotate the map the original position */
-            // set the rotation of mapView back to 0
-            if (mapHeading != 0) {
-                let rotation = (CGFloat(mapHeading) * CGFloat.pi) / 180
-                let transform = mapView.transform
-                let rotated = transform.rotated(by: rotation)
-                self.mapView.transform = rotated
-                // set currentHeading to 0 so when rotation gets disabled the mapView will stay on 0
-                mapHeading = 0
-            }
+        if (mapHeading != 0) {
+            let rotation = (CGFloat(mapHeading) * CGFloat.pi) / 180
+            let transform = mapView.transform
+            let rotated = transform.rotated(by: rotation)
+            self.mapView.transform = rotated
+            // set currentHeading to 0 so when rotation gets disabled the mapView will stay on 0
+            mapHeading = 0
         }
     }
 
