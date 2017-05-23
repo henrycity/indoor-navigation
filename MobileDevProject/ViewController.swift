@@ -20,6 +20,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
     var beaconInfo: [BeaconInfo] = []
     var currentHeading : Double = 0
     var locationManager: CLLocationManager!
+    @IBOutlet weak var compassImage: UIImageView!
     var nearestBeaconCoordinate: CGPoint!
     var isRotating: Bool = false
     var lineShapeLayer: CAShapeLayer!
@@ -36,9 +37,11 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         rotateButton.setTitle("Enable rotation", for: UIControlState.normal)
-        beaconInfo = [ BeaconInfo(value: 832, button: beaconButton1, coordinate: CGPoint(x: 91, y: 143)),
-                       BeaconInfo(value: 748, button: beaconButton2, coordinate: CGPoint(x: 214, y: 187)),
-                       BeaconInfo(value: 771, button: beaconButton3, coordinate: CGPoint(x: 138, y: 226))]
+        compassImage.backgroundColor = UIColor.clear
+        compassImage.isOpaque = true
+        beaconInfo = [ BeaconInfo(value: 832, button: beaconButton1, coordinate: CGPoint(x: 107, y: 128)),
+                       BeaconInfo(value: 748, button: beaconButton2, coordinate: CGPoint(x: 250, y: 167)),
+                       BeaconInfo(value: 771, button: beaconButton3, coordinate: CGPoint(x: 165, y: 212))]
         locationManager = CLLocationManager()
         locationManager.delegate = self
         locationManager.requestAlwaysAuthorization()
@@ -89,7 +92,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
             let adjustmentToRotate = (newHeading.magneticHeading - currentHeading)
             // make sure to save the heading for next code run
             currentHeading = newHeading.magneticHeading
-        
+            
             // change in heading in radians for some reason who decided this was    ideal
             let rotation = (CGFloat(adjustmentToRotate) * CGFloat.pi) / -180
             let transform = mapView.transform
