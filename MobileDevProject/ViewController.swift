@@ -14,20 +14,23 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
     @IBOutlet weak var beaconButton1: UIButton!
     @IBOutlet weak var beaconButton2: UIButton!
     @IBOutlet weak var beaconButton3: UIButton!
-    @IBOutlet weak var mapView: UIView!
     @IBOutlet weak var rotateButton: UIButton!
     
-    var beaconInfo: [BeaconInfo] = []
-    var currentHeading : Double = 0
-    var locationManager: CLLocationManager!
+    @IBOutlet weak var mapView: UIView!
     @IBOutlet weak var compassImage: UIImageView!
+    
+    var beaconInfo: [BeaconInfo] = []
+    var currentHeading: Double = 0
+    var compassHeading: Double = 0
+    var locationManager: CLLocationManager!
+    
     var nearestBeaconCoordinate: CGPoint!
-    var isRotating: Bool = false
+    var mapIsRotating: Bool = false
     var lineShapeLayer: CAShapeLayer!
     
     @IBAction func rotateMap(_ sender: Any) {
-        isRotating = !isRotating
-        if isRotating {
+        mapIsRotating = !mapIsRotating
+        if mapIsRotating {
             rotateButton.setTitle("Disable rotation", for: UIControlState.normal)
         } else {
             rotateButton.setTitle("Enable rotation", for: UIControlState.normal)
@@ -87,13 +90,16 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
     }
     
     func locationManager(_ manager: CLLocationManager, didUpdateHeading newHeading: CLHeading) {
-        if isRotating {
+        if mapIsRotating {
+            // Hide the compass
+            self.compassImage.alpha = 0
+            
             // change in heading in degrees since last code run
             let adjustmentToRotate = (newHeading.magneticHeading - currentHeading)
             // make sure to save the heading for next code run
             currentHeading = newHeading.magneticHeading
             
-            // change in heading in radians for some reason who decided this was    ideal
+            // change in heading in radians for some reason who decided this was ideal
             let rotation = (CGFloat(adjustmentToRotate) * CGFloat.pi) / -180
             let transform = mapView.transform
             let rotated = transform.rotated(by: rotation)
@@ -102,15 +108,32 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
                 self.mapView.transform = rotated
             }
         } else {
+            // Make compass visible again
+            self.compassImage.alpha = 1
+            
+            /* Rotate the compass */
+            // change in heading in degrees since last code run
+            let adjustmentToRotate = (newHeading.magneticHeading - compassHeading)
+            // make sure to save the heading for next code run
+            compassHeading = newHeading.magneticHeading
+            let rotationCompass = (CGFloat(adjustmentToRotate) * CGFloat.pi) / -180
+            let transformCompass = compassImage.transform
+            let rotatedCompass = transformCompass.rotated(by: rotationCompass)
+            // animate while rotating cause it looks smooooooooth
+            UIView.animate(withDuration: 0.5) {
+                self.compassImage.transform = rotatedCompass
+            }
+
+            /* Rotate the map the original position */
             // set the rotation of mapView back to 0
-            let rotation = (CGFloat(currentHeading) * CGFloat.pi) / 180
-            let transform = mapView.transform
-            let rotated = transform.rotated(by: rotation)
-            
-            self.mapView.transform = rotated
-            
-            // set currentHeading to 0 so when rotation gets disabled the mapView will stay on 0
-            currentHeading = 0
+            if (currentHeading != 0) {
+                let rotation = (CGFloat(currentHeading) * CGFloat.pi) / 180
+                let transform = mapView.transform
+                let rotated = transform.rotated(by: rotation)
+                self.mapView.transform = rotated
+                // set currentHeading to 0 so when rotation gets disabled the mapView will stay on 0
+                currentHeading = 0
+            }
         }
     }
     
