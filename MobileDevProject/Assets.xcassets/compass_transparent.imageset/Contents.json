@@ -2,6 +2,7 @@
   "images" : [
     {
       "idiom" : "universal",
+      "filename" : "compass_transparent.png",
       "scale" : "1x"
     },
     {
@@ -10,7 +11,6 @@
     },
     {
       "idiom" : "universal",
-      "filename" : "f9be1155e901e8a84537d1dad5db7a5d.jpg",
       "scale" : "3x"
     }
   ],

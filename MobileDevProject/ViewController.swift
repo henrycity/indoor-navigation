@@ -14,31 +14,29 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
     @IBOutlet weak var beaconButton1: UIButton!
     @IBOutlet weak var beaconButton2: UIButton!
     @IBOutlet weak var beaconButton3: UIButton!
+    
+    @IBOutlet weak var mapRotatingSwitch: UISwitch!
+    
     @IBOutlet weak var mapView: UIView!
-    @IBOutlet weak var rotateButton: UIButton!
+    @IBOutlet weak var compassImage: UIImageView!
     
     var beaconInfo: [BeaconInfo] = []
-    var currentHeading : Double = 0
+    var mapHeading: Double = 0
+    var compassHeading: Double = 0
+    var mapIsRotating: Bool = false
     var locationManager: CLLocationManager!
-    var nearestBeaconCoordinate: CGPoint!
-    var isRotating: Bool = false
-    var lineShapeLayer: CAShapeLayer!
     
-    @IBAction func rotateMap(_ sender: Any) {
-        isRotating = !isRotating
-        if isRotating {
-            rotateButton.setTitle("Disable rotation", for: UIControlState.normal)
-        } else {
-            rotateButton.setTitle("Enable rotation", for: UIControlState.normal)
-        }
-    }
+    var nearestBeaconCoordinate: CGPoint!
+    var lineShapeLayer: CAShapeLayer!
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        rotateButton.setTitle("Enable rotation", for: UIControlState.normal)
-        beaconInfo = [ BeaconInfo(value: 832, button: beaconButton1, coordinate: CGPoint(x: 91, y: 143)),
-                       BeaconInfo(value: 748, button: beaconButton2, coordinate: CGPoint(x: 214, y: 187)),
-                       BeaconInfo(value: 771, button: beaconButton3, coordinate: CGPoint(x: 138, y: 226))]
+        compassImage.backgroundColor = UIColor.clear
+        compassImage.isOpaque = true
+        mapRotatingSwitch.setOn(false, animated: true)
+        beaconInfo = [ BeaconInfo(value: 832, button: beaconButton1, coordinate: CGPoint(x: 107, y: 128)),
+                       BeaconInfo(value: 748, button: beaconButton2, coordinate: CGPoint(x: 250, y: 167)),
+                       BeaconInfo(value: 771, button: beaconButton3, coordinate: CGPoint(x: 165, y: 212))]
         locationManager = CLLocationManager()
         locationManager.delegate = self
         locationManager.requestAlwaysAuthorization()
@@ -46,6 +44,34 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
+    }
+    
+    @IBAction func buttonPress(sender: UIButton) {
+        if nearestBeaconCoordinate != nil {
+            switch sender {
+            case beaconButton1:
+                addLine(fromPoint: nearestBeaconCoordinate, toPoint: beaconInfo[0].coordinate)
+            case beaconButton2:
+                addLine(fromPoint: nearestBeaconCoordinate, toPoint: beaconInfo[1].coordinate)
+            case beaconButton3:
+                addLine(fromPoint: nearestBeaconCoordinate, toPoint: beaconInfo[2].coordinate)
+            default:
+                print("Unknown button")
+                return
+            }
+        }
+    }
+    
+    @IBAction func mapRotatingSwitchPress(_ sender: UISwitch) {
+        mapIsRotating = !mapIsRotating
+        if (mapHeading != 0) {
+            let rotation = (CGFloat(mapHeading) * CGFloat.pi) / 180
+            let transform = mapView.transform
+            let rotated = transform.rotated(by: rotation)
+            self.mapView.transform = rotated
+            // set currentHeading to 0 so when rotation gets disabled the mapView will stay on 0
+            mapHeading = 0
+        }
     }
 
     func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
@@ -84,13 +110,16 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
     }
     
     func locationManager(_ manager: CLLocationManager, didUpdateHeading newHeading: CLHeading) {
-        if isRotating {
+        if mapIsRotating {
+            // Hide the compass
+            self.compassImage.alpha = 0
+            
             // change in heading in degrees since last code run
-            let adjustmentToRotate = (newHeading.magneticHeading - currentHeading)
+            let adjustmentToRotate = (newHeading.magneticHeading - mapHeading)
             // make sure to save the heading for next code run
-            currentHeading = newHeading.magneticHeading
-        
-            // change in heading in radians for some reason who decided this was    ideal
+            mapHeading = newHeading.magneticHeading
+            
+            // change in heading in radians for some reason who decided this was ideal
             let rotation = (CGFloat(adjustmentToRotate) * CGFloat.pi) / -180
             let transform = mapView.transform
             let rotated = transform.rotated(by: rotation)
@@ -99,30 +128,20 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
                 self.mapView.transform = rotated
             }
         } else {
-            // set the rotation of mapView back to 0
-            let rotation = (CGFloat(currentHeading) * CGFloat.pi) / 180
-            let transform = mapView.transform
-            let rotated = transform.rotated(by: rotation)
+            // Make compass visible again
+            self.compassImage.alpha = 1
             
-            self.mapView.transform = rotated
-            
-            // set currentHeading to 0 so when rotation gets disabled the mapView will stay on 0
-            currentHeading = 0
-        }
-    }
-    
-    @IBAction func buttonPress(sender: UIButton) {
-        if nearestBeaconCoordinate != nil {
-            switch sender {
-                case beaconButton1:
-                    addLine(fromPoint: nearestBeaconCoordinate, toPoint: beaconInfo[0].coordinate)
-                case beaconButton2:
-                    addLine(fromPoint: nearestBeaconCoordinate, toPoint: beaconInfo[1].coordinate)
-                case beaconButton3:
-                    addLine(fromPoint: nearestBeaconCoordinate, toPoint: beaconInfo[2].coordinate)
-                default:
-                    print("Unknown button")
-                    return
+            /* Rotate the compass */
+            // change in heading in degrees since last code run
+            let adjustmentToRotate = (newHeading.magneticHeading - compassHeading)
+            // make sure to save the heading for next code run
+            compassHeading = newHeading.magneticHeading
+            let rotationCompass = (CGFloat(adjustmentToRotate) * CGFloat.pi) / -180
+            let transformCompass = compassImage.transform
+            let rotatedCompass = transformCompass.rotated(by: rotationCompass)
+            // animate while rotating cause it looks smooooooooth
+            UIView.animate(withDuration: 0.5) {
+                self.compassImage.transform = rotatedCompass
             }
         }
     }

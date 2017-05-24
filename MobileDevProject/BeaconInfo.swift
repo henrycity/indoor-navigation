@@ -20,18 +20,4 @@ class BeaconInfo{
         self.button = button
         self.coordinate = coordinate
     }
-    
-    var getValue: NSNumber {
-        return value
-    }
-    
-    var getButton: UIButton {
-        return button
-    }
-    
-    var getCoordinate: CGPoint {
-        return coordinate
-    }
-    
-    
 }
