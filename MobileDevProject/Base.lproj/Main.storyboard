@@ -40,13 +40,21 @@
                                 </connections>
                             </switch>
                             <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="4Tb-CX-3Rt" userLabel="mapImageView">
-                                <rect key="frame" x="-308" y="148" width="855" height="448"/>
+                                <rect key="frame" x="-247" y="148" width="797" height="313"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxY="YES"/>
                                 <subviews>
                                     <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="Map" translatesAutoresizingMaskIntoConstraints="NO" id="Qps-UU-Kgz">
-                                        <rect key="frame" x="75" y="-25" width="855" height="338"/>
+                                        <rect key="frame" x="8" y="-25" width="864" height="338"/>
                                         <autoresizingMask key="autoresizingMask" widthSizable="YES"/>
                                     </imageView>
+                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" adjustsImageWhenDisabled="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="WpJ-aK-XBY">
+                                        <rect key="frame" x="467" y="30" width="37" height="19"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <color key="backgroundColor" red="0.78418474740932642" green="0.27699711887125511" blue="0.20297851800176189" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <connections>
+                                            <action selector="buttonPressWithSender:" destination="BYZ-38-t0r" eventType="touchUpInside" id="Edu-K7-u2d"/>
+                                        </connections>
+                                    </button>
                                     <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hqm-qe-FBa">
                                         <rect key="frame" x="442" y="79" width="54" height="19"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -55,10 +63,6 @@
                                             <action selector="buttonPressWithSender:" destination="BYZ-38-t0r" eventType="touchUpInside" id="NpR-Xw-H1f"/>
                                         </connections>
                                     </button>
-                                    <imageView opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="compass_transparent" translatesAutoresizingMaskIntoConstraints="NO" id="3HE-uk-phl">
-                                        <rect key="frame" x="442" y="212" width="108" height="101"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                    </imageView>
                                     <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="puM-9r-Khw">
                                         <rect key="frame" x="359" y="48" width="44" height="21"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -68,14 +72,10 @@
                                             <action selector="buttonPressWithSender:" destination="BYZ-38-t0r" eventType="touchUpInside" id="gFC-GJ-w9r"/>
                                         </connections>
                                     </button>
-                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" adjustsImageWhenDisabled="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="WpJ-aK-XBY">
-                                        <rect key="frame" x="467" y="30" width="37" height="19"/>
+                                    <imageView opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="compass_transparent" translatesAutoresizingMaskIntoConstraints="NO" id="3HE-uk-phl">
+                                        <rect key="frame" x="386" y="212" width="108" height="101"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <color key="backgroundColor" red="0.78418474740932642" green="0.27699711887125511" blue="0.20297851800176189" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                        <connections>
-                                            <action selector="buttonPressWithSender:" destination="BYZ-38-t0r" eventType="touchUpInside" id="Edu-K7-u2d"/>
-                                        </connections>
-                                    </button>
+                                    </imageView>
                                 </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             </view>
