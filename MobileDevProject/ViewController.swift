@@ -34,12 +34,21 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         compassImage.backgroundColor = UIColor.clear
         compassImage.isOpaque = true
         mapRotatingSwitch.setOn(false, animated: true)
-        beaconInfo = [ BeaconInfo(value: 832, button: beaconButton1, coordinate: CGPoint(x: 107, y: 128)),
-                       BeaconInfo(value: 748, button: beaconButton2, coordinate: CGPoint(x: 250, y: 167)),
-                       BeaconInfo(value: 771, button: beaconButton3, coordinate: CGPoint(x: 165, y: 212))]
+        beaconInfo = [ BeaconInfo(value: 832, button: beaconButton1, coordinate: CGPoint(x: 412.5, y: 179.5)),
+                       BeaconInfo(value: 748, button: beaconButton2, coordinate: CGPoint(x: 500.5, y: 111)),
+                       BeaconInfo(value: 771, button: beaconButton3, coordinate: CGPoint(x: 482.5, y: 278.5)) ]
+        let tapGesture = UILongPressGestureRecognizer(target: self, action: #selector(ViewController.handleLongPress(_:)))
+        tapGesture.minimumPressDuration = 1.2
+        beaconButton1.addGestureRecognizer(tapGesture)
+        beaconButton1.addGestureRecognizer(tapGesture)
         locationManager = CLLocationManager()
         locationManager.delegate = self
         locationManager.requestAlwaysAuthorization()
+    }
+    
+    func handleLongPress(_ gesture: UILongPressGestureRecognizer){
+        if gesture.state != .began { return }
+        print("Long pressed")
     }
     
     override func didReceiveMemoryWarning() {
@@ -49,15 +58,15 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
     @IBAction func buttonPress(sender: UIButton) {
         if nearestBeaconCoordinate != nil {
             switch sender {
-            case beaconButton1:
-                addLine(fromPoint: nearestBeaconCoordinate, toPoint: beaconInfo[0].coordinate)
-            case beaconButton2:
-                addLine(fromPoint: nearestBeaconCoordinate, toPoint: beaconInfo[1].coordinate)
-            case beaconButton3:
-                addLine(fromPoint: nearestBeaconCoordinate, toPoint: beaconInfo[2].coordinate)
-            default:
-                print("Unknown button")
-                return
+                case beaconButton1:
+                    addLine(fromPoint: nearestBeaconCoordinate, toPoint: beaconInfo[0].coordinate)
+                case beaconButton2:
+                    addLine(fromPoint: nearestBeaconCoordinate, toPoint: beaconInfo[1].coordinate)
+                case beaconButton3:
+                    addLine(fromPoint: nearestBeaconCoordinate, toPoint: beaconInfo[2].coordinate)
+                default:
+                    print("Unknown button")
+                    return
             }
         }
     }
@@ -73,7 +82,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
             mapHeading = 0
         }
     }
-
+    
     func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
         if status == .authorizedAlways {
             if CLLocationManager.isMonitoringAvailable(for: CLBeaconRegion.self) {
@@ -98,12 +107,12 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
     
     func locationManager(_ manager: CLLocationManager, didRangeBeacons beacons: [CLBeacon], in region: CLBeaconRegion) {
         if beacons.count > 0 {
-            for myBeacon in beaconInfo {
-                if (myBeacon.value == beacons[0].minor) {
-                    myBeacon.button.backgroundColor = UIColor.blue
-                    nearestBeaconCoordinate = myBeacon.coordinate
+            for beacon in beaconInfo {
+                if (beacon.value == beacons[0].minor) {
+                    beacon.button.backgroundColor = UIColor.blue
+                    nearestBeaconCoordinate = beacon.coordinate
                 } else {
-                    myBeacon.button.backgroundColor = UIColor.red
+                    beacon.button.backgroundColor = UIColor.red
                 }
             }
         }
@@ -163,7 +172,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         
         // line style
         lineShapeLayer.strokeColor = UIColor.green.cgColor
-        lineShapeLayer.lineWidth = 1
+        lineShapeLayer.lineWidth = 3
         // if we have multiple points to draw to in the future this sets the style of the corners
         lineShapeLayer.lineJoin = kCALineJoinRound
         
