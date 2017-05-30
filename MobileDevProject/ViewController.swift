@@ -26,8 +26,6 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
     var mapIsRotating: Bool = false
     var locationManager: CLLocationManager!
     var nearestBeacon: BeaconInfo!
-    
-    var nearestBeaconCoordinate: CGPoint!
     var lineShapeLayer: CAShapeLayer!
     var circleShapeLayer: CAShapeLayer!
     var beaconsArray: [CLBeacon] = []
@@ -111,7 +109,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
                     let greenAmount = (255 - (CGFloat(beacons[0].accuracy) * 40))
                     buttonColour = UIColor.init(red: 0, green: CGFloat(greenAmount/255), blue: 0, alpha: 1)
                     myBeacon.button.backgroundColor = buttonColour
-                    nearestBeaconCoordinate = myBeacon.coordinate
+                    nearestBeacon = myBeacon
                 } else {
                     myBeacon.button.backgroundColor = UIColor.red
                 }
@@ -189,13 +187,13 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
                 if self.circleShapeDrawn{
                     self.mapView.layer.sublayers?.removeLast()
                 }
-                print((self.mapView.layer.sublayers?.count)! as Int)
+                //print(self.mapView.layer.sublayers?.count as! Int)
                 self.circleShapeLayer = CAShapeLayer();
                 
                 
                 //Calculate where the circle needs to be drawn
-                var circleCordinates = self.calcXY(firstBeacon: start, secondBeacon: end)
-                var circlePath = UIBezierPath(arcCenter: circleCordinates, radius: CGFloat(7), startAngle: CGFloat(0), endAngle:CGFloat(Double.pi * 2), clockwise: true)
+                let circleCordinates = self.calcXY(firstBeacon: start, secondBeacon: end)
+                let circlePath = UIBezierPath(arcCenter: circleCordinates, radius: CGFloat(7), startAngle: CGFloat(0), endAngle:CGFloat(Double.pi * 2), clockwise: true)
                 
                 self.circleShapeLayer.path = circlePath.cgPath
                 //change the fill color
@@ -211,7 +209,6 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
             }
         }
     }
-    
     
     func calcXY(firstBeacon: BeaconInfo, secondBeacon: BeaconInfo) -> CGPoint{
         
@@ -232,15 +229,14 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         
         print(beacon2)
         
-        var distance = CGFloat(beacon1.accuracy/(beacon1.accuracy + beacon2.accuracy))
+        let distance = CGFloat(beacon1.accuracy/(beacon1.accuracy + beacon2.accuracy))
         
-        var x = ((secondBeacon.coordinate.x - firstBeacon.coordinate.x)*distance + firstBeacon.coordinate.x)
-        var y = ((secondBeacon.coordinate.y - firstBeacon.coordinate.y)*distance + firstBeacon.coordinate.y)
+        let x = ((secondBeacon.coordinate.x - firstBeacon.coordinate.x)*distance + firstBeacon.coordinate.x)
+        let y = ((secondBeacon.coordinate.y - firstBeacon.coordinate.y)*distance + firstBeacon.coordinate.y)
         
         
         print(x)
         print(y)
-        var cgPoint = CGPoint.init(x: x, y: y)
-        return cgPoint
+        return CGPoint.init(x: x, y: y)
     }
 }
