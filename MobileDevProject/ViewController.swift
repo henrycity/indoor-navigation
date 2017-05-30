@@ -120,7 +120,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
                     myBeacon.button.backgroundColor = buttonColour
                     nearestBeacon = myBeacon
                 } else {
-                    beacon.button.backgroundColor = UIColor.red
+                    myBeacon.button.backgroundColor = UIColor.red
                 }
             }
         }
