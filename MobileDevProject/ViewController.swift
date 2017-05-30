@@ -30,9 +30,13 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
     var circleShapeLayer: CAShapeLayer!
     var beaconsArray: [CLBeacon] = []
     var circleShapeDrawn: Bool = false
-    weak var beacon1: CLBeacon!
-    weak var beacon2: CLBeacon!
+    var beacon1: CLBeacon!
+    var beacon2: CLBeacon!
+    var cgPoint: CGPoint!
+
     
+    var isNavigating: Bool = false
+    var navigatingBeacon: BeaconInfo!
     override func viewDidLoad() {
         super.viewDidLoad()
         compassImage.backgroundColor = UIColor.clear
@@ -57,22 +61,6 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
-    }
-    
-    @IBAction func buttonPress(sender: UIButton) {
-        if nearestBeacon != nil {
-            switch sender {
-            case beaconButton1:
-                addLine(fromPoint: nearestBeacon, toPoint: beaconInfo[0])
-            case beaconButton2:
-                addLine(fromPoint: nearestBeacon, toPoint: beaconInfo[1])
-            case beaconButton3:
-                addLine(fromPoint: nearestBeacon, toPoint: beaconInfo[2])
-            default:
-                print("Unknown button")
-                return
-            }
-        }
     }
     
     @IBAction func mapRotatingSwitchPress(_ sender: UISwitch) {
@@ -122,6 +110,17 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
                 } else {
                     myBeacon.button.backgroundColor = UIColor.red
                 }
+                
+                if(isNavigating){
+                    if(beacons[0].minor == navigatingBeacon.value && beacons[0].proximity == CLProximity.immediate){
+                        // we have arrived
+                        isNavigating = false
+                        print("123223")
+                    }else{
+                        addLine(fromPoint: nearestBeacon, toPoint: navigatingBeacon)
+                        updateCircle(fromPoint: nearestBeacon, toPoint: navigatingBeacon)
+                    }
+                }
             }
         }
     }
@@ -140,7 +139,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
             let rotation = (CGFloat(adjustmentToRotate) * CGFloat.pi) / -180
             let transform = mapView.transform
             let rotated = transform.rotated(by: rotation)
-            // animate while rotating cause it looks smooooooooth
+            // animate while rotating cause it looks smooth
             UIView.animate(withDuration: 0.5) {
                 self.mapView.transform = rotated
             }
@@ -159,14 +158,38 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
             // animate while rotating cause it looks smooooooooth
             UIView.animate(withDuration: 0.5) {
                 self.compassImage.transform = rotatedCompass
-                self.compassImage.transform = rotatedCompass
+                }
+        }
+    }
+    
+    @IBAction func buttonPress(sender: UIButton) {
+        if nearestBeacon != nil {
+            switch sender {
+                case beaconButton1:
+                    addLine(fromPoint: nearestBeacon, toPoint: beaconInfo[0])
+                    updateCircle(fromPoint: nearestBeacon, toPoint: beaconInfo[0])
+                    navigatingBeacon = beaconInfo[0]
+                case beaconButton2:
+                    addLine(fromPoint: nearestBeacon, toPoint: beaconInfo[1])
+                    updateCircle(fromPoint: nearestBeacon, toPoint: beaconInfo[1])
+                    navigatingBeacon = beaconInfo[1]
+                case beaconButton3:
+                    addLine(fromPoint: nearestBeacon, toPoint: beaconInfo[2])
+                    updateCircle(fromPoint: nearestBeacon, toPoint: beaconInfo[2])
+                    navigatingBeacon = beaconInfo[2]
+                default:
+                    print("Unknown button")
+                    return
             }
+            isNavigating = true
         }
     }
     
     func addLine(fromPoint start: BeaconInfo, toPoint end: BeaconInfo) {
-        
-        DispatchQueue.global(qos: .background).async {
+        print(start)
+        print(end)
+        //Make seperate thread so everything else can continue
+//        DispatchQueue.global(qos: .background).async {
             // If lineShapeLayer already exist, redraw the whole layer
             if self.lineShapeLayer != nil {
                 self.lineShapeLayer.removeFromSuperlayer()
@@ -189,39 +212,47 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
             //Add the line to the layer
             self.mapView.layer.addSublayer(self.lineShapeLayer)
             
-            //Code below is to draw a circle to indicate where the user is
-            while true{
-                sleep(1)
-                
-                if self.circleShapeDrawn{
-                    self.mapView.layer.sublayers?.removeLast()
-                }
-                //print(self.mapView.layer.sublayers?.count as! Int)
-                self.circleShapeLayer = CAShapeLayer();
-                
-                
-                //Calculate where the circle needs to be drawn
-                let circleCordinates = self.calcXY(firstBeacon: start, secondBeacon: end)
-                let circlePath = UIBezierPath(arcCenter: circleCordinates, radius: CGFloat(7), startAngle: CGFloat(0), endAngle:CGFloat(Double.pi * 2), clockwise: true)
-                
-                self.circleShapeLayer.path = circlePath.cgPath
-                //change the fill color
-                self.circleShapeLayer.fillColor = UIColor.red.cgColor
-                //you can change the stroke color
-                self.circleShapeLayer.strokeColor = UIColor.red.cgColor
-                //you can change the line width
-                self.circleShapeLayer.lineWidth = 3.0
-                
-                //Add circle to the layer
-                self.mapView.layer.addSublayer(self.circleShapeLayer)
-                self.circleShapeDrawn = true
-            }
+//            while true{
+                //make the function wait for half a second so there is enough time to draw
+//                usleep(1000000)
+ 
+                //remove last layer so you don't get circleShapeLayers on top of eachother
+        
+//            }
+//        }
+    }
+    
+    func updateCircle(fromPoint start: BeaconInfo, toPoint end: BeaconInfo) {
+        if self.circleShapeDrawn{
+            self.mapView.layer.sublayers?.remove(at: (self.mapView.layer.sublayers?.count)! - 2)
         }
+        
+        self.circleShapeLayer = CAShapeLayer();
+        
+        //Calculate where the circle needs to be drawn
+        let circleCordinates = self.calcXY(firstBeacon: start, secondBeacon: end)
+        let circlePath = UIBezierPath(arcCenter: circleCordinates, radius: CGFloat(7), startAngle: CGFloat(0), endAngle:CGFloat(Double.pi * 2), clockwise: true)
+        
+        self.circleShapeLayer.path = circlePath.cgPath
+        //change the fill color
+        self.circleShapeLayer.fillColor = UIColor.red.cgColor
+        //you can change the stroke color
+        self.circleShapeLayer.strokeColor = UIColor.red.cgColor
+        //you can change the line width
+        self.circleShapeLayer.lineWidth = 3.0
+        
+        //Add circle to the layer
+        self.mapView.layer.addSublayer(self.circleShapeLayer)
+        self.circleShapeDrawn = true
     }
     
     func calcXY(firstBeacon: BeaconInfo, secondBeacon: BeaconInfo) -> CGPoint{
-        
-        if (beaconsArray.count <= 1){ return CGPoint.zero}
+
+        if beaconsArray.count <= 1 && cgPoint != nil{
+            return cgPoint
+        }else if beaconsArray.count <= 1{
+            return CGPoint.zero
+        }
         
         // line style
         lineShapeLayer.strokeColor = UIColor.green.cgColor
@@ -239,18 +270,19 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
                 beacon2 = beacon
             }
         }
-        print(beacon1)
+        if (beacon1 == nil || beacon2 == nil) && cgPoint != nil {
+            return cgPoint
+        }
         
-        print(beacon2)
+        if (beacon1.accuracy == -1 || beacon2.accuracy == -1) && cgPoint != nil {
+            return cgPoint
+        }
         
         let distance = CGFloat(beacon1.accuracy/(beacon1.accuracy + beacon2.accuracy))
-        
         let x = ((secondBeacon.coordinate.x - firstBeacon.coordinate.x)*distance + firstBeacon.coordinate.x)
         let y = ((secondBeacon.coordinate.y - firstBeacon.coordinate.y)*distance + firstBeacon.coordinate.y)
+        cgPoint = CGPoint.init(x: x, y: y)
         
-        
-        print(x)
-        print(y)
-        return CGPoint.init(x: x, y: y)
+        return cgPoint
     }
 }
