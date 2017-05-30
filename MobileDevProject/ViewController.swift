@@ -38,9 +38,9 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         compassImage.backgroundColor = UIColor.clear
         compassImage.isOpaque = true
         mapRotatingSwitch.setOn(false, animated: true)
-        beaconInfo = [ BeaconInfo(value: 832, button: beaconButton1, coordinate: CGPoint(x: 392, y: 258.5)),
-                       BeaconInfo(value: 748, button: beaconButton2, coordinate: CGPoint(x: 345, y: 156.5)),
-                       BeaconInfo(value: 771, button: beaconButton3, coordinate: CGPoint(x: 532.5, y: 176.5)) ]
+        beaconInfo = [ BeaconInfo(value: 832, button: beaconButton1, coordinate: CGPoint(x: 412.5, y: 179.5)),
+                       BeaconInfo(value: 748, button: beaconButton2, coordinate: CGPoint(x: 500.5, y: 111)),
+                       BeaconInfo(value: 771, button: beaconButton3, coordinate: CGPoint(x: 482.5, y: 278.5)) ]
         let tapGesture = UILongPressGestureRecognizer(target: self, action: #selector(ViewController.handleLongPress(_:)))
         tapGesture.minimumPressDuration = 1.2
         beaconButton1.addGestureRecognizer(tapGesture)
