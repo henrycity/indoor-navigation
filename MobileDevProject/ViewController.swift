@@ -25,6 +25,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
     var compassHeading: Double = 0
     var mapIsRotating: Bool = false
     var locationManager: CLLocationManager!
+    var nearestBeacon: BeaconInfo!
     
     var nearestBeaconCoordinate: CGPoint!
     var lineShapeLayer: CAShapeLayer!
@@ -36,10 +37,6 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        rotateButton.setTitle("Enable rotation", for: UIControlState.normal)
-        beaconInfo = [ BeaconInfo(value: 771, button: beaconButton1, coordinate: CGPoint(x: 91, y: 143)),
-                       BeaconInfo(value: 748, button: beaconButton2, coordinate: CGPoint(x: 214, y: 187)),
-                       BeaconInfo(value: 832, button: beaconButton3, coordinate: CGPoint(x: 138, y: 226))]
         compassImage.backgroundColor = UIColor.clear
         compassImage.isOpaque = true
         mapRotatingSwitch.setOn(false, animated: true)
@@ -56,14 +53,14 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
     }
     
     @IBAction func buttonPress(sender: UIButton) {
-        if nearestBeaconCoordinate != nil {
+        if nearestBeacon != nil {
             switch sender {
             case beaconButton1:
-                addLine(fromPoint: nearestBeaconCoordinate, toPoint: beaconInfo[0].coordinate)
+                addLine(fromPoint: nearestBeacon, toPoint: beaconInfo[0])
             case beaconButton2:
-                addLine(fromPoint: nearestBeaconCoordinate, toPoint: beaconInfo[1].coordinate)
+                addLine(fromPoint: nearestBeacon, toPoint: beaconInfo[1])
             case beaconButton3:
-                addLine(fromPoint: nearestBeaconCoordinate, toPoint: beaconInfo[2].coordinate)
+                addLine(fromPoint: nearestBeacon, toPoint: beaconInfo[2])
             default:
                 print("Unknown button")
                 return
@@ -82,7 +79,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
             mapHeading = 0
         }
     }
-
+    
     func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
         if status == .authorizedAlways {
             if CLLocationManager.isMonitoringAvailable(for: CLBeaconRegion.self) {
@@ -110,8 +107,11 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
             beaconsArray = beacons
             for myBeacon in beaconInfo {
                 if (myBeacon.value == beacons[0].minor) {
-                    myBeacon.button.backgroundColor = UIColor.blue
-                    nearestBeacon = myBeacon
+                    var buttonColour: UIColor
+                    let greenAmount = (255 - (CGFloat(beacons[0].accuracy) * 40))
+                    buttonColour = UIColor.init(red: 0, green: CGFloat(greenAmount/255), blue: 0, alpha: 1)
+                    myBeacon.button.backgroundColor = buttonColour
+                    nearestBeaconCoordinate = myBeacon.coordinate
                 } else {
                     myBeacon.button.backgroundColor = UIColor.red
                 }
@@ -152,26 +152,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
             // animate while rotating cause it looks smooooooooth
             UIView.animate(withDuration: 0.5) {
                 self.compassImage.transform = rotatedCompass
-            self.mapView.transform = rotated
-            
-            // set currentHeading to 0 so when rotation gets disabled the mapView will stay on 0
-            currentHeading = 0
-        }
-    }
-    
-    @IBAction func buttonPress(sender: UIButton) {
-        
-        if nearestBeacon != nil {
-            switch sender {
-                case beaconButton1:
-                    addLine(fromPoint: nearestBeacon, toPoint: beaconInfo[0])
-                case beaconButton2:
-                    addLine(fromPoint: nearestBeacon, toPoint: beaconInfo[1])
-                case beaconButton3:
-                    addLine(fromPoint: nearestBeacon, toPoint: beaconInfo[2])
-                default:
-                    print("Unknown button")
-                    return
+                self.compassImage.transform = rotatedCompass
             }
         }
     }
@@ -179,38 +160,38 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
     func addLine(fromPoint start: BeaconInfo, toPoint end: BeaconInfo) {
         
         DispatchQueue.global(qos: .background).async {
-                // If lineShapeLayer already exist, redraw the whole layer
-                if self.lineShapeLayer != nil {
-                    self.lineShapeLayer.removeFromSuperlayer()
-                } else {
-                    self.lineShapeLayer = CAShapeLayer()
-                }
-                let linePath = UIBezierPath()
-                
-                // if we want to draw multiple points just addLine to each new CGPoint
-                // we should want to but theres no easy way to work that out
-                linePath.move(to: start.coordinate)
-                linePath.addLine(to: end.coordinate)
-                self.lineShapeLayer.path = linePath.cgPath
-                
-                // line style
-                self.lineShapeLayer.strokeColor = UIColor.green.cgColor
-                self.lineShapeLayer.lineWidth = 1
-                // if we have multiple points to draw to in the future this sets the style of the corners
-                self.lineShapeLayer.lineJoin = kCALineJoinRound
-                //Add the line to the layer
-                self.mapView.layer.addSublayer(self.lineShapeLayer)
-                
-                //Code below is to draw a circle to indicate where the user is
+            // If lineShapeLayer already exist, redraw the whole layer
+            if self.lineShapeLayer != nil {
+                self.lineShapeLayer.removeFromSuperlayer()
+            } else {
+                self.lineShapeLayer = CAShapeLayer()
+            }
+            let linePath = UIBezierPath()
+            
+            // if we want to draw multiple points just addLine to each new CGPoint
+            // we should want to but theres no easy way to work that out
+            linePath.move(to: start.coordinate)
+            linePath.addLine(to: end.coordinate)
+            self.lineShapeLayer.path = linePath.cgPath
+            
+            // line style
+            self.lineShapeLayer.strokeColor = UIColor.green.cgColor
+            self.lineShapeLayer.lineWidth = 1
+            // if we have multiple points to draw to in the future this sets the style of the corners
+            self.lineShapeLayer.lineJoin = kCALineJoinRound
+            //Add the line to the layer
+            self.mapView.layer.addSublayer(self.lineShapeLayer)
+            
+            //Code below is to draw a circle to indicate where the user is
             while true{
                 sleep(1)
- 
+                
                 if self.circleShapeDrawn{
                     self.mapView.layer.sublayers?.removeLast()
                 }
-                print(self.mapView.layer.sublayers?.count as! Int)
+                print((self.mapView.layer.sublayers?.count)! as Int)
                 self.circleShapeLayer = CAShapeLayer();
-                    
+                
                 
                 //Calculate where the circle needs to be drawn
                 var circleCordinates = self.calcXY(firstBeacon: start, secondBeacon: end)
@@ -230,9 +211,10 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
             }
         }
     }
-
+    
+    
     func calcXY(firstBeacon: BeaconInfo, secondBeacon: BeaconInfo) -> CGPoint{
-
+        
         if (beaconsArray.count <= 1){ return CGPoint.zero}
         
         for beacon in beaconsArray{
@@ -247,14 +229,14 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
             }
         }
         print(beacon1)
-
+        
         print(beacon2)
-
+        
         var distance = CGFloat(beacon1.accuracy/(beacon1.accuracy + beacon2.accuracy))
         
         var x = ((secondBeacon.coordinate.x - firstBeacon.coordinate.x)*distance + firstBeacon.coordinate.x)
         var y = ((secondBeacon.coordinate.y - firstBeacon.coordinate.y)*distance + firstBeacon.coordinate.y)
-    
+        
         
         print(x)
         print(y)
