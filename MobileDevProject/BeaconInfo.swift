@@ -9,12 +9,12 @@
 import Foundation
 import UIKit
 
-class BeaconInfo{
-    
+class BeaconInfo {
+
     var value: NSNumber
     var button: UIButton
     var coordinate: CGPoint
-    
+
     init(value: NSNumber, button: UIButton, coordinate: CGPoint) {
         self.value = value
         self.button = button
