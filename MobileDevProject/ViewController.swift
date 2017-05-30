@@ -28,9 +28,18 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
     
     var nearestBeaconCoordinate: CGPoint!
     var lineShapeLayer: CAShapeLayer!
+    var circleShapeLayer: CAShapeLayer!
+    var beaconsArray: [CLBeacon] = []
+    var circleShapeDrawn: Bool = false
+    weak var beacon1: CLBeacon!
+    weak var beacon2: CLBeacon!
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        rotateButton.setTitle("Enable rotation", for: UIControlState.normal)
+        beaconInfo = [ BeaconInfo(value: 771, button: beaconButton1, coordinate: CGPoint(x: 91, y: 143)),
+                       BeaconInfo(value: 748, button: beaconButton2, coordinate: CGPoint(x: 214, y: 187)),
+                       BeaconInfo(value: 832, button: beaconButton3, coordinate: CGPoint(x: 138, y: 226))]
         compassImage.backgroundColor = UIColor.clear
         compassImage.isOpaque = true
         mapRotatingSwitch.setOn(false, animated: true)
@@ -98,10 +107,11 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
     
     func locationManager(_ manager: CLLocationManager, didRangeBeacons beacons: [CLBeacon], in region: CLBeaconRegion) {
         if beacons.count > 0 {
+            beaconsArray = beacons
             for myBeacon in beaconInfo {
                 if (myBeacon.value == beacons[0].minor) {
                     myBeacon.button.backgroundColor = UIColor.blue
-                    nearestBeaconCoordinate = myBeacon.coordinate
+                    nearestBeacon = myBeacon
                 } else {
                     myBeacon.button.backgroundColor = UIColor.red
                 }
@@ -142,31 +152,113 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
             // animate while rotating cause it looks smooooooooth
             UIView.animate(withDuration: 0.5) {
                 self.compassImage.transform = rotatedCompass
+            self.mapView.transform = rotated
+            
+            // set currentHeading to 0 so when rotation gets disabled the mapView will stay on 0
+            currentHeading = 0
+        }
+    }
+    
+    @IBAction func buttonPress(sender: UIButton) {
+        
+        if nearestBeacon != nil {
+            switch sender {
+                case beaconButton1:
+                    addLine(fromPoint: nearestBeacon, toPoint: beaconInfo[0])
+                case beaconButton2:
+                    addLine(fromPoint: nearestBeacon, toPoint: beaconInfo[1])
+                case beaconButton3:
+                    addLine(fromPoint: nearestBeacon, toPoint: beaconInfo[2])
+                default:
+                    print("Unknown button")
+                    return
             }
         }
     }
     
-    func addLine(fromPoint start: CGPoint, toPoint end:CGPoint) {
-        // If lineShapeLayer already exist, redraw the whole layer
-        if lineShapeLayer != nil {
-            lineShapeLayer.removeFromSuperlayer()
-        } else {
-            lineShapeLayer = CAShapeLayer()
+    func addLine(fromPoint start: BeaconInfo, toPoint end: BeaconInfo) {
+        
+        DispatchQueue.global(qos: .background).async {
+                // If lineShapeLayer already exist, redraw the whole layer
+                if self.lineShapeLayer != nil {
+                    self.lineShapeLayer.removeFromSuperlayer()
+                } else {
+                    self.lineShapeLayer = CAShapeLayer()
+                }
+                let linePath = UIBezierPath()
+                
+                // if we want to draw multiple points just addLine to each new CGPoint
+                // we should want to but theres no easy way to work that out
+                linePath.move(to: start.coordinate)
+                linePath.addLine(to: end.coordinate)
+                self.lineShapeLayer.path = linePath.cgPath
+                
+                // line style
+                self.lineShapeLayer.strokeColor = UIColor.green.cgColor
+                self.lineShapeLayer.lineWidth = 1
+                // if we have multiple points to draw to in the future this sets the style of the corners
+                self.lineShapeLayer.lineJoin = kCALineJoinRound
+                //Add the line to the layer
+                self.mapView.layer.addSublayer(self.lineShapeLayer)
+                
+                //Code below is to draw a circle to indicate where the user is
+            while true{
+                sleep(1)
+ 
+                if self.circleShapeDrawn{
+                    self.mapView.layer.sublayers?.removeLast()
+                }
+                print(self.mapView.layer.sublayers?.count as! Int)
+                self.circleShapeLayer = CAShapeLayer();
+                    
+                
+                //Calculate where the circle needs to be drawn
+                var circleCordinates = self.calcXY(firstBeacon: start, secondBeacon: end)
+                var circlePath = UIBezierPath(arcCenter: circleCordinates, radius: CGFloat(7), startAngle: CGFloat(0), endAngle:CGFloat(Double.pi * 2), clockwise: true)
+                
+                self.circleShapeLayer.path = circlePath.cgPath
+                //change the fill color
+                self.circleShapeLayer.fillColor = UIColor.red.cgColor
+                //you can change the stroke color
+                self.circleShapeLayer.strokeColor = UIColor.red.cgColor
+                //you can change the line width
+                self.circleShapeLayer.lineWidth = 3.0
+                
+                //Add circle to the layer
+                self.mapView.layer.addSublayer(self.circleShapeLayer)
+                self.circleShapeDrawn = true
+            }
         }
-        let linePath = UIBezierPath()
+    }
+
+    func calcXY(firstBeacon: BeaconInfo, secondBeacon: BeaconInfo) -> CGPoint{
+
+        if (beaconsArray.count <= 1){ return CGPoint.zero}
         
-        // if we want to draw multiple points just addLine to each new CGPoint
-        // we should want to but theres no easy way to work that out
-        linePath.move(to: start)
-        linePath.addLine(to: end)
-        lineShapeLayer.path = linePath.cgPath
+        for beacon in beaconsArray{
+            if beacon.minor == firstBeacon.value{
+                beacon1 = beacon
+            }
+        }
         
-        // line style
-        lineShapeLayer.strokeColor = UIColor.green.cgColor
-        lineShapeLayer.lineWidth = 1
-        // if we have multiple points to draw to in the future this sets the style of the corners
-        lineShapeLayer.lineJoin = kCALineJoinRound
+        for beacon in beaconsArray{
+            if beacon.minor == secondBeacon.value{
+                beacon2 = beacon
+            }
+        }
+        print(beacon1)
+
+        print(beacon2)
+
+        var distance = CGFloat(beacon1.accuracy/(beacon1.accuracy + beacon2.accuracy))
         
-        self.mapView.layer.addSublayer(lineShapeLayer)
+        var x = ((secondBeacon.coordinate.x - firstBeacon.coordinate.x)*distance + firstBeacon.coordinate.x)
+        var y = ((secondBeacon.coordinate.y - firstBeacon.coordinate.y)*distance + firstBeacon.coordinate.y)
+    
+        
+        print(x)
+        print(y)
+        var cgPoint = CGPoint.init(x: x, y: y)
+        return cgPoint
     }
 }
