@@ -26,7 +26,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		1119D7F11E9CFA980005AB7F /* MobileDevProject.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MobileDevProject.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		1119D7F11E9CFA980005AB7F /* RoomFinder.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RoomFinder.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1119D7F41E9CFA980005AB7F /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		1119D7F61E9CFA980005AB7F /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		1119D7F91E9CFA980005AB7F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -68,7 +68,7 @@
 		1119D7F21E9CFA980005AB7F /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				1119D7F11E9CFA980005AB7F /* MobileDevProject.app */,
+				1119D7F11E9CFA980005AB7F /* RoomFinder.app */,
 				1119D8051E9CFA980005AB7F /* MobileDevProjectTests.xctest */,
 			);
 			name = Products;
@@ -113,7 +113,7 @@
 			);
 			name = MobileDevProject;
 			productName = MobileDevProject;
-			productReference = 1119D7F11E9CFA980005AB7F /* MobileDevProject.app */;
+			productReference = 1119D7F11E9CFA980005AB7F /* RoomFinder.app */;
 			productType = "com.apple.product-type.application";
 		};
 		1119D8041E9CFA980005AB7F /* MobileDevProjectTests */ = {
@@ -345,7 +345,7 @@
 				INFOPLIST_FILE = MobileDevProject/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.plat4mation.RoomFinder;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = RoomFinder;
 				SWIFT_VERSION = 3.0;
 				TARGETED_DEVICE_FAMILY = 1;
 			};
@@ -359,7 +359,7 @@
 				INFOPLIST_FILE = MobileDevProject/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.plat4mation.RoomFinder;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = RoomFinder;
 				SWIFT_VERSION = 3.0;
 				TARGETED_DEVICE_FAMILY = 1;
 			};
