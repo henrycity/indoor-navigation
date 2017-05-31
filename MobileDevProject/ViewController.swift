@@ -10,19 +10,26 @@ import CoreLocation
 import UIKit
 
 class ViewController: UIViewController, CLLocationManagerDelegate {
-
+    
+    
+    
+    @IBOutlet weak var exitButton: UIButton!
     @IBOutlet weak var beaconButton1: UIButton!
     @IBOutlet weak var beaconButton2: UIButton!
     @IBOutlet weak var beaconButton3: UIButton!
 
     @IBOutlet weak var mapRotatingSwitch: UISwitch!
 
+    @IBOutlet weak var exitImageView: UIImageView!
+    @IBOutlet weak var exitView: UIImage!
     @IBOutlet weak var mapView: UIView!
     @IBOutlet weak var compassImage: UIImageView!
 
+
     var beaconInfo: [BeaconInfo] = []
     var beaconsArray: [CLBeacon] = []
-
+    
+    
     var nearestBeacon: BeaconInfo!
     var navigatingBeacon: BeaconInfo! // this is the beacon that the user chose to navigate to
     var isNavigating: Bool = false
@@ -176,10 +183,21 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
                 selectedBeacon = beaconInfo[1]
             case beaconButton3:
                 selectedBeacon = beaconInfo[2]
+            case exitButton:
+                if nearestBeacon.value == 832{
+
+                }else if nearestBeacon.value == 748{
+                    
+                }else{
+                    
+                }
+                return
             default:
                 print("Unknown button")
                 return
             }
+        
+    
             addLine(fromPoint: nearestBeacon, toPoint: selectedBeacon)
             updateCircle(fromPoint: nearestBeacon, toPoint: selectedBeacon)
             navigatingBeacon = selectedBeacon
