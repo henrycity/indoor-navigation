@@ -8,6 +8,7 @@
 
 import CoreLocation
 import UIKit
+import XLActionController
 
 class ViewController: UIViewController, CLLocationManagerDelegate {
 
@@ -56,7 +57,14 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
 
     func handleLongPress(_ gesture: UILongPressGestureRecognizer) {
         if gesture.state != .began { return }
-        print("Long pressed")
+        let actionController = RoomActionController()
+        actionController.headerData = RoomHeaderData(title: "Meeting Room",
+                                                        subtitle: "Available")
+        actionController.addAction(Action(ActionData(title: "Show Direction",
+                                                     image: UIImage(named: "back-arrow")!),
+                                          style: .default, handler: { _ in }))
+
+        present(actionController, animated: true, completion: nil)
     }
 
     override func didReceiveMemoryWarning() {
