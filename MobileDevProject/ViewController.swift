@@ -20,8 +20,8 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
 
     @IBOutlet weak var mapRotatingSwitch: UISwitch!
 
-    @IBOutlet weak var exitImageView: UIImageView!
-    @IBOutlet weak var exitView: UIImage!
+
+    @IBOutlet weak var exitImageNorth: UIImageView!
     @IBOutlet weak var mapView: UIView!
     @IBOutlet weak var compassImage: UIImageView!
 
@@ -184,9 +184,12 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
             case beaconButton3:
                 selectedBeacon = beaconInfo[2]
             case exitButton:
-                if nearestBeacon.value == 832{
-
-                }else if nearestBeacon.value == 748{
+                exitImageNorth.image = exitImageNorth.image!.withRenderingMode(.alwaysTemplate)
+                exitImageNorth.tintColor = UIColor.red
+                if nearestBeacon.value == 832 {
+                    exitImageNorth.image = exitImageNorth.image!.withRenderingMode(.alwaysTemplate)
+                    exitImageNorth.tintColor = UIColor.red
+                                    }else if nearestBeacon.value == 748{
                     
                 }else{
                     
