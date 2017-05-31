@@ -36,9 +36,13 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
     var lineShapeLayer: CAShapeLayer!
     var circleShapeLayer: CAShapeLayer!
     var circleShapeDrawn: Bool = false
-    var beacon1: CLBeacon!  // these three variables are all used by calcXY
-    var beacon2: CLBeacon!  // stored globally to allow them to persist between calls
-    var cgPoint: CGPoint!   // this means we can better handle loss of signal
+   
+    // these three variables are all used by calcXY
+    // stored globally to allow them to persist between calls
+    // this means we can better handle loss of signal
+    var tempBeacon1: CLBeacon! //beacon to temporarily store a beacon from the beacons array to get the accuracy
+    var tempBeacon2: CLBeacon!
+    var circleCordinates: CGPoint! //the x and y cordinates where the circle(location indicator) needs to be drawn
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -243,8 +247,8 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
 
     func calcXY(firstBeacon: BeaconInfo, secondBeacon: BeaconInfo) -> CGPoint {
         /// if theres not enough beacons return the previous point if possible
-        if beaconsArray.count <= 1 && cgPoint != nil {
-            return cgPoint
+        if beaconsArray.count <= 1 && circleCordinates != nil {
+            return circleCordinates
         } else if beaconsArray.count <= 1 {
             // if there was never a previous point return a zeroed coordinate
             return CGPoint.zero
@@ -258,25 +262,25 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
 
         /// find the beacons
         for beacon in beaconsArray where beacon.minor == firstBeacon.value {
-            beacon1 = beacon
+            tempBeacon1 = beacon
         }
         for beacon in beaconsArray where beacon.minor == secondBeacon.value {
-            beacon2 = beacon
+            tempBeacon2 = beacon
         }
 
         /// if either beacon has disappeared return the previous CGPoint if possible
-        if (beacon1 == nil || beacon2 == nil) && cgPoint != nil {
-            return cgPoint
+        if (tempBeacon1 == nil || tempBeacon2 == nil) && circleCordinates != nil {
+            return circleCordinates
         }
-        if (beacon1.accuracy == -1 || beacon2.accuracy == -1) && cgPoint != nil {
-            return cgPoint
+        if (tempBeacon1.accuracy == -1 || tempBeacon2.accuracy == -1) && circleCordinates != nil {
+            return circleCordinates
         }
 
-        let distance = CGFloat(beacon1.accuracy/(beacon1.accuracy + beacon2.accuracy))
+        let distance = CGFloat(tempBeacon1.accuracy/(tempBeacon1.accuracy + tempBeacon2.accuracy))
         let x = ((secondBeacon.coordinate.x - firstBeacon.coordinate.x)*distance + firstBeacon.coordinate.x)
         let y = ((secondBeacon.coordinate.y - firstBeacon.coordinate.y)*distance + firstBeacon.coordinate.y)
-        cgPoint = CGPoint.init(x: x, y: y)
+        circleCordinates = CGPoint.init(x: x, y: y)
 
-        return cgPoint
+        return circleCordinates
     }
 }
