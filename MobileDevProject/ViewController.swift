@@ -105,15 +105,18 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
     func locationManager(_ manager: CLLocationManager, didRangeBeacons beacons: [CLBeacon], in region: CLBeaconRegion) {
         if beacons.count > 0 {
             beaconsArray = beacons
+            var count: Int = 0
             for beacon in beaconInfo {
+                var buttonColour: UIColor
+                let colourAmount = (255 - (CGFloat(beacons[count].accuracy) * 40))
+                count += 1
                 if beacon.value == beacons[0].minor {
-                    var buttonColour: UIColor
-                    let greenAmount = (255 - (CGFloat(beacons[0].accuracy) * 40))
-                    buttonColour = UIColor.init(red: 0, green: CGFloat(greenAmount/255), blue: 0, alpha: 1)
+                    buttonColour = UIColor.init(red: 0, green: CGFloat(colourAmount/255), blue: 0, alpha: 1)
                     beacon.button.backgroundColor = buttonColour
                     nearestBeacon = beacon
                 } else {
-                    beacon.button.backgroundColor = UIColor.red
+                    buttonColour = UIColor.init(red: CGFloat(colourAmount/255), green: 0, blue: 0, alpha: 1)
+                    beacon.button.backgroundColor = buttonColour
                 }
 
                 if isNavigating {
