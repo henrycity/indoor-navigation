@@ -132,6 +132,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
                         // clear circle and line
                         self.lineShapeLayer.removeFromSuperlayer()
                         self.circleShapeLayer.removeFromSuperlayer()
+                        circleShapeDrawn = false
                     } else {
                         addLine(fromPoint: nearestBeacon, toPoint: navigatingBeacon)
                         updateCircle(fromPoint: nearestBeacon, toPoint: navigatingBeacon)
@@ -200,8 +201,6 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
     }
 
     func addLine(fromPoint start: BeaconInfo, toPoint end: BeaconInfo) {
-        print(start)
-        print(end)
         // If lineShapeLayer already exist, redraw the whole layer
         if self.lineShapeLayer != nil {
             self.lineShapeLayer.removeFromSuperlayer()
