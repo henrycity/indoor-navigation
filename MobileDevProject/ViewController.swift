@@ -246,7 +246,8 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
     }
 
     func calcXY(firstBeacon: BeaconInfo, secondBeacon: BeaconInfo) -> CGPoint {
-        /// if theres not enough beacons return the previous point if possible
+        // if theres not enough beacons return the previous point if possible
+        // else the new cordinates can not be calculated
         if beaconsArray.count <= 1 && circleCordinates != nil {
             return circleCordinates
         } else if beaconsArray.count <= 1 {
