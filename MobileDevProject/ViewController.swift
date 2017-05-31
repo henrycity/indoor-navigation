@@ -7,6 +7,7 @@
 //
 
 import CoreLocation
+import AudioToolbox
 import UIKit
 
 class ViewController: UIViewController, CLLocationManagerDelegate {
@@ -116,10 +117,21 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
                 }
 
                 if isNavigating {
-                    if beacons[0].minor == navigatingBeacon.value && beacons[0].proximity == CLProximity.immediate {
+                    if beacons[0].minor == navigatingBeacon.value && beacons[0].proximity == CLProximity.near {
                         // we have arrived
                         isNavigating = false
-                        print("123223")
+                        // vibrate
+                        AudioServicesPlayAlertSound(SystemSoundID(kSystemSoundID_Vibrate))
+
+                        // show alert
+                        let alertController = UIAlertController(title: "Room Finder", message:
+                            "You have arrived!", preferredStyle: UIAlertControllerStyle.alert)
+                        alertController.addAction(UIAlertAction(title: "Dismiss", style: UIAlertActionStyle.default))
+                        self.present(alertController, animated: true, completion: nil)
+
+                        // clear circle and line
+                        self.lineShapeLayer.removeFromSuperlayer()
+                        self.circleShapeLayer.removeFromSuperlayer()
                     } else {
                         addLine(fromPoint: nearestBeacon, toPoint: navigatingBeacon)
                         updateCircle(fromPoint: nearestBeacon, toPoint: navigatingBeacon)
