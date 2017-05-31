@@ -45,26 +45,9 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         beaconInfo = [ BeaconInfo(value: 832, button: beaconButton1, coordinate: CGPoint(x: 412.5, y: 179.5)),
                        BeaconInfo(value: 748, button: beaconButton2, coordinate: CGPoint(x: 500.5, y: 111)),
                        BeaconInfo(value: 771, button: beaconButton3, coordinate: CGPoint(x: 482.5, y: 278.5)) ]
-        let tapGesture = UILongPressGestureRecognizer(target: self,
-                                                      action: #selector(ViewController.handleLongPress(_:)))
-        tapGesture.minimumPressDuration = 1.2
-        beaconButton1.addGestureRecognizer(tapGesture)
-        beaconButton1.addGestureRecognizer(tapGesture)
         locationManager = CLLocationManager()
         locationManager.delegate = self
         locationManager.requestAlwaysAuthorization()
-    }
-
-    func handleLongPress(_ gesture: UILongPressGestureRecognizer) {
-        if gesture.state != .began { return }
-        let actionController = RoomActionController()
-        actionController.headerData = RoomHeaderData(title: "Meeting Room",
-                                                        subtitle: "Available")
-        actionController.addAction(Action(ActionData(title: "Show Direction",
-                                                     image: UIImage(named: "back-arrow")!),
-                                          style: .default, handler: { _ in }))
-
-        present(actionController, animated: true, completion: nil)
     }
 
     override func didReceiveMemoryWarning() {
@@ -171,26 +154,60 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
     }
 
     @IBAction func buttonPress(sender: UIButton) {
-        if nearestBeacon != nil {
             switch sender {
                 case beaconButton1:
-                    addLine(fromPoint: nearestBeacon, toPoint: beaconInfo[0])
-                    updateCircle(fromPoint: nearestBeacon, toPoint: beaconInfo[0])
-                    navigatingBeacon = beaconInfo[0]
+                    let actionController = RoomActionController()
+                    actionController.headerData = RoomHeaderData(title: "Meeting Rooms",
+                                                                 subtitle: "Available")
+                    actionController.addAction(Action(ActionData(title: "Show Direction",
+                            image:UIImage(named: "back-arrow")!),
+                            style: .default,
+                            handler: { action in
+                                if self.nearestBeacon != nil {
+                                    self.addLine(fromPoint: self.nearestBeacon, toPoint: self.beaconInfo[0])
+                                    self.updateCircle(fromPoint: self.nearestBeacon, toPoint: self.beaconInfo[0])
+                                    self.navigatingBeacon = self.beaconInfo[0]
+                                }
+                            }
+                    ))
+                    present(actionController, animated: true, completion: nil)
                 case beaconButton2:
-                    addLine(fromPoint: nearestBeacon, toPoint: beaconInfo[1])
-                    updateCircle(fromPoint: nearestBeacon, toPoint: beaconInfo[1])
-                    navigatingBeacon = beaconInfo[1]
+                    let actionController = RoomActionController()
+                    actionController.headerData = RoomHeaderData(title: "Kitchen",
+                                                                 subtitle: "Busy")
+                    actionController.addAction(Action(ActionData(title: "Show Direction",
+                            image:UIImage(named: "back-arrow")!),
+                            style: .default,
+                            handler: { action in
+                                if self.nearestBeacon != nil {
+                                    self.addLine(fromPoint: self.nearestBeacon, toPoint: self.beaconInfo[1])
+                                    self.updateCircle(fromPoint: self.nearestBeacon, toPoint: self.beaconInfo[1])
+                                    self.navigatingBeacon = self.beaconInfo[1]
+                                }
+                            }
+                    ))
+                    present(actionController, animated: true, completion: nil)
                 case beaconButton3:
-                    addLine(fromPoint: nearestBeacon, toPoint: beaconInfo[2])
-                    updateCircle(fromPoint: nearestBeacon, toPoint: beaconInfo[2])
-                    navigatingBeacon = beaconInfo[2]
+                    let actionController = RoomActionController()
+                    actionController.headerData = RoomHeaderData(title: "Office Rooms",
+                                                                 subtitle: "Available")
+                    actionController.addAction(Action(ActionData(title: "Show Direction",
+                                                                 image:UIImage(named: "back-arrow")!),
+                        style: .default,
+                        handler: { action in
+                            if self.nearestBeacon != nil {
+                                self.addLine(fromPoint: self.nearestBeacon, toPoint: self.beaconInfo[2])
+                                self.updateCircle(fromPoint: self.nearestBeacon, toPoint: self.beaconInfo[2])
+                                self.navigatingBeacon = self.beaconInfo[2]
+                            }
+                        }
+                    ))
+                    present(actionController, animated: true, completion: nil)
                 default:
                     print("Unknown button")
                     return
             }
             isNavigating = true
-        }
     }
 
     func addLine(fromPoint start: BeaconInfo, toPoint end: BeaconInfo) {

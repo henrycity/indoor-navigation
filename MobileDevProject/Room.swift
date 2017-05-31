@@ -1,7 +1,7 @@
 import Foundation
 import XLActionController
 
-open class SpotifyCell: ActionCell {
+open class RoomCell: ActionCell {
 
     public override init(frame: CGRect) {
         super.init(frame: frame)
@@ -41,7 +41,7 @@ public struct RoomHeaderData {
     }
 }
 
-open class SpotifyHeaderView: UICollectionReusableView {
+open class RoomHeaderView: UICollectionReusableView {
 
     open lazy var imageView: UIImageView = {
         let imageView = UIImageView(frame: CGRect.zero)
@@ -131,8 +131,8 @@ open class SpotifyHeaderView: UICollectionReusableView {
     }
 }
 
-open class RoomActionController: ActionController<SpotifyCell, ActionData,
-    SpotifyHeaderView, RoomHeaderData, UICollectionReusableView, Void> {
+open class RoomActionController: ActionController<RoomCell, ActionData,
+    RoomHeaderView, RoomHeaderData, UICollectionReusableView, Void> {
 
     fileprivate lazy var blurView: UIVisualEffectView = {
         let blurView = UIVisualEffectView(effect: UIBlurEffect(style: .dark))
@@ -164,7 +164,7 @@ open class RoomActionController: ActionController<SpotifyCell, ActionData,
         settings.animation.scale = nil
         settings.animation.present.springVelocity = 0.0
 
-        cellSpec = .nibFile(nibName: "SpotifyCell", bundle: Bundle(for: SpotifyCell.self), height: { _ in 60 })
+        cellSpec = .nibFile(nibName: "RoomCell", bundle: Bundle(for: RoomCell.self), height: { _ in 60 })
         headerSpec = .cellClass( height: { _ in 84 })
 
         onConfigureCellForAction = { [weak self] cell, action, indexPath in
@@ -173,7 +173,7 @@ open class RoomActionController: ActionController<SpotifyCell, ActionData,
                 self?.collectionView.numberOfItems(inSection: indexPath.section))! - 1
             cell.alpha = action.enabled ? 1.0 : 0.5
         }
-        onConfigureHeader = { (header: SpotifyHeaderView, data: RoomHeaderData)  in
+        onConfigureHeader = { (header: RoomHeaderView, data: RoomHeaderData)  in
             header.title.text = data.title
             header.artist.text = data.subtitle
 //            header.imageView.image = data.image

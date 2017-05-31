@@ -12,9 +12,11 @@
 		1119D7FA1E9CFA980005AB7F /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1119D7F81E9CFA980005AB7F /* Main.storyboard */; };
 		1119D7FC1E9CFA980005AB7F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1119D7FB1E9CFA980005AB7F /* Assets.xcassets */; };
 		1119D80A1E9CFA980005AB7F /* MobileDevProjectTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1119D8091E9CFA980005AB7F /* MobileDevProjectTests.swift */; };
-		E527F83C1EDED0E70025D893 /* Spotify.swift in Sources */ = {isa = PBXBuildFile; fileRef = E527F83B1EDED0E70025D893 /* Spotify.swift */; };
+		E527F83C1EDED0E70025D893 /* Room.swift in Sources */ = {isa = PBXBuildFile; fileRef = E527F83B1EDED0E70025D893 /* Room.swift */; };
 		E527F83E1EDED15C0025D893 /* ActionData.swift in Sources */ = {isa = PBXBuildFile; fileRef = E527F83D1EDED15C0025D893 /* ActionData.swift */; };
-		E527F8401EDED63F0025D893 /* SpotifyCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = E527F83F1EDED63F0025D893 /* SpotifyCell.xib */; };
+		E527F8401EDED63F0025D893 /* RoomCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = E527F83F1EDED63F0025D893 /* RoomCell.xib */; };
+		E5CF860B1EDEF5F900F6F8B8 /* XLActionController.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E5CF86081EDEF5DF00F6F8B8 /* XLActionController.framework */; };
+		E5CF860C1EDEF5F900F6F8B8 /* XLActionController.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = E5CF86081EDEF5DF00F6F8B8 /* XLActionController.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		F9CF4E1D1EC3081600BF679E /* BeaconInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9CF4E1C1EC3081600BF679E /* BeaconInfo.swift */; };
 /* End PBXBuildFile section */
 
@@ -26,6 +28,27 @@
 			remoteGlobalIDString = 1119D7F01E9CFA980005AB7F;
 			remoteInfo = MobileDevProject;
 		};
+		E5CF86071EDEF5DF00F6F8B8 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = E5CF86021EDEF5DF00F6F8B8 /* XLActionController.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 28E191671BFA618E00066B1C;
+			remoteInfo = XLActionController;
+		};
+		E5CF86091EDEF5DF00F6F8B8 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = E5CF86021EDEF5DF00F6F8B8 /* XLActionController.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 28E191711BFA618F00066B1C;
+			remoteInfo = XLActionControllerTests;
+		};
+		E5CF860D1EDEF5F900F6F8B8 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = E5CF86021EDEF5DF00F6F8B8 /* XLActionController.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 28E191661BFA618E00066B1C;
+			remoteInfo = XLActionController;
+		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -35,6 +58,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
+				E5CF860C1EDEF5F900F6F8B8 /* XLActionController.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -51,9 +75,10 @@
 		1119D8051E9CFA980005AB7F /* MobileDevProjectTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MobileDevProjectTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		1119D8091E9CFA980005AB7F /* MobileDevProjectTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MobileDevProjectTests.swift; sourceTree = "<group>"; };
 		1119D80B1E9CFA980005AB7F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		E527F83B1EDED0E70025D893 /* Spotify.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Spotify.swift; sourceTree = "<group>"; };
+		E527F83B1EDED0E70025D893 /* Room.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Room.swift; sourceTree = "<group>"; };
 		E527F83D1EDED15C0025D893 /* ActionData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActionData.swift; sourceTree = "<group>"; };
-		E527F83F1EDED63F0025D893 /* SpotifyCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = SpotifyCell.xib; path = "../../../Downloads/XLActionController-master/Example/CustomActionControllers/SpotifyCell.xib"; sourceTree = "<group>"; };
+		E527F83F1EDED63F0025D893 /* RoomCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = RoomCell.xib; path = "../../../Downloads/XLActionController-master/Example/CustomActionControllers/RoomCell.xib"; sourceTree = "<group>"; };
+		E5CF86021EDEF5DF00F6F8B8 /* XLActionController.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = XLActionController.xcodeproj; path = XLActionController/XLActionController.xcodeproj; sourceTree = "<group>"; };
 		F9CF4E1C1EC3081600BF679E /* BeaconInfo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BeaconInfo.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -62,6 +87,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E5CF860B1EDEF5F900F6F8B8 /* XLActionController.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -81,6 +107,7 @@
 				1119D7F31E9CFA980005AB7F /* MobileDevProject */,
 				1119D8081E9CFA980005AB7F /* MobileDevProjectTests */,
 				1119D7F21E9CFA980005AB7F /* Products */,
+				E5CF86021EDEF5DF00F6F8B8 /* XLActionController.xcodeproj */,
 			);
 			sourceTree = "<group>";
 		};
@@ -99,11 +126,11 @@
 				1119D7F41E9CFA980005AB7F /* AppDelegate.swift */,
 				1119D7F61E9CFA980005AB7F /* ViewController.swift */,
 				1119D7F81E9CFA980005AB7F /* Main.storyboard */,
-				E527F83F1EDED63F0025D893 /* SpotifyCell.xib */,
+				E527F83F1EDED63F0025D893 /* RoomCell.xib */,
 				1119D7FB1E9CFA980005AB7F /* Assets.xcassets */,
 				1119D8001E9CFA980005AB7F /* Info.plist */,
 				F9CF4E1C1EC3081600BF679E /* BeaconInfo.swift */,
-				E527F83B1EDED0E70025D893 /* Spotify.swift */,
+				E527F83B1EDED0E70025D893 /* Room.swift */,
 				E527F83D1EDED15C0025D893 /* ActionData.swift */,
 			);
 			path = MobileDevProject;
@@ -116,6 +143,15 @@
 				1119D80B1E9CFA980005AB7F /* Info.plist */,
 			);
 			path = MobileDevProjectTests;
+			sourceTree = "<group>";
+		};
+		E5CF86031EDEF5DF00F6F8B8 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				E5CF86081EDEF5DF00F6F8B8 /* XLActionController.framework */,
+				E5CF860A1EDEF5DF00F6F8B8 /* XLActionControllerTests.xctest */,
+			);
+			name = Products;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -134,6 +170,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				E5CF860E1EDEF5F900F6F8B8 /* PBXTargetDependency */,
 			);
 			name = MobileDevProject;
 			productName = MobileDevProject;
@@ -198,6 +235,12 @@
 			mainGroup = 1119D7E81E9CFA980005AB7F;
 			productRefGroup = 1119D7F21E9CFA980005AB7F /* Products */;
 			projectDirPath = "";
+			projectReferences = (
+				{
+					ProductGroup = E5CF86031EDEF5DF00F6F8B8 /* Products */;
+					ProjectRef = E5CF86021EDEF5DF00F6F8B8 /* XLActionController.xcodeproj */;
+				},
+			);
 			projectRoot = "";
 			targets = (
 				1119D7F01E9CFA980005AB7F /* MobileDevProject */,
@@ -206,6 +249,23 @@
 		};
 /* End PBXProject section */
 
+/* Begin PBXReferenceProxy section */
+		E5CF86081EDEF5DF00F6F8B8 /* XLActionController.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = XLActionController.framework;
+			remoteRef = E5CF86071EDEF5DF00F6F8B8 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		E5CF860A1EDEF5DF00F6F8B8 /* XLActionControllerTests.xctest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = XLActionControllerTests.xctest;
+			remoteRef = E5CF86091EDEF5DF00F6F8B8 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+/* End PBXReferenceProxy section */
+
 /* Begin PBXResourcesBuildPhase section */
 		1119D7EF1E9CFA980005AB7F /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
@@ -213,7 +273,7 @@
 			files = (
 				1119D7FC1E9CFA980005AB7F /* Assets.xcassets in Resources */,
 				1119D7FA1E9CFA980005AB7F /* Main.storyboard in Resources */,
-				E527F8401EDED63F0025D893 /* SpotifyCell.xib in Resources */,
+				E527F8401EDED63F0025D893 /* RoomCell.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -250,7 +310,7 @@
 			files = (
 				1119D7F71E9CFA980005AB7F /* ViewController.swift in Sources */,
 				F9CF4E1D1EC3081600BF679E /* BeaconInfo.swift in Sources */,
-				E527F83C1EDED0E70025D893 /* Spotify.swift in Sources */,
+				E527F83C1EDED0E70025D893 /* Room.swift in Sources */,
 				E527F83E1EDED15C0025D893 /* ActionData.swift in Sources */,
 				1119D7F51E9CFA980005AB7F /* AppDelegate.swift in Sources */,
 			);
@@ -271,6 +331,11 @@
 			isa = PBXTargetDependency;
 			target = 1119D7F01E9CFA980005AB7F /* MobileDevProject */;
 			targetProxy = 1119D8061E9CFA980005AB7F /* PBXContainerItemProxy */;
+		};
+		E5CF860E1EDEF5F900F6F8B8 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = XLActionController;
+			targetProxy = E5CF860D1EDEF5F900F6F8B8 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
