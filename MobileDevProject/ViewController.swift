@@ -154,31 +154,29 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
     }
 
     @IBAction func buttonPress(sender: UIButton) {
-            switch sender {
-                case beaconButton1:
-                    let actionController = RoomActionController()
-                    actionController.headerData = RoomHeaderData(title: "Meeting Rooms",
-                                                                 subtitle: "Available")
+        let actionController = RoomActionController()
+        switch sender {
+            case beaconButton1:
+                navigatingBeacon = beaconInfo[0]
+                    actionController.headerData = RoomHeaderData(title: "Meeting Rooms", subtitle: "Available")
                     actionController.addAction(Action(ActionData(title: "Show Direction",
                             image:UIImage(named: "back-arrow")!),
                             style: .default,
-                            handler: { action in
+                            handler: { _ in
                                 if self.nearestBeacon != nil {
-                                    self.addLine(fromPoint: self.nearestBeacon, toPoint: self.beaconInfo[0])
-                                    self.updateCircle(fromPoint: self.nearestBeacon, toPoint: self.beaconInfo[0])
-                                    self.navigatingBeacon = self.beaconInfo[0]
+                                    self.addLine(fromPoint: self.nearestBeacon, toPoint: self.navigatingBeacon)
+                                    self.updateCircle(fromPoint: self.nearestBeacon, toPoint: self.navigatingBeacon)
+                                    self.isNavigating = true
                                 }
                             }
                     ))
                     present(actionController, animated: true, completion: nil)
                 case beaconButton2:
-                    let actionController = RoomActionController()
-                    actionController.headerData = RoomHeaderData(title: "Kitchen",
-                                                                 subtitle: "Busy")
+                    actionController.headerData = RoomHeaderData(title: "Kitchen", subtitle: "Busy")
                     actionController.addAction(Action(ActionData(title: "Show Direction",
                             image:UIImage(named: "back-arrow")!),
                             style: .default,
-                            handler: { action in
+                            handler: { _ in
                                 if self.nearestBeacon != nil {
                                     self.addLine(fromPoint: self.nearestBeacon, toPoint: self.beaconInfo[1])
                                     self.updateCircle(fromPoint: self.nearestBeacon, toPoint: self.beaconInfo[1])
@@ -188,13 +186,11 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
                     ))
                     present(actionController, animated: true, completion: nil)
                 case beaconButton3:
-                    let actionController = RoomActionController()
-                    actionController.headerData = RoomHeaderData(title: "Office Rooms",
-                                                                 subtitle: "Available")
+                    actionController.headerData = RoomHeaderData(title: "Office Rooms", subtitle: "Available")
                     actionController.addAction(Action(ActionData(title: "Show Direction",
-                                                                 image:UIImage(named: "back-arrow")!),
+                        image:UIImage(named: "back-arrow")!),
                         style: .default,
-                        handler: { action in
+                        handler: { _ in
                             if self.nearestBeacon != nil {
                                 self.addLine(fromPoint: self.nearestBeacon, toPoint: self.beaconInfo[2])
                                 self.updateCircle(fromPoint: self.nearestBeacon, toPoint: self.beaconInfo[2])
@@ -207,7 +203,6 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
                     print("Unknown button")
                     return
             }
-            isNavigating = true
     }
 
     func addLine(fromPoint start: BeaconInfo, toPoint end: BeaconInfo) {
