@@ -14,9 +14,9 @@
 		1119D80A1E9CFA980005AB7F /* MobileDevProjectTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1119D8091E9CFA980005AB7F /* MobileDevProjectTests.swift */; };
 		E527F83C1EDED0E70025D893 /* Room.swift in Sources */ = {isa = PBXBuildFile; fileRef = E527F83B1EDED0E70025D893 /* Room.swift */; };
 		E527F83E1EDED15C0025D893 /* ActionData.swift in Sources */ = {isa = PBXBuildFile; fileRef = E527F83D1EDED15C0025D893 /* ActionData.swift */; };
-		E527F8401EDED63F0025D893 /* RoomCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = E527F83F1EDED63F0025D893 /* RoomCell.xib */; };
 		E5CF860B1EDEF5F900F6F8B8 /* XLActionController.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E5CF86081EDEF5DF00F6F8B8 /* XLActionController.framework */; };
 		E5CF860C1EDEF5F900F6F8B8 /* XLActionController.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = E5CF86081EDEF5DF00F6F8B8 /* XLActionController.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		E5CF86101EDEFA7000F6F8B8 /* RoomCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = E5CF860F1EDEFA7000F6F8B8 /* RoomCell.xib */; };
 		F9CF4E1D1EC3081600BF679E /* BeaconInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9CF4E1C1EC3081600BF679E /* BeaconInfo.swift */; };
 /* End PBXBuildFile section */
 
@@ -77,8 +77,8 @@
 		1119D80B1E9CFA980005AB7F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		E527F83B1EDED0E70025D893 /* Room.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Room.swift; sourceTree = "<group>"; };
 		E527F83D1EDED15C0025D893 /* ActionData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActionData.swift; sourceTree = "<group>"; };
-		E527F83F1EDED63F0025D893 /* RoomCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = RoomCell.xib; path = "../../../Downloads/XLActionController-master/Example/CustomActionControllers/RoomCell.xib"; sourceTree = "<group>"; };
 		E5CF86021EDEF5DF00F6F8B8 /* XLActionController.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = XLActionController.xcodeproj; path = XLActionController/XLActionController.xcodeproj; sourceTree = "<group>"; };
+		E5CF860F1EDEFA7000F6F8B8 /* RoomCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RoomCell.xib; sourceTree = "<group>"; };
 		F9CF4E1C1EC3081600BF679E /* BeaconInfo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BeaconInfo.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -126,7 +126,7 @@
 				1119D7F41E9CFA980005AB7F /* AppDelegate.swift */,
 				1119D7F61E9CFA980005AB7F /* ViewController.swift */,
 				1119D7F81E9CFA980005AB7F /* Main.storyboard */,
-				E527F83F1EDED63F0025D893 /* RoomCell.xib */,
+				E5CF860F1EDEFA7000F6F8B8 /* RoomCell.xib */,
 				1119D7FB1E9CFA980005AB7F /* Assets.xcassets */,
 				1119D8001E9CFA980005AB7F /* Info.plist */,
 				F9CF4E1C1EC3081600BF679E /* BeaconInfo.swift */,
@@ -273,7 +273,7 @@
 			files = (
 				1119D7FC1E9CFA980005AB7F /* Assets.xcassets in Resources */,
 				1119D7FA1E9CFA980005AB7F /* Main.storyboard in Resources */,
-				E527F8401EDED63F0025D893 /* RoomCell.xib in Resources */,
+				E5CF86101EDEFA7000F6F8B8 /* RoomCell.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
