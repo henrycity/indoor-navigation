@@ -3,17 +3,17 @@ import UIKit
 
 public struct ActionData {
 
-    public fileprivate(set) var title: String?
-    public fileprivate(set) var subtitle: String?
+    public fileprivate(set) var roomName: String?
+    public fileprivate(set) var roomInfo: String?
     public fileprivate(set) var image: UIImage?
 
     public init(title: String) {
-        self.title = title
+        self.roomName = title
     }
 
     public init(title: String, subtitle: String) {
         self.init(title: title)
-        self.subtitle = subtitle
+        self.roomInfo = subtitle
     }
 
     public init(title: String, subtitle: String, image: UIImage) {

@@ -30,13 +30,13 @@ open class RoomCell: ActionCell {
 
 public struct RoomHeaderData {
 
-    var title: String
-    var subtitle: String
+    var roomName: String
+    var roomInfo: String
 //    var image: UIImage
 
     public init(title: String, subtitle: String) {
-        self.title = title
-        self.subtitle = subtitle
+        self.roomName = title
+        self.roomInfo = subtitle
 //        self.image = image
     }
 }
@@ -50,24 +50,22 @@ open class RoomHeaderView: UICollectionReusableView {
         return imageView
     }()
 
-    open lazy var title: UILabel = {
-        let title = UILabel(frame: CGRect.zero)
-        title.font = UIFont(name: "HelveticaNeue-Bold", size: 18)
-        title.text = "The Fast And ... The Furious Soundtrack Collection"
-        title.textColor = UIColor.white
-        title.translatesAutoresizingMaskIntoConstraints = false
-        title.sizeToFit()
-        return title
+    open lazy var roomName: UILabel = {
+        let roomName = UILabel(frame: CGRect.zero)
+        roomName.font = UIFont(name: "HelveticaNeue-Bold", size: 18)
+        roomName.textColor = UIColor.white
+        roomName.translatesAutoresizingMaskIntoConstraints = false
+        roomName.sizeToFit()
+        return roomName
     }()
 
-    open lazy var artist: UILabel = {
-        let discArtist = UILabel(frame: CGRect.zero)
-        discArtist.font = UIFont(name: "HelveticaNeue", size: 16)
-        discArtist.text = "Various..."
-        discArtist.textColor = UIColor.white.withAlphaComponent(0.8)
-        discArtist.translatesAutoresizingMaskIntoConstraints = false
-        discArtist.sizeToFit()
-        return discArtist
+    open lazy var roomInfo: UILabel = {
+        let roomInfo = UILabel(frame: CGRect.zero)
+        roomInfo.font = UIFont(name: "HelveticaNeue", size: 16)
+        roomInfo.textColor = UIColor.white.withAlphaComponent(0.8)
+        roomInfo.translatesAutoresizingMaskIntoConstraints = false
+        roomInfo.sizeToFit()
+        return roomInfo
     }()
 
     public override init(frame: CGRect) {
@@ -88,8 +86,8 @@ open class RoomHeaderView: UICollectionReusableView {
         translatesAutoresizingMaskIntoConstraints = false
         backgroundColor = .clear
         addSubview(imageView)
-        addSubview(title)
-        addSubview(artist)
+        addSubview(roomName)
+        addSubview(roomInfo)
         let separator: UIView = {
             let separator = UIView(frame: CGRect.zero)
             separator.backgroundColor = UIColor.white.withAlphaComponent(0.3)
@@ -98,7 +96,7 @@ open class RoomHeaderView: UICollectionReusableView {
         }()
         addSubview(separator)
 
-        let views = [ "ico": imageView, "title": title, "artist": artist, "separator": separator ]
+        let views = [ "ico": imageView, "title": roomName, "artist": roomInfo, "separator": separator ]
         let metrics = [ "icow": 54, "icoh": 54 ]
         let options = NSLayoutFormatOptions()
 
@@ -168,14 +166,14 @@ open class RoomActionController: ActionController<RoomCell, ActionData,
         headerSpec = .cellClass( height: { _ in 84 })
 
         onConfigureCellForAction = { [weak self] cell, action, indexPath in
-            cell.setup(action.data?.title, detail: action.data?.subtitle, image: action.data?.image)
+            cell.setup(action.data?.roomName, detail: action.data?.roomInfo, image: action.data?.image)
             cell.separatorView?.isHidden = indexPath.item == (
                 self?.collectionView.numberOfItems(inSection: indexPath.section))! - 1
             cell.alpha = action.enabled ? 1.0 : 0.5
         }
         onConfigureHeader = { (header: RoomHeaderView, data: RoomHeaderData)  in
-            header.title.text = data.title
-            header.artist.text = data.subtitle
+            header.roomName.text = data.roomName
+            header.roomInfo.text = data.roomInfo
 //            header.imageView.image = data.image
         }
     }
