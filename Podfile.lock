@@ -1,0 +1,14 @@
+PODS:
+  - XLActionController (3.0.1):
+    - XLActionController/Core (= 3.0.1)
+  - XLActionController/Core (3.0.1)
+
+DEPENDENCIES:
+  - XLActionController
+
+SPEC CHECKSUMS:
+  XLActionController: 57fe0ce1642e2eed971b188b490762345fdbf963
+
+PODFILE CHECKSUM: d6c41194cab3638b092fa438c1fdb81e8716a748
+
+COCOAPODS: 1.2.1

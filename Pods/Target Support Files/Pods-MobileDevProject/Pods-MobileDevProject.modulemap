@@ -1,0 +1,6 @@
+framework module Pods_MobileDevProject {
+  umbrella header "Pods-MobileDevProject-umbrella.h"
+
+  export *
+  module * { export * }
+}
