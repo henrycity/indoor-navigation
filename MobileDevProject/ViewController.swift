@@ -102,7 +102,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
             var count: Int = 0
             for beacon in beaconInfo {
                 var buttonColour: UIColor
-                let colourAmount = (255 - (CGFloat(beacon.accuracy) * 40))
+                let colourAmount = (255 - (CGFloat(beacons[0].accuracy) * 40))
                 count += 1
                 if beacon.value == beacons[0].minor {
                     buttonColour = UIColor.init(red: 0, green: CGFloat(colourAmount/255), blue: 0, alpha: 1)
