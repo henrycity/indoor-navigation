@@ -112,12 +112,9 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
             var count: Int = 0
             for beacon in beaconInfo {
                 var buttonColour: UIColor
-                var colourAmount: CGFloat
-                if count <= beacons.count {
+                var colourAmount: CGFloat = 255
+                if count <= beacons.count { /// Prevent index out of bounds
                     colourAmount = (255 - (CGFloat(beacons[count].accuracy) * 40))
-                } else {
-                    /// prevent index out of bounds, just use full red or green colour if needed
-                    colourAmount = 255
                 }
                 count += 1
                 if beacon.value == beacons[0].minor {
