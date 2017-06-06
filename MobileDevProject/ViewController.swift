@@ -37,7 +37,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
     var lineShapeLayer: CAShapeLayer!
     var circleShapeLayer: CAShapeLayer!
     var circleShapeDrawn: Bool = false
-   
+
     // these three variables are all used by calcXY
     // stored globally to allow them to persist between calls
     // this means we can better handle loss of signal
@@ -112,7 +112,13 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
             var count: Int = 0
             for beacon in beaconInfo {
                 var buttonColour: UIColor
-                let colourAmount = (255 - (CGFloat(beacons[count].accuracy) * 40))
+                var colourAmount: CGFloat
+                if count <= beacons.count {
+                    colourAmount = (255 - (CGFloat(beacons[count].accuracy) * 40))
+                } else {
+                    /// prevent index out of bounds, just use full red or green colour if needed
+                    colourAmount = 255
+                }
                 count += 1
                 if beacon.value == beacons[0].minor {
                     buttonColour = UIColor.init(red: 0, green: CGFloat(colourAmount/255), blue: 0, alpha: 1)
