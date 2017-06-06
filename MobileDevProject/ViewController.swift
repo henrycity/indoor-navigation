@@ -7,6 +7,7 @@
 //
 
 import CoreLocation
+import AudioToolbox
 import UIKit
 
 class ViewController: UIViewController, CLLocationManagerDelegate {
@@ -36,7 +37,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
     var lineShapeLayer: CAShapeLayer!
     var circleShapeLayer: CAShapeLayer!
     var circleShapeDrawn: Bool = false
-   
+
     // these three variables are all used by calcXY
     // stored globally to allow them to persist between calls
     // this means we can better handle loss of signal
@@ -111,7 +112,10 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
             var count: Int = 0
             for beacon in beaconInfo {
                 var buttonColour: UIColor
-                let colourAmount = (255 - (CGFloat(beacons[count].accuracy) * 40))
+                var colourAmount: CGFloat = 255
+                if count <= beacons.count { /// Prevent index out of bounds
+                    colourAmount = (255 - (CGFloat(beacons[count].accuracy) * 40))
+                }
                 count += 1
                 if beacon.value == beacons[0].minor {
                     buttonColour = UIColor.init(red: 0, green: CGFloat(colourAmount/255), blue: 0, alpha: 1)
@@ -123,10 +127,22 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
                 }
 
                 if isNavigating {
-                    if beacons[0].minor == navigatingBeacon.value && beacons[0].proximity == CLProximity.immediate {
+                    if beacons[0].minor == navigatingBeacon.value && beacons[0].proximity == CLProximity.near {
                         // we have arrived
                         isNavigating = false
-                        print("123223")
+                        // vibrate
+                        AudioServicesPlayAlertSound(SystemSoundID(kSystemSoundID_Vibrate))
+
+                        // show alert
+                        let alertController = UIAlertController(title: "Room Finder", message:
+                            "You have arrived!", preferredStyle: UIAlertControllerStyle.alert)
+                        alertController.addAction(UIAlertAction(title: "Dismiss", style: UIAlertActionStyle.default))
+                        self.present(alertController, animated: true, completion: nil)
+
+                        // clear circle and line
+                        self.lineShapeLayer.removeFromSuperlayer()
+                        self.circleShapeLayer.removeFromSuperlayer()
+                        circleShapeDrawn = false
                     } else {
                         addLine(fromPoint: nearestBeacon, toPoint: navigatingBeacon)
                         updateCircle(fromPoint: nearestBeacon, toPoint: navigatingBeacon)
@@ -195,8 +211,6 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
     }
 
     func addLine(fromPoint start: BeaconInfo, toPoint end: BeaconInfo) {
-        print(start)
-        print(end)
         // If lineShapeLayer already exist, redraw the whole layer
         if self.lineShapeLayer != nil {
             self.lineShapeLayer.removeFromSuperlayer()
