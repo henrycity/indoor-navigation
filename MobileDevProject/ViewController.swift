@@ -37,7 +37,6 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
 
     var lineShapeLayer: CAShapeLayer!
     var circleShapeLayer: CAShapeLayer!
-    var circleShapeDrawn: Bool = false
 
     // these three variables are all used by calcXY
     // stored globally to allow them to persist between calls
@@ -133,7 +132,6 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
                         // clear circle and line
                         self.lineShapeLayer.removeFromSuperlayer()
                         self.circleShapeLayer.removeFromSuperlayer()
-                        circleShapeDrawn = false
                     } else {
                         addLine(fromPoint: nearestBeacon, toPoint: navigatingBeacon)
                         updateCircle(fromPoint: nearestBeacon, toPoint: navigatingBeacon)
@@ -265,8 +263,6 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
             self.self.circleShapeLayer = CAShapeLayer()
         }
 
-//        self.circleShapeLayer = CAShapeLayer()
-
         //Calculate where the circle needs to be drawn
         let circleCordinates = self.calcXY(firstBeacon: start, secondBeacon: end)
         let circlePath = UIBezierPath(arcCenter: circleCordinates, radius: CGFloat(7),
@@ -282,7 +278,6 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
 
         //Add circle to the layer
         self.mapView.layer.addSublayer(self.circleShapeLayer)
-        self.circleShapeDrawn = true
     }
 
     func calcXY(firstBeacon: BeaconInfo, secondBeacon: BeaconInfo) -> CGPoint {
