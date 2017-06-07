@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="12120" systemVersion="16E195" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11762" systemVersion="16D32" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12088"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11757"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -54,6 +54,19 @@
                                             <action selector="buttonPressWithSender:" destination="BYZ-38-t0r" eventType="touchUpInside" id="Edu-K7-u2d"/>
                                         </connections>
                                     </button>
+                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="SGb-Pu-uqR">
+                                        <rect key="frame" x="230" y="0.0" width="56" height="48"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <state key="normal" title="Exit"/>
+                                        <connections>
+                                            <action selector="buttonPressWithSender:" destination="BYZ-38-t0r" eventType="touchUpInside" id="NMD-ZY-2du"/>
+                                        </connections>
+                                    </button>
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="exit2" translatesAutoresizingMaskIntoConstraints="NO" id="Xk1-ml-qrM">
+                                        <rect key="frame" x="291" y="-40" width="240" height="128"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                    </imageView>
                                 </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             </view>
@@ -88,6 +101,8 @@
                         <outlet property="beaconButton2" destination="hqm-qe-FBa" id="ExW-Ee-4Jj"/>
                         <outlet property="beaconButton3" destination="WpJ-aK-XBY" id="6RW-T5-5Uq"/>
                         <outlet property="compassImage" destination="3HE-uk-phl" id="hfk-Ag-fL8"/>
+                        <outlet property="exitButton" destination="SGb-Pu-uqR" id="Eua-Ql-kDo"/>
+                        <outlet property="exitImageNorth" destination="Xk1-ml-qrM" id="BZ3-eN-pD2"/>
                         <outlet property="mapRotatingSwitch" destination="Luv-qF-QDj" id="p9S-OZ-MCr"/>
                         <outlet property="mapView" destination="4Tb-CX-3Rt" id="F7i-Ss-ixd"/>
                     </connections>
@@ -100,6 +115,7 @@
     <resources>
         <image name="Map" width="220" height="506"/>
         <image name="compass_transparent" width="900" height="800"/>
+        <image name="exit2" width="100" height="50"/>
         <image name="plat4mation-logo" width="498" height="111"/>
     </resources>
 </document>

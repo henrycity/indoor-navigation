@@ -12,7 +12,7 @@
 		1119D7FA1E9CFA980005AB7F /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1119D7F81E9CFA980005AB7F /* Main.storyboard */; };
 		1119D7FC1E9CFA980005AB7F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1119D7FB1E9CFA980005AB7F /* Assets.xcassets */; };
 		1119D80A1E9CFA980005AB7F /* MobileDevProjectTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1119D8091E9CFA980005AB7F /* MobileDevProjectTests.swift */; };
-		550F1E760CFCB6E12E90AF75 /* Pods_MobileDevProject.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 65BA511A63164BA4904CBAC4 /* Pods_MobileDevProject.framework */; };
+    550F1E760CFCB6E12E90AF75 /* Pods_MobileDevProject.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 65BA511A63164BA4904CBAC4 /* Pods_MobileDevProject.framework */; };
 		E527F83C1EDED0E70025D893 /* Room.swift in Sources */ = {isa = PBXBuildFile; fileRef = E527F83B1EDED0E70025D893 /* Room.swift */; };
 		E527F83E1EDED15C0025D893 /* ActionData.swift in Sources */ = {isa = PBXBuildFile; fileRef = E527F83D1EDED15C0025D893 /* ActionData.swift */; };
 		E5CF86101EDEFA7000F6F8B8 /* RoomCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = E5CF860F1EDEFA7000F6F8B8 /* RoomCell.xib */; };
@@ -111,12 +111,9 @@
 				1119D7F41E9CFA980005AB7F /* AppDelegate.swift */,
 				1119D7F61E9CFA980005AB7F /* ViewController.swift */,
 				1119D7F81E9CFA980005AB7F /* Main.storyboard */,
-				E5CF860F1EDEFA7000F6F8B8 /* RoomCell.xib */,
 				1119D7FB1E9CFA980005AB7F /* Assets.xcassets */,
 				1119D8001E9CFA980005AB7F /* Info.plist */,
 				F9CF4E1C1EC3081600BF679E /* BeaconInfo.swift */,
-				E527F83B1EDED0E70025D893 /* Room.swift */,
-				E527F83D1EDED15C0025D893 /* ActionData.swift */,
 			);
 			path = MobileDevProject;
 			sourceTree = "<group>";
@@ -214,7 +211,7 @@
 				TargetAttributes = {
 					1119D7F01E9CFA980005AB7F = {
 						CreatedOnToolsVersion = 8.3;
-						DevelopmentTeam = LMW24RWUDD;
+						DevelopmentTeam = A66SE237K4;
 						ProvisioningStyle = Automatic;
 					};
 					1119D8041E9CFA980005AB7F = {
@@ -251,7 +248,6 @@
 			files = (
 				1119D7FC1E9CFA980005AB7F /* Assets.xcassets in Resources */,
 				1119D7FA1E9CFA980005AB7F /* Main.storyboard in Resources */,
-				E5CF86101EDEFA7000F6F8B8 /* RoomCell.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -378,8 +374,6 @@
 			files = (
 				1119D7F71E9CFA980005AB7F /* ViewController.swift in Sources */,
 				F9CF4E1D1EC3081600BF679E /* BeaconInfo.swift in Sources */,
-				E527F83C1EDED0E70025D893 /* Room.swift in Sources */,
-				E527F83E1EDED15C0025D893 /* ActionData.swift in Sources */,
 				1119D7F51E9CFA980005AB7F /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -513,13 +507,11 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = E4E1F8BFD99D3B3119C2A183 /* Pods-MobileDevProject.debug.xcconfig */;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEVELOPMENT_TEAM = LMW24RWUDD;
+				DEVELOPMENT_TEAM = A66SE237K4;
 				INFOPLIST_FILE = MobileDevProject/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 10.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.plat4mation.RoomFinder;
+				PRODUCT_BUNDLE_IDENTIFIER = com.plat4mation.RoomFinder0;
 				PRODUCT_NAME = RoomFinder;
 				SWIFT_VERSION = 3.0;
 				TARGETED_DEVICE_FAMILY = 1;
@@ -530,13 +522,11 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 9E00CAE6452890787A8C36E4 /* Pods-MobileDevProject.release.xcconfig */;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEVELOPMENT_TEAM = LMW24RWUDD;
+				DEVELOPMENT_TEAM = A66SE237K4;
 				INFOPLIST_FILE = MobileDevProject/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 10.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.plat4mation.RoomFinder;
+				PRODUCT_BUNDLE_IDENTIFIER = com.plat4mation.RoomFinder0;
 				PRODUCT_NAME = RoomFinder;
 				SWIFT_VERSION = 3.0;
 				TARGETED_DEVICE_FAMILY = 1;

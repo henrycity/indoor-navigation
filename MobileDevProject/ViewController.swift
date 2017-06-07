@@ -12,19 +12,26 @@ import UIKit
 import XLActionController
 
 class ViewController: UIViewController, CLLocationManagerDelegate {
-
+    
+    
+    
+    @IBOutlet weak var exitButton: UIButton!
     @IBOutlet weak var beaconButton1: UIButton!
     @IBOutlet weak var beaconButton2: UIButton!
     @IBOutlet weak var beaconButton3: UIButton!
 
     @IBOutlet weak var mapRotatingSwitch: UISwitch!
 
+
+    @IBOutlet weak var exitImageNorth: UIImageView!
     @IBOutlet weak var mapView: UIView!
     @IBOutlet weak var compassImage: UIImageView!
 
+
     var beaconInfo: [BeaconInfo] = []
     var beaconsArray: [CLBeacon] = []
-
+    
+    
     var nearestBeacon: BeaconInfo!
     var navigatingBeacon: BeaconInfo! // this is the beacon that the user chose to navigate to
     var isNavigating: Bool = false
@@ -205,7 +212,32 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
                         }
                 ))
                 present(actionController, animated: true, completion: nil)
-            case beaconButton3:
+            case beaconButton3: break
+<<<<<<< .merge_file_iRmVcJ
+                selectedBeacon = beaconInfo[2]
+            case exitButton:
+                exitImageNorth.image = exitImageNorth.image!.withRenderingMode(.alwaysTemplate)
+                exitImageNorth.tintColor = UIColor.red
+                if nearestBeacon.value == 832 {
+                    exitImageNorth.image = exitImageNorth.image!.withRenderingMode(.alwaysTemplate)
+                    exitImageNorth.tintColor = UIColor.red
+                                    }else if nearestBeacon.value == 748{
+                    
+                }else{
+                    
+                }
+                return
+            default:
+                print("Unknown button")
+                return
+            }
+        
+    
+            addLine(fromPoint: nearestBeacon, toPoint: selectedBeacon)
+            updateCircle(fromPoint: nearestBeacon, toPoint: selectedBeacon)
+            navigatingBeacon = selectedBeacon
+            isNavigating = true
+=======
                 navigatingBeacon = beaconInfo[2]
                 actionController.headerData = RoomHeaderData(name: "Office Rooms",
                     availability: "Available", capacity: "Capacity: 10 people", area: "Area: 15m2")
@@ -220,6 +252,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
             default:
                 print("Unknown button")
                 return
+>>>>>>> .merge_file_hMsxl8
         }
     }
 
