@@ -36,7 +36,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
     var lineShapeLayer: CAShapeLayer!
     var circleShapeLayer: CAShapeLayer!
     var circleShapeDrawn: Bool = false
-   
+
     // these three variables are all used by calcXY
     // stored globally to allow them to persist between calls
     // this means we can better handle loss of signal
@@ -60,6 +60,20 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         locationManager = CLLocationManager()
         locationManager.delegate = self
         locationManager.requestAlwaysAuthorization()
+
+        let pinchGestureRecognizer = UIPinchGestureRecognizer(target: self, action: #selector(handlePinch))
+        self.mapView.addGestureRecognizer(pinchGestureRecognizer)
+    }
+
+    func handlePinch(with pinchGestureRecognizer: UIPinchGestureRecognizer) {
+        mapView.transform = mapView.transform.scaledBy(x: pinchGestureRecognizer.scale, y: pinchGestureRecognizer.scale)
+        pinchGestureRecognizer.scale = 1.0
+        
+        //TODO:
+        //Add max and min zoom boundry
+        //Can't zoom while rotating true
+        //Can't move the map if zoomed in or out
+        
     }
 
     func handleLongPress(_ gesture: UILongPressGestureRecognizer) {
@@ -246,7 +260,8 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
     }
 
     func calcXY(firstBeacon: BeaconInfo, secondBeacon: BeaconInfo) -> CGPoint {
-        /// if theres not enough beacons return the previous point if possible
+        // if theres not enough beacons return the previous point if possible
+        // else the new cordinates can not be calculated
         if beaconsArray.count <= 1 && circleCordinates != nil {
             return circleCordinates
         } else if beaconsArray.count <= 1 {
