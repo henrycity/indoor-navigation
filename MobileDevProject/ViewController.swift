@@ -189,11 +189,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
                         image:UIImage(named: "back-arrow")!),
                         style: .default,
                         handler: { _ in
-                            if self.nearestBeacon != nil {
-                                self.addLine(fromPoint: self.nearestBeacon, toPoint: self.navigatingBeacon)
-                                self.updateCircle(fromPoint: self.nearestBeacon, toPoint: self.navigatingBeacon)
-                                self.isNavigating = true
-                            }
+                            self.startNavigating()
                         }
                 ))
                 present(actionController, animated: true, completion: nil)
@@ -205,11 +201,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
                         image:UIImage(named: "back-arrow")!),
                         style: .default,
                         handler: { _ in
-                            if self.nearestBeacon != nil {
-                                self.addLine(fromPoint: self.nearestBeacon, toPoint: self.navigatingBeacon)
-                                self.updateCircle(fromPoint: self.nearestBeacon, toPoint: self.navigatingBeacon)
-                                self.isNavigating = true
-                            }
+                            self.startNavigating()
                         }
                 ))
                 present(actionController, animated: true, completion: nil)
@@ -221,17 +213,21 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
                     image:UIImage(named: "back-arrow")!),
                     style: .default,
                     handler: { _ in
-                        if self.nearestBeacon != nil {
-                            self.addLine(fromPoint: self.nearestBeacon, toPoint: self.navigatingBeacon)
-                            self.updateCircle(fromPoint: self.nearestBeacon, toPoint: self.navigatingBeacon)
-                            self.isNavigating = true
-                        }
+                        self.startNavigating()
                     }
                 ))
                 present(actionController, animated: true, completion: nil)
             default:
                 print("Unknown button")
                 return
+        }
+    }
+
+    func startNavigating() {
+        if self.nearestBeacon != nil {
+            self.addLine(fromPoint: self.nearestBeacon, toPoint: self.navigatingBeacon)
+            self.updateCircle(fromPoint: self.nearestBeacon, toPoint: self.navigatingBeacon)
+            self.isNavigating = true
         }
     }
 
