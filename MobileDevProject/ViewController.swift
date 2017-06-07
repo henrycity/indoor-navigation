@@ -44,7 +44,6 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
 
     var lineShapeLayer: CAShapeLayer!
     var circleShapeLayer: CAShapeLayer!
-    var circleShapeDrawn: Bool = false
 
     // these three variables are all used by calcXY
     // stored globally to allow them to persist between calls
@@ -140,7 +139,6 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
                         // clear circle and line
                         self.lineShapeLayer.removeFromSuperlayer()
                         self.circleShapeLayer.removeFromSuperlayer()
-                        circleShapeDrawn = false
                     } else {
                         addLine(fromPoint: nearestBeacon, toPoint: navigatingBeacon)
                         updateCircle(fromPoint: nearestBeacon, toPoint: navigatingBeacon)
@@ -192,31 +190,25 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         switch sender {
             case beaconButton1:
                 navigatingBeacon = beaconInfo[0]
-                actionController.headerData = RoomHeaderData(title: "Meeting Rooms", subtitle: "Available")
+                actionController.headerData = RoomHeaderData(name: "Meeting Rooms",
+                    availability: "Available", capacity: "Capacity: 15 people", area: "Area: 20m2")
                 actionController.addAction(Action(ActionData(title: "Show Direction",
                         image:UIImage(named: "back-arrow")!),
                         style: .default,
                         handler: { _ in
-                            if self.nearestBeacon != nil {
-                                self.addLine(fromPoint: self.nearestBeacon, toPoint: self.navigatingBeacon)
-                                self.updateCircle(fromPoint: self.nearestBeacon, toPoint: self.navigatingBeacon)
-                                self.isNavigating = true
-                            }
+                            self.startNavigating()
                         }
                 ))
                 present(actionController, animated: true, completion: nil)
             case beaconButton2:
                 navigatingBeacon = beaconInfo[1]
-                actionController.headerData = RoomHeaderData(title: "Kitchen", subtitle: "Busy")
+                actionController.headerData = RoomHeaderData(name: "Kitchen",
+                    availability: "Busy", capacity: "Capacity: 20 people", area: "Area: 30m2")
                 actionController.addAction(Action(ActionData(title: "Show Direction",
                         image:UIImage(named: "back-arrow")!),
                         style: .default,
                         handler: { _ in
-                            if self.nearestBeacon != nil {
-                                self.addLine(fromPoint: self.nearestBeacon, toPoint: self.navigatingBeacon)
-                                self.updateCircle(fromPoint: self.nearestBeacon, toPoint: self.navigatingBeacon)
-                                self.isNavigating = true
-                            }
+                            self.startNavigating()
                         }
                 ))
                 present(actionController, animated: true, completion: nil)
@@ -247,16 +239,13 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
             isNavigating = true
 =======
                 navigatingBeacon = beaconInfo[2]
-                actionController.headerData = RoomHeaderData(title: "Office Rooms", subtitle: "Available")
+                actionController.headerData = RoomHeaderData(name: "Office Rooms",
+                    availability: "Available", capacity: "Capacity: 10 people", area: "Area: 15m2")
                 actionController.addAction(Action(ActionData(title: "Show Direction",
                     image:UIImage(named: "back-arrow")!),
                     style: .default,
                     handler: { _ in
-                        if self.nearestBeacon != nil {
-                            self.addLine(fromPoint: self.nearestBeacon, toPoint: self.navigatingBeacon)
-                            self.updateCircle(fromPoint: self.nearestBeacon, toPoint: self.navigatingBeacon)
-                            self.isNavigating = true
-                        }
+                        self.startNavigating()
                     }
                 ))
                 present(actionController, animated: true, completion: nil)
@@ -264,6 +253,14 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
                 print("Unknown button")
                 return
 >>>>>>> .merge_file_hMsxl8
+        }
+    }
+
+    func startNavigating() {
+        if self.nearestBeacon != nil {
+            self.addLine(fromPoint: self.nearestBeacon, toPoint: self.navigatingBeacon)
+            self.updateCircle(fromPoint: self.nearestBeacon, toPoint: self.navigatingBeacon)
+            self.isNavigating = true
         }
     }
 
@@ -298,8 +295,6 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
             self.self.circleShapeLayer = CAShapeLayer()
         }
 
-//        self.circleShapeLayer = CAShapeLayer()
-
         //Calculate where the circle needs to be drawn
         let circleCordinates = self.calcXY(firstBeacon: start, secondBeacon: end)
         let circlePath = UIBezierPath(arcCenter: circleCordinates, radius: CGFloat(7),
@@ -315,7 +310,6 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
 
         //Add circle to the layer
         self.mapView.layer.addSublayer(self.circleShapeLayer)
-        self.circleShapeDrawn = true
     }
 
     func calcXY(firstBeacon: BeaconInfo, secondBeacon: BeaconInfo) -> CGPoint {

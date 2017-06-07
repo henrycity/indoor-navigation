@@ -32,11 +32,15 @@ public struct RoomHeaderData {
 
     var roomName: String
     var roomInfo: String
+    var roomCapacity: String
+    var roomArea: String
 //    var image: UIImage
 
-    public init(title: String, subtitle: String) {
-        self.roomName = title
-        self.roomInfo = subtitle
+    public init(name: String, availability: String, capacity: String, area: String) {
+        self.roomName = name
+        self.roomInfo = availability
+        self.roomCapacity = capacity
+        self.roomArea = area
 //        self.image = image
     }
 }
@@ -59,13 +63,31 @@ open class RoomHeaderView: UICollectionReusableView {
         return roomName
     }()
 
-    open lazy var roomInfo: UILabel = {
-        let roomInfo = UILabel(frame: CGRect.zero)
-        roomInfo.font = UIFont(name: "HelveticaNeue", size: 16)
-        roomInfo.textColor = UIColor.white.withAlphaComponent(0.8)
-        roomInfo.translatesAutoresizingMaskIntoConstraints = false
-        roomInfo.sizeToFit()
-        return roomInfo
+    open lazy var roomAvailability: UILabel = {
+        let roomAvailability = UILabel(frame: CGRect.zero)
+        roomAvailability.font = UIFont(name: "HelveticaNeue", size: 16)
+        roomAvailability.textColor = UIColor.white.withAlphaComponent(0.8)
+        roomAvailability.translatesAutoresizingMaskIntoConstraints = false
+        roomAvailability.sizeToFit()
+        return roomAvailability
+    }()
+
+    open lazy var roomCapacity: UILabel = {
+        let roomCapacity = UILabel(frame: CGRect.zero)
+        roomCapacity.font = UIFont(name: "HelveticaNeue", size: 16)
+        roomCapacity.textColor = UIColor.white.withAlphaComponent(0.8)
+        roomCapacity.translatesAutoresizingMaskIntoConstraints = false
+        roomCapacity.sizeToFit()
+        return roomCapacity
+    }()
+
+    open lazy var roomArea: UILabel = {
+        let roomArea = UILabel(frame: CGRect.zero)
+        roomArea.font = UIFont(name: "HelveticaNeue", size: 16)
+        roomArea.textColor = UIColor.white.withAlphaComponent(0.8)
+        roomArea.translatesAutoresizingMaskIntoConstraints = false
+        roomArea.sizeToFit()
+        return roomArea
     }()
 
     public override init(frame: CGRect) {
@@ -87,7 +109,9 @@ open class RoomHeaderView: UICollectionReusableView {
         backgroundColor = .clear
         addSubview(imageView)
         addSubview(roomName)
-        addSubview(roomInfo)
+        addSubview(roomAvailability)
+        addSubview(roomCapacity)
+        addSubview(roomArea)
         let separator: UIView = {
             let separator = UIView(frame: CGRect.zero)
             separator.backgroundColor = UIColor.white.withAlphaComponent(0.3)
@@ -96,12 +120,13 @@ open class RoomHeaderView: UICollectionReusableView {
         }()
         addSubview(separator)
 
-        let views = [ "ico": imageView, "title": roomName, "artist": roomInfo, "separator": separator ]
+        let views = [ "ico": imageView, "name": roomName, "availability": roomAvailability,
+                      "capacity": roomCapacity, "area": roomArea, "separator": separator ]
         let metrics = [ "icow": 54, "icoh": 54 ]
         let options = NSLayoutFormatOptions()
 
         addConstraints(NSLayoutConstraint.constraints(
-            withVisualFormat: "H:|-15-[ico(icow)]-10-[title]-15-|",
+            withVisualFormat: "H:|-5-[ico(icow)]-10-[name]-5-|",
             options: options,
             metrics: metrics,
             views: views))
@@ -112,12 +137,12 @@ open class RoomHeaderView: UICollectionReusableView {
             views: views))
 
         addConstraints(NSLayoutConstraint.constraints(
-            withVisualFormat: "V:|-10-[ico(icoh)]",
+            withVisualFormat: "V:|-20-[ico(icoh)]",
             options: options,
             metrics: metrics,
             views: views))
         addConstraints(NSLayoutConstraint.constraints(
-            withVisualFormat: "V:|-18-[title][artist]",
+            withVisualFormat: "V:|[name][availability][capacity][area]-5-|",
             options: .alignAllLeft,
             metrics: metrics,
             views: views))
@@ -173,7 +198,9 @@ open class RoomActionController: ActionController<RoomCell, ActionData,
         }
         onConfigureHeader = { (header: RoomHeaderView, data: RoomHeaderData)  in
             header.roomName.text = data.roomName
-            header.roomInfo.text = data.roomInfo
+            header.roomAvailability.text = data.roomInfo
+            header.roomCapacity.text = data.roomCapacity
+            header.roomArea.text = data.roomArea
 //            header.imageView.image = data.image
         }
     }
