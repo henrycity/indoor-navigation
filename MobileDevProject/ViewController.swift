@@ -60,7 +60,6 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         locationManager.requestAlwaysAuthorization()
 
         bluetoothManager = CBCentralManager.init()
-        print("Bluetooth is not on")
     }
 
     override func didReceiveMemoryWarning() {
@@ -228,7 +227,10 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
                 return
             }
         } else {
-            print("Bluetooth is not on")
+            let alertController = UIAlertController(title: "Room Finder", message:
+                "Bluetooth is disabled, some features will not function without Bluetooth connectivity", preferredStyle: UIAlertControllerStyle.alert)
+            alertController.addAction(UIAlertAction(title: "Dismiss", style: UIAlertActionStyle.default))
+            self.present(alertController, animated: true, completion: nil)
         }
     }
 
