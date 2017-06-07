@@ -7,7 +7,9 @@
 //
 
 import CoreLocation
+import AudioToolbox
 import UIKit
+import XLActionController
 
 class ViewController: UIViewController, CLLocationManagerDelegate {
     
@@ -43,7 +45,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
     var lineShapeLayer: CAShapeLayer!
     var circleShapeLayer: CAShapeLayer!
     var circleShapeDrawn: Bool = false
-   
+
     // these three variables are all used by calcXY
     // stored globally to allow them to persist between calls
     // this means we can better handle loss of signal
@@ -59,19 +61,9 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         beaconInfo = [ BeaconInfo(value: 832, button: beaconButton1, coordinate: CGPoint(x: 412.5, y: 179.5)),
                        BeaconInfo(value: 748, button: beaconButton2, coordinate: CGPoint(x: 500.5, y: 111)),
                        BeaconInfo(value: 771, button: beaconButton3, coordinate: CGPoint(x: 482.5, y: 278.5)) ]
-        let tapGesture = UILongPressGestureRecognizer(target: self,
-                                                      action: #selector(ViewController.handleLongPress(_:)))
-        tapGesture.minimumPressDuration = 1.2
-        beaconButton1.addGestureRecognizer(tapGesture)
-        beaconButton1.addGestureRecognizer(tapGesture)
         locationManager = CLLocationManager()
         locationManager.delegate = self
         locationManager.requestAlwaysAuthorization()
-    }
-
-    func handleLongPress(_ gesture: UILongPressGestureRecognizer) {
-        if gesture.state != .began { return }
-        print("Long pressed")
     }
 
     override func didReceiveMemoryWarning() {
@@ -118,7 +110,10 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
             var count: Int = 0
             for beacon in beaconInfo {
                 var buttonColour: UIColor
-                let colourAmount = (255 - (CGFloat(beacons[count].accuracy) * 40))
+                var colourAmount: CGFloat = 255
+                if count < beacons.count { /// Prevent index out of bounds
+                    colourAmount = (255 - (CGFloat(beacons[count].accuracy) * 40))
+                }
                 count += 1
                 if beacon.value == beacons[0].minor {
                     buttonColour = UIColor.init(red: 0, green: CGFloat(colourAmount/255), blue: 0, alpha: 1)
@@ -130,10 +125,22 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
                 }
 
                 if isNavigating {
-                    if beacons[0].minor == navigatingBeacon.value && beacons[0].proximity == CLProximity.immediate {
+                    if beacons[0].minor == navigatingBeacon.value && beacons[0].proximity == CLProximity.near {
                         // we have arrived
                         isNavigating = false
-                        print("123223")
+                        // vibrate
+                        AudioServicesPlayAlertSound(SystemSoundID(kSystemSoundID_Vibrate))
+
+                        // show alert
+                        let alertController = UIAlertController(title: "Room Finder", message:
+                            "You have arrived!", preferredStyle: UIAlertControllerStyle.alert)
+                        alertController.addAction(UIAlertAction(title: "Dismiss", style: UIAlertActionStyle.default))
+                        self.present(alertController, animated: true, completion: nil)
+
+                        // clear circle and line
+                        self.lineShapeLayer.removeFromSuperlayer()
+                        self.circleShapeLayer.removeFromSuperlayer()
+                        circleShapeDrawn = false
                     } else {
                         addLine(fromPoint: nearestBeacon, toPoint: navigatingBeacon)
                         updateCircle(fromPoint: nearestBeacon, toPoint: navigatingBeacon)
@@ -181,14 +188,40 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
     }
 
     @IBAction func buttonPress(sender: UIButton) {
-        if nearestBeacon != nil {
-            var selectedBeacon: BeaconInfo
-            switch sender {
+        let actionController = RoomActionController()
+        switch sender {
             case beaconButton1:
-                selectedBeacon = beaconInfo[0]
+                navigatingBeacon = beaconInfo[0]
+                actionController.headerData = RoomHeaderData(title: "Meeting Rooms", subtitle: "Available")
+                actionController.addAction(Action(ActionData(title: "Show Direction",
+                        image:UIImage(named: "back-arrow")!),
+                        style: .default,
+                        handler: { _ in
+                            if self.nearestBeacon != nil {
+                                self.addLine(fromPoint: self.nearestBeacon, toPoint: self.navigatingBeacon)
+                                self.updateCircle(fromPoint: self.nearestBeacon, toPoint: self.navigatingBeacon)
+                                self.isNavigating = true
+                            }
+                        }
+                ))
+                present(actionController, animated: true, completion: nil)
             case beaconButton2:
-                selectedBeacon = beaconInfo[1]
-            case beaconButton3:
+                navigatingBeacon = beaconInfo[1]
+                actionController.headerData = RoomHeaderData(title: "Kitchen", subtitle: "Busy")
+                actionController.addAction(Action(ActionData(title: "Show Direction",
+                        image:UIImage(named: "back-arrow")!),
+                        style: .default,
+                        handler: { _ in
+                            if self.nearestBeacon != nil {
+                                self.addLine(fromPoint: self.nearestBeacon, toPoint: self.navigatingBeacon)
+                                self.updateCircle(fromPoint: self.nearestBeacon, toPoint: self.navigatingBeacon)
+                                self.isNavigating = true
+                            }
+                        }
+                ))
+                present(actionController, animated: true, completion: nil)
+            case beaconButton3: break
+<<<<<<< .merge_file_iRmVcJ
                 selectedBeacon = beaconInfo[2]
             case exitButton:
                 exitImageNorth.image = exitImageNorth.image!.withRenderingMode(.alwaysTemplate)
@@ -212,12 +245,29 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
             updateCircle(fromPoint: nearestBeacon, toPoint: selectedBeacon)
             navigatingBeacon = selectedBeacon
             isNavigating = true
+=======
+                navigatingBeacon = beaconInfo[2]
+                actionController.headerData = RoomHeaderData(title: "Office Rooms", subtitle: "Available")
+                actionController.addAction(Action(ActionData(title: "Show Direction",
+                    image:UIImage(named: "back-arrow")!),
+                    style: .default,
+                    handler: { _ in
+                        if self.nearestBeacon != nil {
+                            self.addLine(fromPoint: self.nearestBeacon, toPoint: self.navigatingBeacon)
+                            self.updateCircle(fromPoint: self.nearestBeacon, toPoint: self.navigatingBeacon)
+                            self.isNavigating = true
+                        }
+                    }
+                ))
+                present(actionController, animated: true, completion: nil)
+            default:
+                print("Unknown button")
+                return
+>>>>>>> .merge_file_hMsxl8
         }
     }
 
     func addLine(fromPoint start: BeaconInfo, toPoint end: BeaconInfo) {
-        print(start)
-        print(end)
         // If lineShapeLayer already exist, redraw the whole layer
         if self.lineShapeLayer != nil {
             self.lineShapeLayer.removeFromSuperlayer()
@@ -242,11 +292,13 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
     }
 
     func updateCircle(fromPoint start: BeaconInfo, toPoint end: BeaconInfo) {
-        if self.circleShapeDrawn {
-            self.mapView.layer.sublayers?.remove(at: (self.mapView.layer.sublayers?.count)! - 2)
+        if self.self.circleShapeLayer != nil {
+            self.self.circleShapeLayer.removeFromSuperlayer()
+        } else {
+            self.self.circleShapeLayer = CAShapeLayer()
         }
 
-        self.circleShapeLayer = CAShapeLayer()
+//        self.circleShapeLayer = CAShapeLayer()
 
         //Calculate where the circle needs to be drawn
         let circleCordinates = self.calcXY(firstBeacon: start, secondBeacon: end)
@@ -255,9 +307,9 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
 
         self.circleShapeLayer.path = circlePath.cgPath
         //change the fill color
-        self.circleShapeLayer.fillColor = UIColor.red.cgColor
+        self.circleShapeLayer.fillColor = UIColor.init(red:0.26, green:0.52, blue:0.96, alpha:1.0).cgColor
         //you can change the stroke color
-        self.circleShapeLayer.strokeColor = UIColor.red.cgColor
+        self.circleShapeLayer.strokeColor = UIColor.white.cgColor
         //you can change the line width
         self.circleShapeLayer.lineWidth = 3.0
 
@@ -277,7 +329,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         }
 
         // line style
-        lineShapeLayer.strokeColor = UIColor.green.cgColor
+        lineShapeLayer.strokeColor = UIColor.init(red:0.00, green:0.70, blue:0.99, alpha:1.0).cgColor
         lineShapeLayer.lineWidth = 3
         // if we have multiple points to draw to in the future this sets the style of the corners
         lineShapeLayer.lineJoin = kCALineJoinRound
