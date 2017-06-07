@@ -183,7 +183,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         switch sender {
             case beaconButton1:
                 navigatingBeacon = beaconInfo[0]
-                actionController.headerData = RoomHeaderData(title: "Meeting Rooms", subtitle: "Available")
+                actionController.headerData = RoomHeaderData(name: "Meeting Rooms", info: "Available")
                 actionController.addAction(Action(ActionData(title: "Show Direction",
                         image:UIImage(named: "back-arrow")!),
                         style: .default,
@@ -198,7 +198,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
                 present(actionController, animated: true, completion: nil)
             case beaconButton2:
                 navigatingBeacon = beaconInfo[1]
-                actionController.headerData = RoomHeaderData(title: "Kitchen", subtitle: "Busy")
+                actionController.headerData = RoomHeaderData(name: "Kitchen", info: "Busy")
                 actionController.addAction(Action(ActionData(title: "Show Direction",
                         image:UIImage(named: "back-arrow")!),
                         style: .default,
@@ -213,7 +213,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
                 present(actionController, animated: true, completion: nil)
             case beaconButton3:
                 navigatingBeacon = beaconInfo[2]
-                actionController.headerData = RoomHeaderData(title: "Office Rooms", subtitle: "Available")
+                actionController.headerData = RoomHeaderData(name: "Office Rooms", info: "Available")
                 actionController.addAction(Action(ActionData(title: "Show Direction",
                     image:UIImage(named: "back-arrow")!),
                     style: .default,

@@ -34,9 +34,9 @@ public struct RoomHeaderData {
     var roomInfo: String
 //    var image: UIImage
 
-    public init(title: String, subtitle: String) {
-        self.roomName = title
-        self.roomInfo = subtitle
+    public init(name: String, info: String) {
+        self.roomName = name
+        self.roomInfo = info
 //        self.image = image
     }
 }
@@ -96,12 +96,12 @@ open class RoomHeaderView: UICollectionReusableView {
         }()
         addSubview(separator)
 
-        let views = [ "ico": imageView, "title": roomName, "artist": roomInfo, "separator": separator ]
+        let views = [ "ico": imageView, "name": roomName, "info": roomInfo, "separator": separator ]
         let metrics = [ "icow": 54, "icoh": 54 ]
         let options = NSLayoutFormatOptions()
 
         addConstraints(NSLayoutConstraint.constraints(
-            withVisualFormat: "H:|-15-[ico(icow)]-10-[title]-15-|",
+            withVisualFormat: "H:|-15-[ico(icow)]-10-[name]-15-|",
             options: options,
             metrics: metrics,
             views: views))
@@ -117,7 +117,7 @@ open class RoomHeaderView: UICollectionReusableView {
             metrics: metrics,
             views: views))
         addConstraints(NSLayoutConstraint.constraints(
-            withVisualFormat: "V:|-18-[title][artist]",
+            withVisualFormat: "V:|-18-[name][info]",
             options: .alignAllLeft,
             metrics: metrics,
             views: views))
