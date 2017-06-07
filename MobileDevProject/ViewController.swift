@@ -44,6 +44,8 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
     var tempBeacon1: CLBeacon! //beacon to temporarily store a beacon from the beacons array to get the accuracy
     var tempBeacon2: CLBeacon!
     var circleCordinates: CGPoint! //the x and y cordinates where the circle(location indicator) needs to be drawn
+    var lastScale: CGFloat!
+    var lastPoint: CGPoint!
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -56,10 +58,25 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         locationManager = CLLocationManager()
         locationManager.delegate = self
         locationManager.requestAlwaysAuthorization()
+        let pinchGestureRecognizer = UIPinchGestureRecognizer(target: self, action: #selector(handlePinch))
+        self.mapView.addGestureRecognizer(pinchGestureRecognizer)
     }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
+    }
+
+    func handlePinch(_ sender: UIPinchGestureRecognizer) {
+        if sender.state == .began {
+            lastScale = 1.0
+            self.lastPoint = sender.location(in: mapView)
+        }
+        let point: CGPoint = sender.location(in: mapView)
+        let scale: CGFloat = 1.0 - (lastScale - sender.scale)
+        mapView.transform = mapView.transform.scaledBy(x: scale, y: scale)
+        mapView.transform = mapView.transform.translatedBy(x: point.x - lastPoint.x, y: point.y - lastPoint.y)
+        lastScale = sender.scale
+        lastPoint = sender.location(in: mapView)
     }
 
     @IBAction func mapRotatingSwitchPress(_ sender: UISwitch) {
