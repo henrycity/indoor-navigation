@@ -71,12 +71,14 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
             lastScale = 1.0
             self.lastPoint = sender.location(in: mapView)
         }
-        let point: CGPoint = sender.location(in: mapView)
-        let scale: CGFloat = 1.0 - (lastScale - sender.scale)
-        mapView.transform = mapView.transform.scaledBy(x: scale, y: scale)
-        mapView.transform = mapView.transform.translatedBy(x: point.x - lastPoint.x, y: point.y - lastPoint.y)
-        lastScale = sender.scale
-        lastPoint = sender.location(in: mapView)
+        if sender.numberOfTouches > 1 {
+            let point: CGPoint = sender.location(in: mapView)
+            let scale: CGFloat = 1.0 - (lastScale - sender.scale)
+            mapView.transform = mapView.transform.scaledBy(x: scale, y: scale)
+            mapView.transform = mapView.transform.translatedBy(x: point.x - lastPoint.x, y: point.y - lastPoint.y)
+            lastScale = sender.scale
+            lastPoint = sender.location(in: mapView)
+        }
     }
 
     @IBAction func mapRotatingSwitchPress(_ sender: UISwitch) {
