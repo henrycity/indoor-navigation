@@ -57,9 +57,9 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         compassImage.backgroundColor = UIColor.clear
         compassImage.isOpaque = true
         mapRotatingSwitch.setOn(false, animated: true)
-        beaconInfo = [ BeaconInfo(value: 832, button: beaconButton1, coordinate: CGPoint(x: 412.5, y: 179.5)),
-                       BeaconInfo(value: 748, button: beaconButton2, coordinate: CGPoint(x: 500.5, y: 111)),
-                       BeaconInfo(value: 771, button: beaconButton3, coordinate: CGPoint(x: 482.5, y: 278.5)) ]
+        beaconInfo = [ BeaconInfo(value: 832, button: beaconButton1, coordinate: CGPoint(x: 418.5, y: 241)),
+                       BeaconInfo(value: 748, button: beaconButton2, coordinate: CGPoint(x: 515, y: 164)),
+                       BeaconInfo(value: 771, button: beaconButton3, coordinate: CGPoint(x: 499.5, y: 349.5)) ]
         locationManager = CLLocationManager()
         locationManager.delegate = self
         locationManager.requestAlwaysAuthorization()
