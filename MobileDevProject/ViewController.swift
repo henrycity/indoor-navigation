@@ -17,10 +17,12 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
     @IBOutlet weak var beaconButton1: UIButton!
     @IBOutlet weak var beaconButton2: UIButton!
     @IBOutlet weak var beaconButton3: UIButton!
+
     @IBOutlet weak var exitButton: UIButton!
     @IBOutlet weak var exitImageNorth: UIImageView!
     @IBOutlet weak var exitImageSouth: UIImageView!
     @IBOutlet weak var mapRotatingSwitch: UISwitch!
+
     @IBOutlet weak var mapView: UIView!
     @IBOutlet weak var compassImage: UIImageView!
 
@@ -47,6 +49,8 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
     var tempBeacon1: CLBeacon! //beacon to temporarily store a beacon from the beacons array to get the accuracy
     var tempBeacon2: CLBeacon!
     var circleCordinates: CGPoint! //the x and y cordinates where the circle(location indicator) needs to be drawn
+    var lastScale: CGFloat!
+    var lastZoomPoint: CGPoint!
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -59,6 +63,8 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         locationManager = CLLocationManager()
         locationManager.delegate = self
         locationManager.requestAlwaysAuthorization()
+        let pinchGestureRecognizer = UIPinchGestureRecognizer(target: self, action: #selector(handlePinch))
+        self.mapView.addGestureRecognizer(pinchGestureRecognizer)
 
         bluetoothManager = CBCentralManager.init()
         let statusBarView = UIView(frame: UIApplication.shared.statusBarFrame)
@@ -69,6 +75,34 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
+    }
+
+    func handlePinch(_ sender: UIPinchGestureRecognizer) {
+        if sender.state == .began {
+            lastScale = 1.0
+            self.lastZoomPoint = sender.location(in: mapView)
+        }
+        if sender.numberOfTouches > 1 {
+            //The point where needs to be zoomed on
+            let zoomPoint: CGPoint = sender.location(in: mapView)
+            //The current scale of the map
+            let currentScale: CGFloat = CGFloat(sender.view!.layer.value(forKeyPath:"transform.scale") as? Double ?? 0)
+            // Constants to adjust the max/min values of zoom
+            let kMaxScale: CGFloat = 4.0
+            let kMinScale: CGFloat = 1.0
+            var newScale = 1 -  (lastScale - sender.scale)
+            newScale = min(newScale, kMaxScale / currentScale)
+            newScale = max(newScale, kMinScale / currentScale)
+            //Transform the view so it zooms in or out
+            let transform = (sender.view?.transform)!.scaledBy(x: newScale, y: newScale)
+            sender.view?.transform = transform
+            //Tranform the view so it zooms on the specific point in the view
+            mapView.transform = mapView.transform.translatedBy(x: zoomPoint.x - lastZoomPoint.x,
+                                                               y: zoomPoint.y - lastZoomPoint.y)
+            //Store the previous scale and zoom point factors for the next pinch gesture call
+            lastScale = sender.scale
+            lastZoomPoint = sender.location(in: mapView)
+        }
     }
 
     @IBAction func mapRotatingSwitchPress(_ sender: UISwitch) {

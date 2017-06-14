@@ -55,7 +55,7 @@
                                         </connections>
                                     </button>
                                     <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" image="ExitSign" translatesAutoresizingMaskIntoConstraints="NO" id="7Ex-6T-r8R">
-                                        <rect key="frame" x="381" y="49" width="45" height="37"/>
+                                        <rect key="frame" x="381" y="49" width="49" height="37"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                     </imageView>
                                     <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="ROTATION" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="1ur-ex-5KF">
@@ -80,20 +80,20 @@
                                             <action selector="buttonPressWithSender:" destination="BYZ-38-t0r" eventType="touchUpInside" id="zBi-Cz-0Oq"/>
                                         </connections>
                                     </button>
+                                    <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" image="ExitSign" translatesAutoresizingMaskIntoConstraints="NO" id="Yef-IM-YTB">
+                                        <rect key="frame" x="384" y="399" width="49" height="33"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                    </imageView>
+                                    <imageView opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="compass_transparent" translatesAutoresizingMaskIntoConstraints="NO" id="3HE-uk-phl">
+                                        <rect key="frame" x="481" y="-39" width="70" height="71"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    </imageView>
                                 </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             </view>
                             <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="plat4mation-logo" translatesAutoresizingMaskIntoConstraints="NO" id="RXx-z6-gB8">
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="100"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            </imageView>
-                            <imageView opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="compass_transparent" translatesAutoresizingMaskIntoConstraints="NO" id="3HE-uk-phl">
-                                <rect key="frame" x="248" y="182" width="70" height="71"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            </imageView>
-                            <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" image="ExitSign" translatesAutoresizingMaskIntoConstraints="NO" id="Yef-IM-YTB">
-                                <rect key="frame" x="149" y="622" width="52" height="31"/>
-                                <autoresizingMask key="autoresizingMask"/>
                             </imageView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
