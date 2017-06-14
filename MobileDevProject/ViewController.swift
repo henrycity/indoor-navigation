@@ -16,7 +16,12 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
     @IBOutlet weak var beaconButton1: UIButton!
     @IBOutlet weak var beaconButton2: UIButton!
     @IBOutlet weak var beaconButton3: UIButton!
+    @IBOutlet weak var exitButton: UIButton!
 
+    @IBOutlet weak var exitImageNorth: UIImageView!
+    @IBOutlet weak var exitImageSouth: UIImageView!
+    
+    
     @IBOutlet weak var mapRotatingSwitch: UISwitch!
 
     @IBOutlet weak var mapView: UIView!
@@ -217,7 +222,27 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
                     }
                 ))
                 present(actionController, animated: true, completion: nil)
-            default:
+            case exitButton:
+                if nearestBeacon == nil{
+                    exitImageNorth.image = exitImageNorth.image!.withRenderingMode(.alwaysTemplate)
+                    exitImageNorth.tintColor = UIColor.red
+                    return
+                }
+                // changes both exit images to black
+                exitImageNorth.image = exitImageNorth.image!.withRenderingMode(.alwaysTemplate)
+                exitImageNorth.tintColor = UIColor.darkText
+                exitImageSouth.image = exitImageSouth.image!.withRenderingMode(.alwaysTemplate)
+                exitImageSouth.tintColor = UIColor.darkText
+                // checks with beacon is nearest and changes the color of the exit nearest to the beacon to red.
+                if nearestBeacon.value == 832 {
+                    exitImageNorth.tintColor = UIColor.red
+                }else if nearestBeacon.value == 748{
+                    exitImageSouth.tintColor = UIColor.red
+                }else if beaconsArray.count == 0{
+                    exitImageNorth.tintColor = UIColor.red          // if there is no beacon found it will change the north exit to red
+                }
+                return
+                default:
                 print("Unknown button")
                 return
         }
