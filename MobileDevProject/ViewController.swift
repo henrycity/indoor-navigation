@@ -231,11 +231,17 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
                 exitImageSouth.image = exitImageSouth.image!.withRenderingMode(.alwaysTemplate)
                 exitImageSouth.tintColor = UIColor.gray
                 // checks with beacon is nearest and changes the color of the exit nearest to the beacon to red.
-                if nearestBeacon.value == 832 { exitImageNorth.tintColor = UIColor.red } else if nearestBeacon.value == 748 { exitImageSouth.tintColor = UIColor.red }
+                if nearestBeacon.value == 832 {
+                    exitImageNorth.tintColor = UIColor.red
+                } else if nearestBeacon.value == 748 {
+                    exitImageSouth.tintColor = UIColor.red
+                }
                 // if there is no beacon found it will change the north exit to red    
-                else if beaconsArray.count == 0 { exitImageNorth.tintColor = UIColor.red }
+                else if beaconsArray.count == 0 {
+                    exitImageNorth.tintColor = UIColor.red
+                }
                 return
-                default:
+            default:
                 print("Unknown button")
                 return
         }

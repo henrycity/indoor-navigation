@@ -214,7 +214,7 @@
 				TargetAttributes = {
 					1119D7F01E9CFA980005AB7F = {
 						CreatedOnToolsVersion = 8.3;
-						DevelopmentTeam = A66SE237K4;
+						DevelopmentTeam = LMW24RWUDD;
 						ProvisioningStyle = Automatic;
 					};
 					1119D8041E9CFA980005AB7F = {
@@ -515,11 +515,11 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEVELOPMENT_TEAM = A66SE237K4;
+				DEVELOPMENT_TEAM = LMW24RWUDD;
 				INFOPLIST_FILE = MobileDevProject/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.plat4mation.RoomFinder0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.plat4mation.RoomFinder;
 				PRODUCT_NAME = RoomFinder;
 				SWIFT_VERSION = 3.0;
 				TARGETED_DEVICE_FAMILY = 1;
@@ -532,11 +532,11 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEVELOPMENT_TEAM = A66SE237K4;
+				DEVELOPMENT_TEAM = LMW24RWUDD;
 				INFOPLIST_FILE = MobileDevProject/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.plat4mation.RoomFinder0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.plat4mation.RoomFinder;
 				PRODUCT_NAME = RoomFinder;
 				SWIFT_VERSION = 3.0;
 				TARGETED_DEVICE_FAMILY = 1;
