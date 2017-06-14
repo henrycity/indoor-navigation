@@ -7,6 +7,7 @@
 //
 
 import CoreLocation
+import CoreBluetooth
 import AudioToolbox
 import UIKit
 import XLActionController
@@ -35,6 +36,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
     var mapIsRotating: Bool = false
 
     var locationManager: CLLocationManager!
+    var bluetoothManager: CBCentralManager!
 
     var lineShapeLayer: CAShapeLayer!
     var circleShapeLayer: CAShapeLayer!
@@ -58,6 +60,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         locationManager.delegate = self
         locationManager.requestAlwaysAuthorization()
 
+        bluetoothManager = CBCentralManager.init()
         let statusBarView = UIView(frame: UIApplication.shared.statusBarFrame)
         let statusBarColor = UIColor(red: 255/255, green: 255/255, blue: 255/255, alpha: 1.0)
         statusBarView.backgroundColor = statusBarColor
@@ -118,7 +121,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
                     beacon.button.backgroundColor = buttonColour
                     nearestBeacon = beacon
                 } else {
-                    buttonColour = UIColor.init(red: CGFloat(colourAmount/255), green: 0, blue: 0, alpha: 1)
+                    buttonColour = UIColor.init(red: CGFloat(colourAmount/255), green: CGFloat(colourAmount/255), blue: 0, alpha: 1)
                     beacon.button.backgroundColor = buttonColour
                 }
 
@@ -185,42 +188,43 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
     }
 
     @IBAction func buttonPress(sender: UIButton) {
-        let actionController = RoomActionController()
-        switch sender {
+        if bluetoothManager.state == CBManagerState.poweredOn {
+            let actionController = RoomActionController()
+            switch sender {
             case beaconButton1:
                 navigatingBeacon = beaconInfo[0]
                 actionController.headerData = RoomHeaderData(name: "Meeting Rooms",
-                    availability: "Available", capacity: "Capacity: 15 people", area: "Area: 20m2")
+                                                             availability: "Available", capacity: "Capacity: 15 people", area: "Area: 20m2")
                 actionController.addAction(Action(ActionData(title: "Show Direction",
-                        image:UIImage(named: "back-arrow")!),
-                        style: .default,
-                        handler: { _ in
-                            self.startNavigating()
-                        }
+                                                             image:UIImage(named: "back-arrow")!),
+                                                  style: .default,
+                                                  handler: { _ in
+                                                    self.startNavigating()
+                }
                 ))
                 present(actionController, animated: true, completion: nil)
             case beaconButton2:
                 navigatingBeacon = beaconInfo[1]
                 actionController.headerData = RoomHeaderData(name: "Kitchen",
-                    availability: "Busy", capacity: "Capacity: 20 people", area: "Area: 30m2")
+                                                             availability: "Busy", capacity: "Capacity: 20 people", area: "Area: 30m2")
                 actionController.addAction(Action(ActionData(title: "Show Direction",
-                        image:UIImage(named: "back-arrow")!),
-                        style: .default,
-                        handler: { _ in
-                            self.startNavigating()
-                        }
+                                                             image:UIImage(named: "back-arrow")!),
+                                                  style: .default,
+                                                  handler: { _ in
+                                                    self.startNavigating()
+                }
                 ))
                 present(actionController, animated: true, completion: nil)
             case beaconButton3:
                 navigatingBeacon = beaconInfo[2]
                 actionController.headerData = RoomHeaderData(name: "Office Rooms",
-                    availability: "Available", capacity: "Capacity: 10 people", area: "Area: 15m2")
+                                                             availability: "Available", capacity: "Capacity: 10 people", area: "Area: 15m2")
                 actionController.addAction(Action(ActionData(title: "Show Direction",
-                    image:UIImage(named: "back-arrow")!),
-                    style: .default,
-                    handler: { _ in
-                        self.startNavigating()
-                    }
+                                                             image:UIImage(named: "back-arrow")!),
+                                                  style: .default,
+                                                  handler: { _ in
+                                                    self.startNavigating()
+                }
                 ))
                 present(actionController, animated: true, completion: nil)
             case exitButton:
@@ -249,6 +253,12 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
             default:
                 print("Unknown button")
                 return
+            }
+        } else {
+            let alertController = UIAlertController(title: "Room Finder", message:
+                "Bluetooth is disabled, some features will not function without Bluetooth connectivity", preferredStyle: UIAlertControllerStyle.alert)
+            alertController.addAction(UIAlertAction(title: "Dismiss", style: UIAlertActionStyle.default))
+            self.present(alertController, animated: true, completion: nil)
         }
     }
 
