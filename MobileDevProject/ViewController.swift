@@ -83,10 +83,11 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
             newScale = min(newScale, kMaxScale / currentScale)
             newScale = max(newScale, kMinScale / currentScale)
             //Transform the view so it zooms in or out
-            let transform = (sender.view?.transform)!.scaledBy(x: newScale, y: newScale);
+            let transform = (sender.view?.transform)!.scaledBy(x: newScale, y: newScale)
             sender.view?.transform = transform
             //Tranform the view so it zooms on the specific point in the view
-            mapView.transform = mapView.transform.translatedBy(x: zoomPoint.x - lastZoomPoint.x, y: zoomPoint.y - lastZoomPoint.y)
+            mapView.transform = mapView.transform.translatedBy(x: zoomPoint.x - lastZoomPoint.x,
+                                                               y: zoomPoint.y - lastZoomPoint.y)
             //Store the previous scale and zoom point factors for the next pinch gesture call
             lastScale = sender.scale
             lastZoomPoint = sender.location(in: mapView)
