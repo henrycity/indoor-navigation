@@ -45,7 +45,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
     var tempBeacon2: CLBeacon!
     var circleCordinates: CGPoint! //the x and y cordinates where the circle(location indicator) needs to be drawn
     var lastScale: CGFloat!
-    var lastPoint: CGPoint!
+    var lastZoomPoint: CGPoint!
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -69,15 +69,27 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
     func handlePinch(_ sender: UIPinchGestureRecognizer) {
         if sender.state == .began {
             lastScale = 1.0
-            self.lastPoint = sender.location(in: mapView)
+            self.lastZoomPoint = sender.location(in: mapView)
         }
         if sender.numberOfTouches > 1 {
-            let point: CGPoint = sender.location(in: mapView)
-            let scale: CGFloat = 1.0 - (lastScale - sender.scale)
-            mapView.transform = mapView.transform.scaledBy(x: scale, y: scale)
-            mapView.transform = mapView.transform.translatedBy(x: point.x - lastPoint.x, y: point.y - lastPoint.y)
+            //The point where needs to be zoomed on
+            let zoomPoint: CGPoint = sender.location(in: mapView)
+            //The current scale of the map
+            let currentScale: CGFloat = CGFloat(sender.view!.layer.value(forKeyPath:"transform.scale") as? Double ?? 0)
+            // Constants to adjust the max/min values of zoom
+            let kMaxScale: CGFloat = 4.0
+            let kMinScale: CGFloat = 1.0
+            var newScale = 1 -  (lastScale - sender.scale)
+            newScale = min(newScale, kMaxScale / currentScale)
+            newScale = max(newScale, kMinScale / currentScale)
+            //Transform the view so it zooms in or out
+            let transform = (sender.view?.transform)!.scaledBy(x: newScale, y: newScale);
+            sender.view?.transform = transform
+            //Tranform the view so it zooms on the specific point in the view
+            mapView.transform = mapView.transform.translatedBy(x: zoomPoint.x - lastZoomPoint.x, y: zoomPoint.y - lastZoomPoint.y)
+            //Store the previous scale and zoom point factors for the next pinch gesture call
             lastScale = sender.scale
-            lastPoint = sender.location(in: mapView)
+            lastZoomPoint = sender.location(in: mapView)
         }
     }
 
