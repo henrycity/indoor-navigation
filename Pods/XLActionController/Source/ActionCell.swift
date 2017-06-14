@@ -55,11 +55,11 @@ open class ActionCell: UICollectionViewCell, SeparatorCellType {
 
         setNeedsLayout()
     }
-    
+
     open func showSeparator() {
         separatorView?.alpha = 1.0
     }
-    
+
     open func hideSeparator() {
         separatorView?.alpha = 0.0
     }
