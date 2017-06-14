@@ -57,6 +57,11 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         locationManager = CLLocationManager()
         locationManager.delegate = self
         locationManager.requestAlwaysAuthorization()
+
+        let statusBarView = UIView(frame: UIApplication.shared.statusBarFrame)
+        let statusBarColor = UIColor(red: 255/255, green: 255/255, blue: 255/255, alpha: 1.0)
+        statusBarView.backgroundColor = statusBarColor
+        view.addSubview(statusBarView)
     }
 
     override func didReceiveMemoryWarning() {
