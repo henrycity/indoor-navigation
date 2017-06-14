@@ -26,9 +26,8 @@ import UIKit
 
 open class DynamicCollectionViewFlowLayout: UICollectionViewFlowLayout {
 
-
     // MARK: - Properties definition 
-    
+
     open var dynamicAnimator: UIDynamicAnimator?
     open var itemsAligment = UIControlContentHorizontalAlignment.center
 
@@ -42,20 +41,20 @@ open class DynamicCollectionViewFlowLayout: UICollectionViewFlowLayout {
         dynamic.allowsRotation = false
         return dynamic
     }()
-    
+
     open lazy var gravityBehavior: UIGravityBehavior? = {
         let gravity = UIGravityBehavior(items: [])
         gravity.gravityDirection = CGVector(dx: 0, dy: -1)
         gravity.magnitude = 4.0
         return gravity
     }()
-    
+
     open var useDynamicAnimator = false {
         didSet(newValue) {
             guard useDynamicAnimator != newValue else {
                 return
             }
-            
+
             if useDynamicAnimator {
                 dynamicAnimator = UIDynamicAnimator(collectionViewLayout: self)
 
@@ -65,69 +64,69 @@ open class DynamicCollectionViewFlowLayout: UICollectionViewFlowLayout {
             }
         }
     }
-    
+
     // MARK: - Intialize
-    
+
     override init() {
         super.init()
         initialize()
     }
-    
+
     required public init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         initialize()
     }
-    
+
     fileprivate func initialize() {
         minimumInteritemSpacing = 0
         minimumLineSpacing = 0
     }
-    
+
     // MARK: - UICollectionViewFlowLayout overrides
-    
+
     override open func layoutAttributesForElements(in rect: CGRect) -> [UICollectionViewLayoutAttributes]? {
         guard let animator = dynamicAnimator else {
             return super.layoutAttributesForElements(in: rect)
         }
-        
+
         return animator.items(in: rect) as? [UICollectionViewLayoutAttributes]
     }
-    
+
     override open func layoutAttributesForItem(at indexPath: IndexPath) -> UICollectionViewLayoutAttributes? {
         let indexPath = indexPath
-        
+
         guard let animator = dynamicAnimator else {
             return super.layoutAttributesForItem(at: indexPath)
         }
-        
+
         return animator.layoutAttributesForCell(at: indexPath) ?? setupAttributesForIndexPath(indexPath)
     }
 
     override open func prepare(forCollectionViewUpdates updateItems: [UICollectionViewUpdateItem]) {
         super.prepare(forCollectionViewUpdates: updateItems)
-        
+
         updateItems.filter { $0.updateAction == .insert && layoutAttributesForItem(at: $0.indexPathAfterUpdate!) == nil } .forEach {
               setupAttributesForIndexPath($0.indexPathAfterUpdate)
         }
     }
 
     // MARK: - Helpers
-    
+
     fileprivate func topForItemAt(indexPath: IndexPath) -> CGFloat {
         guard let unwrappedCollectionView = collectionView else {
             return CGFloat(0.0)
         }
-        
+
         // Top within item's section
         var top = CGFloat((indexPath as NSIndexPath).item) * itemSize.height
-        
+
         if (indexPath as NSIndexPath).section > 0 {
             let lastItemOfPrevSection = unwrappedCollectionView.numberOfItems(inSection: (indexPath as NSIndexPath).section - 1)
             // Add previous sections height recursively. We have to add the sectionInsets and the last section's item height
             let inset = (unwrappedCollectionView.delegate as? UICollectionViewDelegateFlowLayout)?.collectionView?(unwrappedCollectionView, layout: self, insetForSectionAt: (indexPath as NSIndexPath).section) ?? sectionInset
             top += topForItemAt(indexPath: IndexPath(item: lastItemOfPrevSection - 1, section: (indexPath as NSIndexPath).section - 1)) + inset.bottom + inset.top + itemSize.height
         }
-        
+
         return top
     }
     @discardableResult
@@ -135,13 +134,13 @@ open class DynamicCollectionViewFlowLayout: UICollectionViewFlowLayout {
         guard let indexPath = indexPath, let animator = dynamicAnimator, let collectionView = collectionView else {
             return nil
         }
-        
+
         let delegate: UICollectionViewDelegateFlowLayout = collectionView.delegate as! UICollectionViewDelegateFlowLayout
-        
+
         let collectionItemSize = delegate.collectionView!(collectionView, layout: self, sizeForItemAt: indexPath)
-        
+
         // UIDynamic animator will animate this item from initialFrame to finalFrame.
-        
+
         // Items will be animated from far bottom to its final position in the collection view layout
         let originY = collectionView.frame.size.height - collectionView.contentInset.top
         var frame = CGRect(x: 0, y: topForItemAt(indexPath: indexPath), width: collectionItemSize.width, height: collectionItemSize.height)
@@ -189,7 +188,7 @@ open class DynamicCollectionViewFlowLayout: UICollectionViewFlowLayout {
             attachmentBehavior.length = 1
             attachmentBehavior.damping = 0.30 * sqrt(mass)
             attachmentBehavior.frequency = 5.0
-            
+
         } else {
             itemBehavior.elasticity = 0.0
 
@@ -208,7 +207,7 @@ open class DynamicCollectionViewFlowLayout: UICollectionViewFlowLayout {
         animator.addBehavior(attachmentBehavior)
         animator.addBehavior(collisionBehavior)
         animator.addBehavior(itemBehavior)
-        
+
         return attributes
     }
 
@@ -220,18 +219,18 @@ open class DynamicCollectionViewFlowLayout: UICollectionViewFlowLayout {
         guard let unwrappedCollectionView = collectionView else {
             return super.shouldInvalidateLayout(forBoundsChange: newBounds)
         }
-        
+
         animator.behaviors
             .filter { $0 is UIAttachmentBehavior || $0 is UICollisionBehavior || $0 is UIDynamicItemBehavior}
             .forEach { animator.removeBehavior($0) }
-        
+
         for section in 0..<unwrappedCollectionView.numberOfSections {
             for item in 0..<unwrappedCollectionView.numberOfItems(inSection: section) {
                 let indexPath = IndexPath(item: item, section: section)
                 setupAttributesForIndexPath(indexPath)
             }
         }
-        
+
         return false
     }
 }
