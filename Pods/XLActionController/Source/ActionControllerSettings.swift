@@ -25,7 +25,7 @@
 import UIKit
 
 public struct ActionControllerSettings {
-    
+
     /** Struct that contains properties to configure the actions controller's behavior  */
     public struct Behavior {
         /**
@@ -56,7 +56,7 @@ public struct ActionControllerSettings {
          */
         public var useDynamics = false
     }
-    
+
     /** Struct that contains properties to configure the cancel view */
     public struct CancelViewStyle {
         /**
@@ -90,7 +90,7 @@ public struct ActionControllerSettings {
           */
         public var cellHeightWhenDynamicsIsUsed: CGFloat = 50
     }
-  
+
     /** Struct that contains properties to configure the animation when presenting the action controller */
     public struct PresentAnimationStyle {
         /** 
@@ -119,7 +119,7 @@ public struct ActionControllerSettings {
           */
         public var options = UIViewAnimationOptions.curveEaseOut
     }
-    
+
     /** Struct that contains properties to configure the animation when dismissing the action controller */
     public struct DismissAnimationStyle {
         /**
@@ -152,7 +152,7 @@ public struct ActionControllerSettings {
          */
         public var offset = CGFloat(0)
     }
-    
+
     /** Struct that contains all properties related to presentation & dismissal animations */
     public struct AnimationStyle {
         /**
@@ -166,7 +166,7 @@ public struct ActionControllerSettings {
         /** Stores dismissal animation properties */
         public var dismiss = DismissAnimationStyle()
     }
-    
+
     /** Struct that contains properties related to the status bar's appearance */
     public struct StatusBarStyle {
         /**
@@ -180,7 +180,7 @@ public struct ActionControllerSettings {
          */
         public var style = UIStatusBarStyle.lightContent
     }
-    
+
     /** Stores the behavior's properties values */
     public var behavior = Behavior()
     /** Stores the cancel view's properties values */
@@ -191,7 +191,7 @@ public struct ActionControllerSettings {
     public var animation = AnimationStyle()
     /** Stores the status bar's properties values */
     public var statusBar = StatusBarStyle()
-    
+
     /**
      * Create the default settings
      * @return The default value for settings
