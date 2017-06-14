@@ -21,34 +21,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="plat4mation-logo" translatesAutoresizingMaskIntoConstraints="NO" id="RXx-z6-gB8">
-                                <rect key="frame" x="57" y="0.0" width="261" height="100"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            </imageView>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="ROTATION" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="1ur-ex-5KF">
-                                <rect key="frame" x="125" y="602" width="82" height="45"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <nil key="textColor"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <textInputTraits key="textInputTraits"/>
-                            </textField>
-                            <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Luv-qF-QDj">
-                                <rect key="frame" x="215" y="609" width="51" height="31"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <connections>
-                                    <action selector="mapRotatingSwitchPress:" destination="BYZ-38-t0r" eventType="valueChanged" id="o12-1L-aZX"/>
-                                </connections>
-                            </switch>
                             <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="4Tb-CX-3Rt" userLabel="mapImageView">
-                                <rect key="frame" x="0.0" y="96" width="375" height="522"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxY="YES"/>
-                                <subviews>
-                                    <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="Map" translatesAutoresizingMaskIntoConstraints="NO" id="Qps-UU-Kgz">
-                                        <rect key="frame" x="200" y="70" width="0.0" height="334"/>
-                                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                                    </imageView>
-                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="puM-9r-Khw">
-                                        <rect key="frame" x="175" y="173" width="25" height="117"/>
                                 <rect key="frame" x="-232" y="220" width="797" height="427"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxY="YES"/>
                                 <subviews>
@@ -65,35 +38,24 @@
                                             <action selector="buttonPressWithSender:" destination="BYZ-38-t0r" eventType="touchUpInside" id="gFC-GJ-w9r"/>
                                         </connections>
                                     </button>
-                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" adjustsImageWhenDisabled="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="WpJ-aK-XBY">
-                                        <rect key="frame" x="238" y="306" width="43" height="47"/>
                                     <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hqm-qe-FBa">
                                         <rect key="frame" x="483" y="117" width="68" height="94"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <color key="backgroundColor" red="0.78418474740932642" green="0.27699711887125511" blue="0.20297851800176189" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                        <connections>
-                                            <action selector="buttonPressWithSender:" destination="BYZ-38-t0r" eventType="touchUpInside" id="Edu-K7-u2d"/>
-                                        </connections>
-                                    </button>
-                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hqm-qe-FBa">
-                                        <rect key="frame" x="244" y="126" width="61" height="78"/>
-                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" adjustsImageWhenDisabled="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="WpJ-aK-XBY">
-                                        <rect key="frame" x="474" y="326" width="51" height="47"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <color key="backgroundColor" red="0.78418474739999999" green="0.27699711890000001" blue="0.202978518" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <connections>
                                             <action selector="buttonPressWithSender:" destination="BYZ-38-t0r" eventType="touchUpInside" id="NpR-Xw-H1f"/>
                                         </connections>
                                     </button>
-                                    <imageView opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="compass_transparent" translatesAutoresizingMaskIntoConstraints="NO" id="3HE-uk-phl">
-                                        <rect key="frame" x="239" y="-10" width="70" height="71"/>
+                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" adjustsImageWhenDisabled="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="WpJ-aK-XBY">
+                                        <rect key="frame" x="474" y="326" width="51" height="47"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                    </imageView>
-                                </subviews>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                            </view>
+                                        <color key="backgroundColor" red="0.78418474740932642" green="0.27699711887125511" blue="0.20297851800176189" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <connections>
+                                            <action selector="buttonPressWithSender:" destination="BYZ-38-t0r" eventType="touchUpInside" id="Edu-K7-u2d"/>
+                                        </connections>
+                                    </button>
                                     <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" image="ExitSign" translatesAutoresizingMaskIntoConstraints="NO" id="7Ex-6T-r8R">
-                                        <rect key="frame" x="381" y="49" width="45" height="37"/>
+                                        <rect key="frame" x="381" y="49" width="49" height="37"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                     </imageView>
                                     <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="ROTATION" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="1ur-ex-5KF">
@@ -118,20 +80,20 @@
                                             <action selector="buttonPressWithSender:" destination="BYZ-38-t0r" eventType="touchUpInside" id="zBi-Cz-0Oq"/>
                                         </connections>
                                     </button>
+                                    <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" image="ExitSign" translatesAutoresizingMaskIntoConstraints="NO" id="Yef-IM-YTB">
+                                        <rect key="frame" x="384" y="399" width="49" height="33"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                    </imageView>
+                                    <imageView opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="compass_transparent" translatesAutoresizingMaskIntoConstraints="NO" id="3HE-uk-phl">
+                                        <rect key="frame" x="481" y="-39" width="70" height="71"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    </imageView>
                                 </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             </view>
                             <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="plat4mation-logo" translatesAutoresizingMaskIntoConstraints="NO" id="RXx-z6-gB8">
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="100"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            </imageView>
-                            <imageView opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="compass_transparent" translatesAutoresizingMaskIntoConstraints="NO" id="3HE-uk-phl">
-                                <rect key="frame" x="248" y="182" width="70" height="71"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            </imageView>
-                            <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" image="ExitSign" translatesAutoresizingMaskIntoConstraints="NO" id="Yef-IM-YTB">
-                                <rect key="frame" x="149" y="622" width="52" height="31"/>
-                                <autoresizingMask key="autoresizingMask"/>
                             </imageView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
